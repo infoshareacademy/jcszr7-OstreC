@@ -4,9 +4,16 @@
     ViewData["Title"] = "Monsters";
 }
 
-<h1>
-    List of monsters
-</h1>
+<div class="pagetitle">
+    <h1>Game Library - Monsters</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="GameLibrary" asp-action="Index">GameLibrary</a></li>
+            <li class="breadcrumb-item active">Monsters</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
 
 @*<p>
     <a asp-action="Create">Create New</a>
