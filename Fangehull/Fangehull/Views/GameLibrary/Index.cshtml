@@ -1,8 +1,17 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Game Library";
 }
 
-<h2>Index</h2>
+<div class="pagetitle">
+    <h1>Game Library</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item active">GameLibrary</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
 
-<p>Hello from our View Template!</p>
-<a class="navbar-brand" asp-area="" asp-controller="Monsters" asp-action="Index">Show me the list of monsters!</a>
+<section class="section dashboard">
+    <a class="navbar-brand" asp-area="" asp-controller="Monsters" asp-action="Index">Show me the list of monsters!</a>
+</section>
