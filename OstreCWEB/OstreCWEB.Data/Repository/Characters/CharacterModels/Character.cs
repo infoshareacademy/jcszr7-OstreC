@@ -38,7 +38,7 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         public List<CharacterAction> DefaultActions { get; set; }
 
 
-        public int Strenght { get; set; }
+        public int Strength { get; set; }
         public int Dexterity { get; set; }
         public int Constitution { get; set; }
         public int Intelligence { get; set; }

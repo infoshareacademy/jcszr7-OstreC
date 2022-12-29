@@ -232,7 +232,7 @@ namespace OstreCWEB.Services.Fight
             switch (action.StatForTest)
             {
                 case Statistics.Strenght:
-                    targetMod = CalculateModifier(target.Strenght);
+                    targetMod = CalculateModifier(target.Strength);
                     targetRoll = DiceThrow(20) + targetMod;
                     casterModifier = SpellCastingModifier(caster,action.StatForTest);
                     if (casterModifier > targetRoll) return false;
@@ -277,7 +277,7 @@ namespace OstreCWEB.Services.Fight
             switch (statsForTest)
             {
                 case Statistics.Strenght:
-                   return 8 + CalculateModifier(caster.Strenght); // Dopisać premię z biegłości...gdy takowa powstanie.
+                   return 8 + CalculateModifier(caster.Strength); // Dopisać premię z biegłości...gdy takowa powstanie.
                 case Statistics.Intelligence:
                     return 8 + CalculateModifier(caster.Intelligence); // Dopisać premię z biegłości...gdy takowa powstanie.
                 case Statistics.Constitution:
