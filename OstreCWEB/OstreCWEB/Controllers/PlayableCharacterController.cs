@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.Services.PlayableCharacterService;
 
 namespace OstreCWEB.Controllers
 {
     public class PlayableCharacterController : Controller
     {
-        CreateCharacterService _createCharacterService;
+        PlayableCharacterService _playableCharacterService;
 
         // GET: PlayableCharacterController
         public ActionResult Index()

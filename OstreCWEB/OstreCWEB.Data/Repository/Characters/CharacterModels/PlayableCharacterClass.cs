@@ -14,6 +14,12 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         public string ClassName { get; set; }
         [NotMapped]
         public Dictionary<Statistics, int> BonusesForEeachStatistic { get; set; }
+        public int Strength { get; set; }
+        public int Dexterity { get; set; }
+        public int Constitution { get; set; }
+        public int Intelligence { get; set; }
+        public int Wisdom { get; set; }
+        public int Charisma { get; set; }
 
         public List<PlayableCharacter> PlayableCharacter { get; set; }
         public int PlayableCharacterId { get; set; }
