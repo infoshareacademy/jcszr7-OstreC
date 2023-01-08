@@ -1,17 +1,147 @@
-﻿@*
+﻿@model IEnumerable<OstreCWEB.Data.Repository.Characters.CoreClasses.CharacterSkills>
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
-<div class="card">
-    <div>
-        <p>.</p>
+
+<html>
+<body>
+    <h1>Skills</h1>
+    <div class="col">
+        <div>
+            @foreach (var item in Model)
+            {
+                        <label>@Html.DisplayNameFor(item => item.AvailableSkillPoints)</label>
+                        <label>@Html.DisplayFor(itemModel => item.AvailableSkillPoints)</label>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2" style="background-color: gray">
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Athletics)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Acrobatics)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.SleightOfHand)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Stealth)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Arcana)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.History)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Investigation)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Nature)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Religion)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.AnimalHandling)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Insight)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Medicine)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Perception)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Survival)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Deception)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Intimidation)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Performance)</label></div>
+            <div class="m-3"><label>@Html.DisplayNameFor(item => item.Persuasion)</label></div>
+        </div>
+        <div class="col-4" style="background-color: gray">
+            @foreach (var item in Model)
+            {
+                <div class="m-1">
+
+                    <input value="@item.Athletics" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Athletics" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Athletics" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Acrobatics" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Acrobatics" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Acrobatics" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.SleightOfHand" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="SleightOfHand" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="SleightOfHand" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Stealth" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Stealth" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Stealth" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Arcana" />
+                    <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Arcana" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Arcana" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.History" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="History" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="History" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Investigation" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Investigation" class="btn btn-primary">+</a>
+                            <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Investigation" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Nature" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Nature" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Nature" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Religion" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Religion" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Religion" class="btn btn-primary">-</a>
+                    </div>
+                <div class="m-1">
+                    <input value="@item.AnimalHandling" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="AnimalHandling" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="AnimalHandling" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Insight" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Insight" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Insight" class="btn btn-primary">-</a>
+                    </div>
+                <div class="m-1">
+                    <input value="@item.Medicine" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Medicine" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Medicine" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Perception" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Perception" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Perception" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Survival" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Survival" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Survival" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Deception" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Deception" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Deception" class="btn btn-primary">-</a>
+                </div>
+                <div class="m-1">
+                    <input value="@item.Intimidation" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Intimidation" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Intimidation" class="btn btn-primary">-</a>
+                </div>
+                    <div class="m-1">
+                    <input value="@item.Performance" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Performance" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Performance" class="btn btn-primary">-</a>
+                </div>
+                    <div class="m-1">
+                    <input value="@item.Persuasion" />
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="up" asp-route-skill="Persuasion" class="btn btn-primary">+</a>
+                        <a asp-action="ChangeSkillValue" asp-route-characterid="1" asp-route-operation="down" asp-route-skill="Persuasion" class="btn btn-primary">-</a>
+                </div>
+            }
+        </div>
 
     </div>
-</div>
-<div class="card">
+    <br />
+    <div class="card">
     <div>
        <a asp-action="PlayableCharacterAttr" class="btn btn-primary">Attributes</a>
        <a asp-action="PlayableCharacterSummary" class="btn btn-primary">Summary</a>
     </div>
 </div>
+</body>
+</html>

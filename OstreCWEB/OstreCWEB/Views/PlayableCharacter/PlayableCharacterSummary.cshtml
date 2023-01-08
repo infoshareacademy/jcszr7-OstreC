@@ -10,27 +10,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RaceId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PlayableClassId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalAttributePoints)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvailableAttributePoints)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CharacterId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CombatId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.CharacterName)
             </th>
             <th>
@@ -38,12 +17,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CurrentHealthPoints)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Level)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Alignment)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Strength)
@@ -70,27 +43,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RaceId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlayableClassId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalAttributePoints)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvailableAttributePoints)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CharacterId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CombatId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.CharacterName)
             </td>
             <td>
@@ -98,12 +50,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CurrentHealthPoints)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Level)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alignment)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Strength)
@@ -136,7 +82,7 @@
 </div>
 <div class="card">
     <div>
-       <a asp-action="PlayableCharacterSummary" class="btn btn-primary">Summary</a>
+       <a asp-action="PlayableCharacterSkills" class="btn btn-primary">Skills</a>
        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Done</a>
     </div>
 </div>

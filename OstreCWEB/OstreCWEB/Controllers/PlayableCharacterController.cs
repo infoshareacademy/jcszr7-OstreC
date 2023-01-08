@@ -37,17 +37,25 @@ namespace OstreCWEB.Controllers
         }
         public ActionResult PlayableCharacterSkills()
         {
-            return View();
+            var model = _playableCharacterService.GetSkills();
+            return View(model);
         }
         public ActionResult PlayableCharacterSummary()
         {
-            return View();
-        }
-        public ActionResult ChangeValue(PlayableCharacter calculatorModel, string operation, AbilityScores attribute)
-        {
             var model = _playableCharacterService.GetAll();
-            _playableCharacterService.Update(calculatorModel, operation, attribute);
+            return View(model);
+        }
+        public ActionResult ChangeValue(PlayableCharacter characterModel, string operation, AbilityScores attribute)
+        {
+            //var model = _playableCharacterService.GetAll();
+            _playableCharacterService.Update(characterModel, operation, attribute);
             return RedirectToAction(nameof(PlayableCharacterAttr));
+        }
+        public ActionResult ChangeSkillValue(CharacterSkills characterModel, string operation, Skills skill)
+        {
+            //var model = _playableCharacterService.GetAll();
+            _playableCharacterService.UpdateSkill(characterModel, operation, skill);
+            return RedirectToAction(nameof(PlayableCharacterSkills));
         }
         public ActionResult RollAttributePoints(PlayableCharacter calculatorModel)
         {

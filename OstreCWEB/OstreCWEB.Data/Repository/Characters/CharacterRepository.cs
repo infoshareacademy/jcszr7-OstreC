@@ -38,7 +38,7 @@ namespace OstreCWEB.Data.Repository.Characters
         public List<PlayableCharacter> GetAll()
         {
             return characters;
-        } 
+        }
         public List<PlayableRace> GetRace()
         {
             return playableRaces;
@@ -47,9 +47,17 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return characterClass;
         }
+        public List<CharacterSkills> GetSkills()
+        {
+            return skills;
+        }
         public PlayableCharacter GetById(int id)
         {
             return characters.FirstOrDefault(c => c.CharacterId == id);
+        }
+        public CharacterSkills GetSkillsById(int id)
+        {
+            return skills.FirstOrDefault(s => s.CharacterId == id);
         }
         private int RollDice(int maxValue = 7)
         {
@@ -180,7 +188,322 @@ namespace OstreCWEB.Data.Repository.Characters
                 }
             }
         }
+        public void UpdateSkill(CharacterSkills model, string operation, Skills skill)
+        {
+            var zero = 0;
+            var minValue = 0;
+            var maxValue = 1;
+            var player = GetSkillsById(model.CharacterId);
+            if (skill == Skills.Athletics)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Athletics == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Athletics = ++player.Athletics;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Athletics == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Athletics = --player.Athletics;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Acrobatics)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Acrobatics == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Acrobatics = ++player.Acrobatics;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Acrobatics == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Acrobatics = --player.Acrobatics;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }            
+            if (skill == Skills.SleightOfHand)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.SleightOfHand == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.SleightOfHand = ++player.SleightOfHand;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.SleightOfHand == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.SleightOfHand = --player.SleightOfHand;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
 
+            }
+            if (skill == Skills.Stealth)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Stealth == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Stealth = ++player.Stealth;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Stealth == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Stealth = --player.Stealth;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+
+            }
+            if (skill == Skills.Arcana)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Arcana == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Arcana = ++player.Arcana;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Arcana == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Arcana = --player.Arcana;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+
+            }
+            if (skill == Skills.History)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.History == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.History = ++player.History;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.History == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.History = --player.History;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Investigation)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Investigation == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Investigation = ++player.Investigation;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Investigation == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Investigation = --player.Investigation;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Nature)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Nature == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Nature = ++player.Nature;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Nature == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Nature = --player.Nature;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Religion)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Religion == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Religion = ++player.Religion;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Religion == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Religion = --player.Religion;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.AnimalHandling)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.AnimalHandling == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.AnimalHandling = ++player.AnimalHandling;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.AnimalHandling == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.AnimalHandling = --player.AnimalHandling;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Insight)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Insight == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Insight = ++player.Insight;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Insight == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Insight = --player.Insight;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Medicine)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Medicine == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Medicine = ++player.Medicine;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Medicine == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Medicine = --player.Medicine;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Perception)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Perception == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Perception = ++player.Perception;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Perception == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Perception = --player.Perception;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Survival)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Survival == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Survival = ++player.Survival;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Survival == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Survival = --player.Survival;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Deception)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Deception == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Deception = ++player.Deception;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Deception == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Deception = --player.Deception;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Intimidation)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Intimidation == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Intimidation = ++player.Intimidation;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Intimidation == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Intimidation = --player.Intimidation;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Performance)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Performance == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Performance = ++player.Performance;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Performance == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Performance = --player.Performance;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+            if (skill == Skills.Persuasion)
+            {
+                if (operation.ToLower() == "up")
+                {
+                    if (player.Persuasion == maxValue || player.AvailableSkillPoints == zero)
+                        return;
+                    player.Persuasion = ++player.Persuasion;
+                    player.AvailableSkillPoints = --player.AvailableSkillPoints;
+                }
+                if (player.Persuasion == minValue)
+                    return;
+                if (operation.ToLower() == "down")
+                {
+                    player.Persuasion = --player.Persuasion;
+                    player.AvailableSkillPoints = ++player.AvailableSkillPoints;
+                }
+            }
+        }
         public void RollAttributes(PlayableCharacter model)
         {
             _totalAttributePoints = 0;
@@ -197,7 +520,7 @@ namespace OstreCWEB.Data.Repository.Characters
             calc.TotalAttributePoints = _totalAttributePoints;
         }
 
-        public List<PlayableCharacterClass> characterClass = new List<PlayableCharacterClass>()
+        public static List<PlayableCharacterClass> characterClass = new List<PlayableCharacterClass>()
         {
             new PlayableCharacterClass{
                 ID = 1,
@@ -217,7 +540,7 @@ namespace OstreCWEB.Data.Repository.Characters
             },
         };
 
-        public List<PlayableRace> playableRaces = new List<PlayableRace>()
+        public static List<PlayableRace> playableRaces = new List<PlayableRace>()
         {
             new PlayableRace{
                 PlayableRaceId = 1,
@@ -276,16 +599,30 @@ namespace OstreCWEB.Data.Repository.Characters
             },
         };
 
-        public List<CharacterSkills> skills = new List<CharacterSkills>()
+        public static List<CharacterSkills> skills = new List<CharacterSkills>()
         {
             new CharacterSkills{
-                SkillsId = 1,
-                SkillName = Skills.Athletics.ToString(),
+                CharacterId = 1,
+                AvailableSkillPoints = 4,
+                Athletics = 0,
+                Acrobatics = 0,
+                SleightOfHand = 0,
+                Stealth = 0,
+                Arcana = 0,
+                History = 0,
+                Investigation = 0,
+                Nature = 0,
+                Religion = 0,
+                AnimalHandling = 0,
+                Insight = 0,
+                Medicine = 0,
+                Perception = 0,
+                Survival = 0,
+                Deception = 0,
+                Intimidation = 0,
+                Performance = 0,
+                Persuasion = 0,
             },
-            new CharacterSkills{
-                SkillsId = 2,
-                SkillName = Skills.Acrobatics.ToString(),
-            }
         };
     }
 }
