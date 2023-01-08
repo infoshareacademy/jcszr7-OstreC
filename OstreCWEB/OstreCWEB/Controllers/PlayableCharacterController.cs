@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.Data.Repository.Characters.CoreClasses;
+using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Services.PlayableCharacterService;
 
 namespace OstreCWEB.Controllers
@@ -8,11 +10,35 @@ namespace OstreCWEB.Controllers
     {
         PlayableCharacterService _playableCharacterService;
 
+        public PlayableCharacterController()
+        {
+            _playableCharacterService = new PlayableCharacterService();
+        }
+
         // GET: PlayableCharacterController
         public ActionResult Index()
         {
             return View();
         }
+        public ActionResult PlayableCharacterAttr()
+        {
+            var model = _playableCharacterService.GetAll();
+            return View(model);
+        }
+        public ActionResult ChangeValue(PlayableCharacter calculatorModel, string operation, AbilityScores attribute)
+        {
+            var model = _playableCharacterService.GetAll();
+            _playableCharacterService.Update(calculatorModel, operation, attribute);
+            return RedirectToAction(nameof(PlayableCharacterAttr));
+        }
+        public ActionResult RollAttributePoints(PlayableCharacter calculatorModel)
+        {
+            //var model = _playableCharacterService.GetAll();
+            _playableCharacterService.RollAttributes(calculatorModel);
+            return RedirectToAction(nameof(PlayableCharacterAttr));
+        }
+
+        /*
 
         // GET: PlayableCharacterController/Details/5
         public ActionResult Details(int id)
@@ -81,6 +107,6 @@ namespace OstreCWEB.Controllers
             {
                 return View();
             }
-        }
+        }*/
     }
 }

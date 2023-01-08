@@ -92,7 +92,7 @@ namespace OstreCWEB.Data.DataBase
             //    {
             //         new CharacterActions
             //    {
-            //        Id = 1,
+            //        CharacterId = 1,
             //        ActionName = "Short Sword Attack",
             //        ActionDescription = "Strikes the chosen character with your weapon",
             //        ActionType = CharacterActionType.MeleeAttack,
@@ -107,7 +107,7 @@ namespace OstreCWEB.Data.DataBase
             //    },
             //            new CharacterActions
             //    {
-            //        Id = 2,
+            //        CharacterId = 2,
             //        ActionName = "Fist Attack",
             //        ActionDescription = "Strikes the chosen character with your bare hands",
             //        ActionType = CharacterActionType.MeleeAttack,
@@ -122,7 +122,7 @@ namespace OstreCWEB.Data.DataBase
             //    },
             //            new CharacterActions
             //    {
-            //        Id = 3,
+            //        CharacterId = 3,
             //        ActionName = "Magic Missiles",
             //        ActionDescription = "Throws magic missiles at the enmy",
             //        ActionType = CharacterActionType.MeleeAttack,
@@ -140,7 +140,7 @@ namespace OstreCWEB.Data.DataBase
             //    },
             //                      new CharacterActions
             //    {
-            //        Id = 4,
+            //        CharacterId = 4,
             //        ActionName = "Healing Potion",
             //        ActionDescription = "Heals the user for 1d6 +2",
             //        ActionType = CharacterActionType.ItemAction,
@@ -156,7 +156,7 @@ namespace OstreCWEB.Data.DataBase
             //    },
             //         new CharacterActions
             //    {
-            //        Id = 5,
+            //        CharacterId = 5,
             //        ActionName = "Bless",
             //        ActionDescription = "Blesses the target giving him advantage a bonus 1d4 to attack rolls",
             //        ActionType = CharacterActionType.Spell,
@@ -178,7 +178,7 @@ namespace OstreCWEB.Data.DataBase
             //    {
             //        new Item
             //        {
-            //            Id=1,
+            //            CharacterId=1,
             //            Name="Light Armor",
             //            ItemType = ItemType.Armors,
             //            ArmorClass = 1,
@@ -187,21 +187,21 @@ namespace OstreCWEB.Data.DataBase
             //        },
             //        new Item()
             //        {
-            //            Id=2,
+            //            CharacterId=2,
             //            Name="Short Sword",
             //            ItemType =ItemType.Weapons,
-            //            ActionToTrigger = Actions.FirstOrDefault(a=> a.Id == 1)
+            //            ActionToTrigger = Actions.FirstOrDefault(a=> a.CharacterId == 1)
             //        },
             //        new Item()
             //        {
-            //            Id=3,
+            //            CharacterId=3,
             //            Name="Healing Potion",
             //            ItemType = ItemType.Consumable,
-            //            ActionToTrigger = Actions.FirstOrDefault(a=>a.Id == 4 )
+            //            ActionToTrigger = Actions.FirstOrDefault(a=>a.CharacterId == 4 )
             //        },
             //        new Item()
             //        {
-            //            Id=4,
+            //            CharacterId=4,
             //            Name="Small Wooden Shield",
             //            ItemType = ItemType.Shield,
             //            ArmorClass=1,
@@ -221,9 +221,9 @@ namespace OstreCWEB.Data.DataBase
             //            CurrentHealthPoints = 10,
             //            Level = 1,
             //            Alignment = "evil",
-            //            //EquippedArmor = Items.FirstOrDefault(a => a.Id == 1),
-            //            //EquippedWeapon =Items.FirstOrDefault(a => a.Id == 2),
-            //            //EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.Id == 4),
+            //            //EquippedArmor = Items.FirstOrDefault(a => a.CharacterId == 1),
+            //            //EquippedWeapon =Items.FirstOrDefault(a => a.CharacterId == 2),
+            //            //EquippedSecondaryWeapon = Items.FirstOrDefault(a=>a.CharacterId == 4),
             //            //Inventory = new Item[5],
             //            //AllAvailableActions = new List<CharacterActions>(),
             //            //ActiveStatuses = new List<Status>(),
@@ -246,9 +246,9 @@ namespace OstreCWEB.Data.DataBase
             //            CurrentHealthPoints = 30,
             //            Level = 1,
             //            Alignment = "Good",
-            //            //EquippedArmor = Items.First(c=>c.Id==1),
-            //            //EquippedWeapon = Items.First(c=>c.Id==2),
-            //            //EquippedSecondaryWeapon =Items.First(c =>c.Id ==4),
+            //            //EquippedArmor = Items.First(c=>c.CharacterId==1),
+            //            //EquippedWeapon = Items.First(c=>c.CharacterId==2),
+            //            //EquippedSecondaryWeapon =Items.First(c =>c.CharacterId ==4),
             //            //Inventory = new Item[5],
             //            //AllAvailableActions = new List<CharacterActions>(),
             //            //DefaultActions = new List<CharacterActions>(),
@@ -259,13 +259,13 @@ namespace OstreCWEB.Data.DataBase
             //            Wisdom = 12,
             //            Charisma = 2,
             //            Race = PlayableRaces.FirstOrDefault(r=>r.ID ==1),
-            //            UserId = Users.FirstOrDefault(u=>u.Id == 1).Id,
+            //            UserId = Users.FirstOrDefault(u=>u.CharacterId == 1).CharacterId,
             //            CharacterClass =PlayableCharacterClasses.FirstOrDefault(c=>c.ID ==1)
 
             //        }
             //    };
-            //    //PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 4));  //HardCoding
-            //    //PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.Id == 3));
+            //    //PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.CharacterId == 4));  //HardCoding
+            //    //PlayableCharacters[0].DefaultActions.Add(Actions.FirstOrDefault(x => x.CharacterId == 3));
 
             //}
 

@@ -10,7 +10,7 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         {
 
         }
-        //Id used to "link" the character to a user in db later on. 
+        //CharacterId used to "link" the character to a user in db later on. 
         [Required]
         public int UserId { get; set; }
         public User User { get; set; }
@@ -20,6 +20,8 @@ namespace OstreCWEB.Data.Repository.Characters.CoreClasses
         public int RaceId { get; set; }
         public PlayableCharacterClass CharacterClass { get; set; }
         public int PlayableClassId { get; set; }
+        public int TotalAttributePoints { get; set; }
+        public int AvailableAttributePoints { get; set; }
 
 
     }
