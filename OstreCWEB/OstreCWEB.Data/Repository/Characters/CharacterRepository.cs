@@ -59,6 +59,10 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return skills.FirstOrDefault(s => s.CharacterId == id);
         }
+        public PlayableCharacterClass GetClassById(int id)
+        {
+            return characterClass.FirstOrDefault(c => c.PlayableCharacterId == id);
+        }
         private int RollDice(int maxValue = 7)
         {
             int[] rolls = new int[4];
@@ -504,6 +508,26 @@ namespace OstreCWEB.Data.Repository.Characters
                 }
             }
         }
+        public void UpdateClass(PlayableCharacterClass model, string className)
+        {
+            var playerClass = GetClassById(model.PlayableCharacterId);
+            if (className == CharClasses.Barbarian.ToString())
+            {
+                playerClass.ClassName = CharClasses.Barbarian.ToString();
+            }
+            if (className == CharClasses.Bard.ToString())
+            {
+                playerClass.ClassName = CharClasses.Bard.ToString();
+            }
+            if (className == CharClasses.Cleric.ToString())
+            {
+                playerClass.ClassName = CharClasses.Cleric.ToString();
+            }
+            if (className == CharClasses.Druid.ToString())
+            {
+                playerClass.ClassName = CharClasses.Druid.ToString();
+            }
+        }
         public void RollAttributes(PlayableCharacter model)
         {
             _totalAttributePoints = 0;
@@ -526,18 +550,18 @@ namespace OstreCWEB.Data.Repository.Characters
                 ID = 1,
                 ClassName = CharClasses.Barbarian.ToString(),
             },
-            new PlayableCharacterClass{
-                ID = 2,
-                ClassName = CharClasses.Bard.ToString(),
-            },
-            new PlayableCharacterClass{
-                ID = 3,
-                ClassName = CharClasses.Cleric.ToString(),
-            },
-            new PlayableCharacterClass{
-                ID = 4,
-                ClassName = CharClasses.Druid.ToString(),
-            },
+            //new PlayableCharacterClass{
+            //    ID = 2,
+            //    ClassName = CharClasses.Bard.ToString(),
+            //},
+            //new PlayableCharacterClass{
+            //    ID = 3,
+            //    ClassName = CharClasses.Cleric.ToString(),
+            //},
+            //new PlayableCharacterClass{
+            //    ID = 4,
+            //    ClassName = CharClasses.Druid.ToString(),
+            //},
         };
 
         public static List<PlayableRace> playableRaces = new List<PlayableRace>()

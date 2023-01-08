@@ -31,7 +31,10 @@ namespace OstreCWEB.Services.PlayableCharacterService
         {
             _CharacterRepository.UpdateSkill(model, operation, skill);
         }
-
+        public void UpdateClass(PlayableCharacterClass model, string classname)
+        {
+            _CharacterRepository.UpdateClass(model, classname);
+        }
         public void RollAttributes(PlayableCharacter model)
         {
             _CharacterRepository.RollAttributes(model);

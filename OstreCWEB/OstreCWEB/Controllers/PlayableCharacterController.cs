@@ -40,6 +40,10 @@ namespace OstreCWEB.Controllers
             var model = _playableCharacterService.GetSkills();
             return View(model);
         }
+        public ActionResult ChangeName()
+        {
+            return View();
+        }
         public ActionResult PlayableCharacterSummary()
         {
             var model = _playableCharacterService.GetAll();
@@ -56,6 +60,11 @@ namespace OstreCWEB.Controllers
             //var model = _playableCharacterService.GetAll();
             _playableCharacterService.UpdateSkill(characterModel, operation, skill);
             return RedirectToAction(nameof(PlayableCharacterSkills));
+        }
+        public ActionResult ChooseClass(PlayableCharacterClass classModel, string classname)
+        {
+            _playableCharacterService.UpdateClass(classModel, classname);
+            return RedirectToAction(nameof(PlayableCharacterClass));
         }
         public ActionResult RollAttributePoints(PlayableCharacter calculatorModel)
         {

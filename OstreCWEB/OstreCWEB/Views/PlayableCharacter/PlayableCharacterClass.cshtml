@@ -5,7 +5,7 @@
 }
 
 <h1>PlayableCharacterClass</h1>
-
+@*
 <table class="table">
     <thead>
         <tr>
@@ -33,9 +33,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Charisma)
             </th>
-@*            <th>
+            <th>
                 @Html.DisplayNameFor(model => model.PlayableCharacterId)
-            </th>*@
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -66,13 +66,31 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Charisma)
             </td>
-@*            <td>
+            <td>
                 @Html.DisplayFor(modelItem => item.PlayableCharacterId)
-            </td>*@
+            </td>
         </tr>
 }
     </tbody>
 </table>
+*@
+<div class="card">
+    <div>
+        <a asp-action="ChooseClass" asp-route-characterid="1" asp-route-classname="Barbarian" class="btn btn-primary">Barbarian</a>
+        <a asp-action="ChooseClass" asp-route-characterid="1" asp-route-classname="Bard" class="btn btn-primary">Bard</a>
+        <a asp-action="ChooseClass" asp-route-characterid="1" asp-route-classname="Cleric" class="btn btn-primary">Cleric</a>
+        <a asp-action="ChooseClass" asp-route-characterid="1" asp-route-classname="Druid" class="btn btn-primary">Druid</a>
+    </div>
+    <div>
+        <br />
+        @foreach (var item in Model)
+        {
+            @Html.DisplayNameFor(model => model.ClassName)
+            <br />
+            @Html.DisplayFor(modelItem => item.ClassName)
+        }
+    </div>
+</div>
 <div class="card">
     <div>
        <a asp-action="PlayableCharacterRace" class="btn btn-primary">Race</a>
