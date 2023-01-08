@@ -20,10 +20,28 @@ namespace OstreCWEB.Controllers
         {
             return View();
         }
+        public ActionResult PlayableCharacterRace()
+        {
+            var model = _playableCharacterService.GetRace();
+            return View(model);
+        }
+        public ActionResult PlayableCharacterClass()
+        {
+            var model = _playableCharacterService.GetClass();
+            return View(model);
+        }
         public ActionResult PlayableCharacterAttr()
         {
             var model = _playableCharacterService.GetAll();
             return View(model);
+        }
+        public ActionResult PlayableCharacterSkills()
+        {
+            return View();
+        }
+        public ActionResult PlayableCharacterSummary()
+        {
+            return View();
         }
         public ActionResult ChangeValue(PlayableCharacter calculatorModel, string operation, AbilityScores attribute)
         {

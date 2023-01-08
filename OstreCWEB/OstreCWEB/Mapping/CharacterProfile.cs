@@ -10,7 +10,7 @@ namespace OstreCWEB.Mapping
         public CharacterProfile()
         {
             CreateMap<PlayableCharacter, PlayableCharacterAttrView>();
-            CreateMap<PlayableCharacter, PlayableCharacterRace>();
+            CreateMap<PlayableCharacter, PlayableCharacterRaceView>();
         }
     }
 }

@@ -11,6 +11,14 @@ namespace OstreCWEB.Services.PlayableCharacterService
         {
             return _CharacterRepository.GetAll();
         }
+        public List<PlayableRace> GetRace()
+        {
+            return _CharacterRepository.GetRace();
+        }
+        public List<PlayableCharacterClass> GetClass()
+        {
+            return _CharacterRepository.GetClass();
+        }
         public void Update(PlayableCharacter model, string operation, AbilityScores attribute)
         {
             _CharacterRepository.Update(model, operation, attribute);

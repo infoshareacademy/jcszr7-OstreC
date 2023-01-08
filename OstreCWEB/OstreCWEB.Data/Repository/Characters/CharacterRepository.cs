@@ -38,6 +38,14 @@ namespace OstreCWEB.Data.Repository.Characters
         public List<PlayableCharacter> GetAll()
         {
             return characters;
+        } 
+        public List<PlayableRace> GetRace()
+        {
+            return playableRaces;
+        }
+        public List<PlayableCharacterClass> GetClass()
+        {
+            return characterClass;
         }
         public PlayableCharacter GetById(int id)
         {
@@ -189,7 +197,7 @@ namespace OstreCWEB.Data.Repository.Characters
             calc.TotalAttributePoints = _totalAttributePoints;
         }
 
-        public List<PlayableCharacterClass> characterClass = new List<PlayableCharacterClass>
+        public List<PlayableCharacterClass> characterClass = new List<PlayableCharacterClass>()
         {
             new PlayableCharacterClass{
                 ID = 1,
@@ -225,7 +233,6 @@ namespace OstreCWEB.Data.Repository.Characters
                 PlayableRaceId = 3,
                 RaceName = Races.Halfling.ToString(),
                 Dexterity = 2,
-
             },
             new PlayableRace{
                 PlayableRaceId = 4,
@@ -236,20 +243,17 @@ namespace OstreCWEB.Data.Repository.Characters
                 Intelligence = 1,
                 Wisdom= 1,
                 Charisma = 1,
-
             },//drakon
             new PlayableRace{
                 PlayableRaceId = 5,
                 RaceName = Races.Dragonborn.ToString(),
                 Strength = 2,
                 Charisma = 1
-
             },
             new PlayableRace{
                 PlayableRaceId = 6,
                 RaceName = Races.Gnome.ToString(),
                 Intelligence = 2
-
             },
             new PlayableRace{
                 PlayableRaceId = 7,
@@ -257,15 +261,12 @@ namespace OstreCWEB.Data.Repository.Characters
                 Charisma = 2,
                 Intelligence = 1,
                 Wisdom= 1,
-
-
             },
             new PlayableRace{
                 PlayableRaceId = 8,
                 RaceName = Races.HalfOrc.ToString(),
                 Strength = 2,
                 Constitution= 1,
-
             },//diabelstwo
             new PlayableRace{
                 PlayableRaceId = 9,
@@ -273,6 +274,18 @@ namespace OstreCWEB.Data.Repository.Characters
                 Intelligence = 1,
                 Charisma = 2,
             },
+        };
+
+        public List<CharacterSkills> skills = new List<CharacterSkills>()
+        {
+            new CharacterSkills{
+                SkillsId = 1,
+                SkillName = Skills.Athletics.ToString(),
+            },
+            new CharacterSkills{
+                SkillsId = 2,
+                SkillName = Skills.Acrobatics.ToString(),
+            }
         };
     }
 }

@@ -7,7 +7,7 @@
 
 <html>
 <body>
-    <h1>Calculator Index</h1>
+    <h1>Attribute Points</h1>
     <div class="col">
         <div>
             <a asp-action="RollAttributePoints" asp-route-characterid="1" class="btn btn-primary">Roll</a>
@@ -73,6 +73,16 @@
                         <a asp-action="ChangeValue" asp-route-characterid="1" asp-route-operation="down" asp-route-attribute="Charisma" class="btn btn-primary">-</a>
                 </div>
             }
+        </div>
+    </div>
+    <div class="card">
+        <div>
+        </div>
+    </div>
+    <div class="card">
+        <div>
+           <a asp-action="PlayableCharacterClass" class="btn btn-primary">Class</a>
+           <a asp-action="PlayableCharacterSkills" class="btn btn-primary">Skills</a>
         </div>
     </div>
 </body>

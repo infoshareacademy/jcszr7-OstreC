@@ -1,8 +1,8 @@
 ﻿namespace OstreCWEB.ViewModel.PlayableCharacter
 {
-    public class PlayableCharacterClass
+    public class PlayableCharacterClassView
     {
-        public PlayableCharacterClass CharacterClass { get; set; }
+        public PlayableCharacterClassView CharacterClass { get; set; }
         public int PlayableClassId { get; set; }
     }
 }

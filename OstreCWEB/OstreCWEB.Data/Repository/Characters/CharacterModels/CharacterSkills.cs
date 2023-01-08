@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OstreCWEB.Data.Repository.Characters.CoreClasses
 {
-    internal class Skills
+    public class CharacterSkills
     {
         [Key]
         public int SkillsId { get; set; }
