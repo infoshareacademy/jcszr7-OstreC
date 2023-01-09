@@ -574,7 +574,7 @@ namespace OstreCWEB.Data.Repository.Characters
             new PlayableRace{
                 PlayableRaceId = 2,
                 RaceName = Races.Elf.ToString(),
-                Wisdom = 1,
+                Dexterity = 2,
             },//niziolek
             new PlayableRace{
                 PlayableRaceId = 3,
@@ -606,8 +606,8 @@ namespace OstreCWEB.Data.Repository.Characters
                 PlayableRaceId = 7,
                 RaceName = Races.HalfElf.ToString(),
                 Charisma = 2,
-                Intelligence = 1,
-                Wisdom= 1,
+                Intelligence = 1, //extra random
+                Wisdom= 1, //extra random
             },
             new PlayableRace{
                 PlayableRaceId = 8,
