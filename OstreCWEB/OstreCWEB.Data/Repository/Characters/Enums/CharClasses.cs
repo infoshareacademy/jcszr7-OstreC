@@ -2,17 +2,17 @@
 {
     public enum CharClasses
     {
-        Barbarian = 0,
-        Bard = 1,
-        Cleric = 2,
-        Druid = 3,
-        Fighter = 4,
-        Monk = 5,
-        Paladin = 6,
-        Ranger = 7,
-        Rogue = 8,
-        Sorcerer = 9,
-        Warlock = 10,
-        Wizard = 11
+        Barbarian = 0, //Barbarzynca
+        Bard = 1, //Bard
+        Cleric = 2, //Kleryk
+        Druid = 3, // Druid
+        Fighter = 4, //Wojownik
+        Monk = 5, //Mnich
+        Paladin = 6, //Paladyn
+        Ranger = 7, //Łowca
+        Rogue = 8, //Łotr
+        Sorcerer = 9, //Zaklinacz
+        Warlock = 10, //Czarownik
+        Wizard = 11 //Mag
     }
 }

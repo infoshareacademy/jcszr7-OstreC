@@ -624,7 +624,7 @@ namespace OstreCWEB.Data.Repository.Characters
         };
 
         public static List<CharacterSkills> skills = new List<CharacterSkills>()
-        {
+        {//global
             new CharacterSkills{
                 CharacterId = 1,
                 AvailableSkillPoints = 4,
@@ -646,7 +646,17 @@ namespace OstreCWEB.Data.Repository.Characters
                 Intimidation = 0,
                 Performance = 0,
                 Persuasion = 0,
-            },
+            },//barbarian
+            new CharacterSkills{
+                CharacterId = 2,
+                Athletics = 0,
+                AnimalHandling= 0,
+                Perception= 0,
+                Nature= 0,
+                Survival = 0,
+                Intimidation = 0
+
+            }
         };
     }
 }
