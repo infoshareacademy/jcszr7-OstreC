@@ -12,7 +12,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
         [Key]
         public int CharacterId { get; set; }
         //Actions granted on level 1 based on class+race+ user choices. 
-        public List<AbilitiesCharacter>? LinkedActions { get; set; }
+        public List<AbilitiesCharacter>? LinkedAbilities { get; set; }
         //All items ( equipped+ in inventory)
         public List<ItemCharacter>? LinkedItems { get; set; }
         public bool IsTemplate { get; set; }
@@ -35,16 +35,16 @@ namespace OstreCWEB.DomainModels.CharacterModels
         public List<Item> Inventory { get; set; }
         [NotMapped]
         //Initialised based on LinkedActions 
-        public List<Abilities>? InnateActions { get; set; }
+        public List<Ability>? InnateAbilities { get; set; }
 
         [NotMapped]
-        public List<Abilities> AllAvailableActions
+        public List<Ability> AllAbilities
         {
             get
             {
-                var allAvailableActions = new List<Abilities>();
+                var allAvailableActions = new List<Ability>();
                 foreach (var item in EquippedItems) { if (item.ActionToTrigger != null) { allAvailableActions.Add(item.ActionToTrigger); } }
-                foreach (var action in InnateActions) { if (action != null) { allAvailableActions.Add(action); } }
+                foreach (var action in InnateAbilities) { if (action != null) { allAvailableActions.Add(action); } }
                 foreach (var item in Inventory)
                 {
                     if (item != null && item.ActionToTrigger != null)
@@ -65,10 +65,10 @@ namespace OstreCWEB.DomainModels.CharacterModels
         {
             Inventory = new List<Item>();
             EquippedItems = new List<Item>();
-            InnateActions = new List<Abilities>();
+            InnateAbilities = new List<Ability>();
             ActiveStatuses = new List<Status>();
             LinkedItems = new List<ItemCharacter>();
-            LinkedActions = new List<AbilitiesCharacter>();
+            LinkedAbilities = new List<AbilitiesCharacter>();
 
         }
     }

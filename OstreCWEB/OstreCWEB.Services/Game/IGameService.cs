@@ -1,4 +1,6 @@
-﻿namespace OstreCWEB.Services.Game
+﻿using OstreCWEB.DomainModels.ManyToMany;
+
+namespace OstreCWEB.Services.Game
 {
     public interface IGameService
     {

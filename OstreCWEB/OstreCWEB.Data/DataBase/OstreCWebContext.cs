@@ -27,7 +27,7 @@ namespace OstreCWEB.Repository.DataBase
         public DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<Abilities> CharacterActions { get; set; }
+        public DbSet<Ability> CharacterActions { get; set; }
 
         //Story
         public DbSet<Story> Stories { get; set; }
@@ -116,9 +116,9 @@ namespace OstreCWEB.Repository.DataBase
 
         private void ConfigureActions(ModelBuilder builder)
         {
-            builder.Entity<Abilities>().Navigation(e => e.Status).AutoInclude();
+            builder.Entity<Ability>().Navigation(e => e.Status).AutoInclude();
 
-            builder.Entity<Abilities>()
+            builder.Entity<Ability>()
                 .HasMany(x => x.LinkedItems)
                 .WithOne(x => x.ActionToTrigger)
                 .HasForeignKey(x => x.ActionToTriggerId)
@@ -130,7 +130,7 @@ namespace OstreCWEB.Repository.DataBase
 
             builder.Entity<AbilitiesCharacter>()
                 .HasOne(pt => pt.Character)
-                .WithMany(p => p.LinkedActions)
+                .WithMany(p => p.LinkedAbilities)
                 .HasForeignKey(pt => pt.CharacterId);
 
             builder.Entity<AbilitiesCharacter>()
@@ -151,7 +151,7 @@ namespace OstreCWEB.Repository.DataBase
         {
             builder.Entity<PlayableCharacter>().Navigation(e => e.CharacterClass).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.Race).AutoInclude();
-            builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedActions).AutoInclude();
+            builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedAbilities).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedItems).AutoInclude();
 
             builder.Entity<Character>().HasKey(entity => entity.CharacterId);

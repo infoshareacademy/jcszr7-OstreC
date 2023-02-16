@@ -16,12 +16,12 @@
 
         //Ef config
         public List<PlayableCharacter> PlayableCharacter { get; set; }
-        public List<Abilities> ActionsGrantedByClass { get; set; }
+        public List<Ability> ActionsGrantedByClass { get; set; }
         public List<Item> ItemsGrantedByClass { get; set; }
         public PlayableClass()
         {
             PlayableCharacter = new List<PlayableCharacter>();
-            ActionsGrantedByClass = new List<Abilities>();
+            ActionsGrantedByClass = new List<Ability>();
             ItemsGrantedByClass = new List<Item>();
         }
 

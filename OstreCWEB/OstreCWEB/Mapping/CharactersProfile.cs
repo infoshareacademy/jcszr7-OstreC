@@ -13,7 +13,7 @@ namespace OstreCWEB.Mapping
             CreateMap<PlayableCharacter, PlayableCharacterView>();
             CreateMap<PlayableCharacter, PlayableCharacterRow>();
             CreateMap<Enemy, CharacterView>();
-            CreateMap<Abilities, CharacterActionView>();
+            CreateMap<Ability, AbilityView>();
             CreateMap<Item, ItemView>();
             CreateMap<Item, ItemEditView>()
                 .ForMember(x => x.AllExistingActions, options => options.Ignore())
@@ -29,7 +29,7 @@ namespace OstreCWEB.Mapping
             CreateMap<PlayableClass, PlayableClassView>();
             CreateMap<Character, CharacterView>();
             CreateMap<ItemCharacter, ItemCharacterView>();
-            CreateMap<AbilitiesCharacter, ActionCharacterView>();
+            CreateMap<AbilitiesCharacter, AbilityCharacterView>();
 
             CreateMap<PlayableCharacter, PlayableCharacterCreateView>()
                 .ForMember(dest => dest.CharacterClasses, opt => opt.Ignore())
@@ -39,15 +39,15 @@ namespace OstreCWEB.Mapping
                 .ForMember(dest => dest.User, opt => opt.Ignore())
                 .ForMember(dest => dest.UserParagraph, opt => opt.Ignore())
                 .ForMember(dest => dest.UserParagraphId, opt => opt.Ignore())
-                .ForMember(dest => dest.LinkedActions, opt => opt.Ignore())
+                .ForMember(dest => dest.LinkedAbilities, opt => opt.Ignore())
                 .ForMember(dest => dest.LinkedItems, opt => opt.Ignore())
                 .ForMember(dest => dest.IsTemplate, opt => opt.Ignore())
                 .ForMember(dest => dest.MaxHealthPoints, opt => opt.Ignore())
                 .ForMember(dest => dest.CurrentHealthPoints, opt => opt.Ignore())
                 .ForMember(dest => dest.EquippedItems, opt => opt.Ignore())
                 .ForMember(dest => dest.Inventory, opt => opt.Ignore())
-                .ForMember(dest => dest.InnateActions, opt => opt.Ignore())
-                .ForMember(dest => dest.AllAvailableActions, opt => opt.Ignore())
+                .ForMember(dest => dest.InnateAbilities, opt => opt.Ignore())
+                .ForMember(dest => dest.AllAbilities, opt => opt.Ignore())
                 .ForMember(dest => dest.ActiveStatuses, opt => opt.Ignore())
                 .ForMember(dest => dest.CombatId, opt => opt.Ignore());
             CreateMap<PlayableRaceView, PlayableRace>()
@@ -56,10 +56,10 @@ namespace OstreCWEB.Mapping
                 .ForMember(dest => dest.PlayableCharacter, opt => opt.Ignore())
                 .ForMember(dest => dest.ActionsGrantedByClass, opt => opt.Ignore())
                 .ForMember(dest => dest.ItemsGrantedByClass, opt => opt.Ignore());
-            CreateMap<Abilities, CharacterActionEditView>()
+            CreateMap<Ability, CharacterActionEditView>()
                 .ForMember(x => x.AllStatuses, options => options.Ignore())
                 .ForMember(x => x.AllClasses, options => options.Ignore());
-            CreateMap<CharacterActionEditView, Abilities>()
+            CreateMap<CharacterActionEditView, Ability>()
                 .ForMember(x => x.LinkedCharacter, options => options.Ignore())
                  .ForMember(x => x.LinkedItems, options => options.Ignore())
                   .ForMember(x => x.Status, options => options.Ignore())

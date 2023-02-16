@@ -6,6 +6,8 @@ using OstreCWEB.Repository.Repository.StoryModels;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.ManyToMany;
+using OstreCWEB.DomainModels.StoryModels.Properties;
+using OstreCWEB.DomainModels.StoryModels.Enums;
 
 namespace OstreCWEB.Services.Game
 {
@@ -110,7 +112,7 @@ namespace OstreCWEB.Services.Game
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.ActiveCharacter.CurrentHealthPoints = userParagraph.ActiveCharacter.MaxHealthPoints;
-            userParagraph.ActiveCharacter.LinkedActions.ForEach(x => x.UsesLeftBeforeRest = x.CharacterAction.UsesMaxBeforeRest);
+            userParagraph.ActiveCharacter.LinkedAbilities.ForEach(x => x.UsesLeftBeforeRest = x.CharacterAction.UsesMaxBeforeRest);
 
             userParagraph.Rest = false;
 

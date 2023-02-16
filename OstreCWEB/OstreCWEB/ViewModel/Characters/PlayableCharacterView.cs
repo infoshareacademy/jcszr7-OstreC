@@ -6,7 +6,7 @@
         public PlayableRaceView Race { get; set; }
         public PlayableClassView CharacterClass { get; set; }
         public List<ItemCharacterView> LinkedItems { get; set; }
-        public List<ActionCharacterView> LinkedActions { get; set; }
+        public List<AbilityCharacterView> LinkedAbilities { get; set; }
         public string CharacterName { get; set; }
         public int MaxHealthPoints { get; set; }
         public int Strenght { get; set; }

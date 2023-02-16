@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
+using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {

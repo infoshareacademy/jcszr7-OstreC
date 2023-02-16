@@ -1,12 +1,12 @@
 ﻿@using OstreCWEB.DomainModels.CharacterModels.Enums
-@model OstreCWEB.ViewModel.Characters.CharacterActionView
+@model OstreCWEB.ViewModel.Characters.AbilityView
 
-<h4>@Model.ActionName</h4>
+<h4>@Model.AbilityName</h4>
 <dl class="row">
     <dt class="col-sm-2 border-bottom"><label asp-for="@Model.PossibleTarget"></label> </dt>
     <dd class="col-sm-10">@Model.PossibleTarget.ToString()</dd>
-    <dt class="col-sm-2 border-bottom"><label asp-for="@Model.ActionDescription"></label> </dt>
-    <dd class="col-sm-10"> @Model.ActionDescription</dd>
+    <dt class="col-sm-2 border-bottom"><label asp-for="@Model.AbilityDescription"></label> </dt>
+    <dd class="col-sm-10"> @Model.AbilityDescription</dd>
      @if (Model.AggressiveAction)
     {
         <dt class="col-sm-2 border-bottom"><label asp-for="@Model.SavingThrowPossible"></label> </dt>
@@ -14,7 +14,7 @@
         <dt class="col-sm-2 border-bottom"><label asp-for="@Model.StatForTest"></label></dt>
         <dd class="col-sm-10">@Model.StatForTest.ToString()</dd>
     }
-    @if(Model.ActionType != CharacterActionType.SpecialAction){
+    @if(Model.ActionType != AbilityType.SpecialAction){
         <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Max_Dmg"></label> </dt>
         <dd class="col-sm-10">@Model.Max_Dmg</dd>
         <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Hit_Dice_Nr"></label> </dt>

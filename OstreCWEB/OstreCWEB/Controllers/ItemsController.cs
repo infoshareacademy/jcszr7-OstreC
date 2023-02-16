@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.ViewModel.Characters;
 
@@ -43,7 +44,7 @@ namespace OstreCWEB.Controllers
             var allClasses = await _characterClassRepository.GetAllAsync();
             model.AllExistingActions = new Dictionary<int, string>();
             model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.CharacterActionId, x.ActionName));
+            allActions.ForEach(x => model.AllExistingActions.Add(x.AbilityId, x.AbilityName));
             allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
             return View(model);
         }
@@ -72,7 +73,7 @@ namespace OstreCWEB.Controllers
             var allClasses = await _characterClassRepository.GetAllAsync();
             model.AllExistingActions = new Dictionary<int, string>();
             model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.CharacterActionId, x.ActionName));
+            allActions.ForEach(x => model.AllExistingActions.Add(x.AbilityId, x.AbilityName));
             allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
             return View(model);
         }

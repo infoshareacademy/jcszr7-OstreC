@@ -1,4 +1,7 @@
-﻿namespace OstreCWEB.Services.StoryServices.Models
+﻿using OstreCWEB.DomainModels.StoryModels;
+using OstreCWEB.DomainModels.StoryModels.Properties;
+
+namespace OstreCWEB.Services.StoryServices.Models
 {
     public class ChoiceDetails
     {

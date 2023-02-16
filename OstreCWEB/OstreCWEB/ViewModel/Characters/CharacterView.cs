@@ -19,16 +19,16 @@ namespace OstreCWEB.ViewModel.Characters
         public List<ItemView> Inventory { get; set; }
 
         [DisplayName("Your abilities")]
-        public List<CharacterActionView>? InnateActions { get; set; }
+        public List<AbilityView>? InnateAbilities { get; set; }
 
         [DisplayName("All available actions")]
-        public List<CharacterActionView> AllAvailableActions
+        public List<AbilityView> AllAbilities
         {
             get
             {
-                var allAvailableActions = new List<CharacterActionView>();
+                var allAvailableActions = new List<AbilityView>();
                 foreach (var item in EquippedItems) { if (item.ActionToTrigger != null) { allAvailableActions.Add(item.ActionToTrigger); } }
-                foreach (var action in InnateActions) { if (action != null) { allAvailableActions.Add(action); } }
+                foreach (var action in InnateAbilities) { if (action != null) { allAvailableActions.Add(action); } }
                 foreach (var item in Inventory)
                 {
                     if (item != null && item.ActionToTrigger != null)

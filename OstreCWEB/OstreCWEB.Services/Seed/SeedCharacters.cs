@@ -94,13 +94,13 @@ internal class SeedCharacters : ISeeder
                 }
             };
         //Property StatusName is null if none is applied.
-        var actions = new List<Abilities>
+        var actions = new List<Ability>
             {
-                 new Abilities
+                 new Ability
             {
-                ActionName = "1d6 attack",
-                ActionDescription = "Strikes the chosen character with your weapon",
-                ActionType = CharacterActionType.WeaponAttack,
+                AbilityName = "1d6 attack",
+                AbilityDescription = "Strikes the chosen character with your weapon",
+                ActionType = AbilityType.WeaponAttack,
                 SavingThrowPossible = false,
                 Max_Dmg = 6,
                 Flat_Dmg = 1,
@@ -111,11 +111,11 @@ internal class SeedCharacters : ISeeder
                 AggressiveAction = true
 
             },
-                          new Abilities
+                          new Ability
             {
-                ActionName = "2d6 attack",
-                ActionDescription = "Strikes the chosen character with your weapon",
-                ActionType = CharacterActionType.WeaponAttack,
+                AbilityName = "2d6 attack",
+                AbilityDescription = "Strikes the chosen character with your weapon",
+                ActionType = AbilityType.WeaponAttack,
                 SavingThrowPossible = false,
                 Max_Dmg = 6,
                 Flat_Dmg = 2,
@@ -127,11 +127,11 @@ internal class SeedCharacters : ISeeder
 
             },
 
-                      new Abilities
+                      new Ability
             {
-                ActionName = "Fireball",
-                ActionDescription = "Throws a fireball",
-                ActionType = CharacterActionType.Cantrip,
+                AbilityName = "Fireball",
+                AbilityDescription = "Throws a fireball",
+                ActionType = AbilityType.Cantrip,
                 SavingThrowPossible = true,
                 Max_Dmg = 8,
                 Flat_Dmg = 2,
@@ -144,11 +144,11 @@ internal class SeedCharacters : ISeeder
 
             },
 
-                    new Abilities
+                    new Ability
             {
-                ActionName = "Fist Attack",
-                ActionDescription = "Strikes the chosen character with your bare hands",
-                ActionType = CharacterActionType.WeaponAttack,
+                AbilityName = "Fist Attack",
+                AbilityDescription = "Strikes the chosen character with your bare hands",
+                ActionType = AbilityType.WeaponAttack,
                 SavingThrowPossible = true,
                 Max_Dmg = 2,
                 Flat_Dmg = 1,
@@ -158,11 +158,11 @@ internal class SeedCharacters : ISeeder
                 StatForTest = Statistics.Strenght,
                 AggressiveAction = true
             },
-                    new Abilities
+                    new Ability
             {
-                ActionName = "Magic Missiles",
-                ActionDescription = "Throws magic missiles at the enmy",
-                ActionType = CharacterActionType.Spell,
+                AbilityName = "Magic Missiles",
+                AbilityDescription = "Throws magic missiles at the enmy",
+                ActionType = AbilityType.Spell,
                 SavingThrowPossible = true,
                 Max_Dmg = 4,
                 Flat_Dmg = 2,
@@ -175,12 +175,12 @@ internal class SeedCharacters : ISeeder
                  AggressiveAction = true
 
             },
-                              new Abilities
+                              new Ability
             {
-                ActionName = "Small Heal",
-                ActionDescription = "Heals the user for 1d6 +2",
+                AbilityName = "Small Heal",
+                AbilityDescription = "Heals the user for 1d6 +2",
                 SavingThrowPossible = false,
-                ActionType = CharacterActionType.Spell,
+                ActionType = AbilityType.Spell,
                 Max_Dmg = 6,
                 Flat_Dmg = 2,
                 Hit_Dice_Nr = 1,
@@ -190,11 +190,11 @@ internal class SeedCharacters : ISeeder
                 UsesMaxBeforeRest = 2,
                 AggressiveAction = false
             },
-                 new Abilities
+                 new Ability
             {
-                ActionName = "Bless",
-                ActionDescription = "Blesses the target giving him advantage a bonus 1d4 to attack rolls",
-                ActionType = CharacterActionType.Spell,
+                AbilityName = "Bless",
+                AbilityDescription = "Blesses the target giving him advantage a bonus 1d4 to attack rolls",
+                ActionType = AbilityType.Spell,
                      SavingThrowPossible = false,
                 Max_Dmg = 0,
                 Flat_Dmg = 0,
@@ -207,11 +207,11 @@ internal class SeedCharacters : ISeeder
                  AggressiveAction = false
             },
 
-                 new Abilities
+                 new Ability
             {
-                ActionName = "Action Surge",
-                ActionDescription = "Gives you one more action once per day and once per turn",
-                ActionType = CharacterActionType.SpecialAction,
+                AbilityName = "Action Surge",
+                AbilityDescription = "Gives you one more action once per day and once per turn",
+                ActionType = AbilityType.SpecialAction,
                      SavingThrowPossible = false,
                 Max_Dmg = 0,
                 Flat_Dmg = 0,
@@ -379,12 +379,12 @@ internal class SeedCharacters : ISeeder
         _db.Items.AddRange(items);
         _db.SaveChanges();
         //adding actions to items
-        items.FirstOrDefault(i => i.Name.Contains("Two Handed Sword")).ActionToTrigger = actions.First(a => a.ActionName.Contains("2d6 attack"));
-        items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = actions.FirstOrDefault(a => a.ActionName.Contains("1d6 attack"));
-        items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).ActionToTrigger = actions.FirstOrDefault(a => a.ActionName.Contains("Small Heal"));
+        items.FirstOrDefault(i => i.Name.Contains("Two Handed Sword")).ActionToTrigger = actions.First(a => a.AbilityName.Contains("2d6 attack"));
+        items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = actions.FirstOrDefault(a => a.AbilityName.Contains("1d6 attack"));
+        items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).ActionToTrigger = actions.FirstOrDefault(a => a.AbilityName.Contains("Small Heal"));
         //adding statuses to actions
-        actions.FirstOrDefault(a => a.ActionName.Contains("Magic Missiles")).Status = statuses.FirstOrDefault(s => s.Name.Contains("Blind"));
-        actions.FirstOrDefault(a => a.ActionName.Contains("Bless")).Status = statuses.FirstOrDefault(s => s.Name.Contains("Bless"));
+        actions.FirstOrDefault(a => a.AbilityName.Contains("Magic Missiles")).Status = statuses.FirstOrDefault(s => s.Name.Contains("Blind"));
+        actions.FirstOrDefault(a => a.AbilityName.Contains("Bless")).Status = statuses.FirstOrDefault(s => s.Name.Contains("Bless"));
         //adding items to classes
         playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("mage robe")));
 
@@ -396,11 +396,11 @@ internal class SeedCharacters : ISeeder
         playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ItemsGrantedByClass.Add(items.FirstOrDefault(i => i.Name.ToLower().Contains("small wooden shield")));
         //adding actions to classes 
 
-        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("magic missiles")));
-        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("fireball")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.AbilityName.ToLower().Contains("magic missiles")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Wizard").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.AbilityName.ToLower().Contains("fireball")));
 
-        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("small heal")));
-        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.ActionName.ToLower().Contains("bless")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.AbilityName.ToLower().Contains("small heal")));
+        playableCharacterClasses.FirstOrDefault(c => c.ClassName == "Cleric").ActionsGrantedByClass.Add(actions.FirstOrDefault(i => i.AbilityName.ToLower().Contains("bless")));
 
 
         _db.SaveChanges();
@@ -520,12 +520,12 @@ internal class SeedCharacters : ISeeder
         foreach (var character in characters)
         {
             //Deletes all many to many relations
-            character.LinkedActions = new List<AbilitiesCharacter>();
+            character.LinkedAbilities = new List<AbilitiesCharacter>();
 
-            foreach (var action in character.InnateActions)
+            foreach (var action in character.InnateAbilities)
             {
                 //Creates a new relation object for each action. 
-                character.LinkedActions.Add(
+                character.LinkedAbilities.Add(
                  new AbilitiesCharacter()
                  {
                      Character = character,
@@ -541,12 +541,12 @@ internal class SeedCharacters : ISeeder
         foreach (var character in characters)
         {
             //Deletes all many to many relations
-            character.LinkedActions = new List<AbilitiesCharacter>();
+            character.LinkedAbilities = new List<AbilitiesCharacter>();
 
-            foreach (var action in character.InnateActions)
+            foreach (var action in character.InnateAbilities)
             {
                 //Creates a new relation object for each action. 
-                character.LinkedActions.Add(
+                character.LinkedAbilities.Add(
                  new AbilitiesCharacter()
                  {
                      Character = character,

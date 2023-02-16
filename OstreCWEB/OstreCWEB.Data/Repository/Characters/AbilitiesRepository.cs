@@ -13,7 +13,7 @@ namespace OstreCWEB.Repository.Repository.Characters
             _db = db;
         }
 
-        public async Task CreateAsync(Abilities characterAction)
+        public async Task CreateAsync(Ability characterAction)
         {
             _db.CharacterActions.Add(characterAction);
             await _db.SaveChangesAsync();
@@ -25,7 +25,7 @@ namespace OstreCWEB.Repository.Repository.Characters
             await _db.SaveChangesAsync();
         }
 
-        public async Task<List<Abilities>> GetAllAsync()
+        public async Task<List<Ability>> GetAllAsync()
         {
             return await _db.CharacterActions
                 .Include(s => s.Status)
@@ -33,23 +33,23 @@ namespace OstreCWEB.Repository.Repository.Characters
                 .ToListAsync();
         }
 
-        public async Task<Abilities> GetByIdAsync(int id)
+        public async Task<Ability> GetByIdAsync(int id)
         {
             return await _db.CharacterActions
                 .Include(s => s.Status)
                 .Include(s => s.LinkedCharacter)
-                .SingleOrDefaultAsync(s => s.CharacterActionId == id);
+                .SingleOrDefaultAsync(s => s.AbilityId == id);
         }
-        private Abilities GetByIdWithLinkedItemsAsync(int id)
+        private Ability GetByIdWithLinkedItemsAsync(int id)
         {
             return _db.CharacterActions
                 .Include(s => s.Status)
                 .Include(s => s.LinkedCharacter)
                 .Include(x => x.LinkedItems)
-                .SingleOrDefault(s => s.CharacterActionId == id);
+                .SingleOrDefault(s => s.AbilityId == id);
         }
 
-        public async Task UpdateAsync(Abilities characterAction)
+        public async Task UpdateAsync(Ability characterAction)
         {
             _db.CharacterActions.Update(characterAction);
             await _db.SaveChangesAsync();

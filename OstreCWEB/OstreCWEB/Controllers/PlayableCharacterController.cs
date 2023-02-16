@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.ViewModel.Characters;

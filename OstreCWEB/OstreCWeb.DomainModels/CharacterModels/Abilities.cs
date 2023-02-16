@@ -6,11 +6,11 @@ namespace OstreCWEB.DomainModels.CharacterModels
 {
 
     //"using" a spell , item  or weapon is an action. 
-    public class Abilities
+    public class Ability
     {
         //EF config
         [Key]
-        public int CharacterActionId { get; set; }
+        public int AbilityId { get; set; }
         public Status? Status { get; set; }
         public int? StatusId { get; set; }
 
@@ -20,9 +20,9 @@ namespace OstreCWEB.DomainModels.CharacterModels
         public PlayableClass? PlayableClass { get; set; }
         //
 
-        public string ActionName { get; set; }
-        public string ActionDescription { get; set; }
-        public CharacterActionType ActionType { get; set; }
+        public string AbilityName { get; set; }
+        public string AbilityDescription { get; set; }
+        public AbilityType ActionType { get; set; }
         public bool SavingThrowPossible { get; set; }
         public int Max_Dmg { get; set; }
         public int Flat_Dmg { get; set; }

@@ -37,7 +37,7 @@ namespace OstreCWEB.Repository.Repository.Characters
         {
             return await _context.Enemies
                 .Include(e => e.LinkedItems)
-                .Include(e => e.LinkedActions)
+                .Include(e => e.LinkedAbilities)
                 .SingleOrDefaultAsync(e => e.CharacterId == id);
         }
 
@@ -45,7 +45,7 @@ namespace OstreCWEB.Repository.Repository.Characters
         {
             return await _context.Enemies
                 .Include(e => e.LinkedItems)
-                .Include(e => e.LinkedActions)
+                .Include(e => e.LinkedAbilities)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(e => e.CharacterId == id);
         }

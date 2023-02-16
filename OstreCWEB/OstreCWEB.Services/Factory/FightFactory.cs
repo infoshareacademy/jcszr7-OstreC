@@ -17,9 +17,9 @@ namespace OstreCWEB.Services.Factory
         {
             foreach (var character in characterList)
             {
-                foreach (var linkedAction in character.LinkedActions)
+                foreach (var linkedAction in character.LinkedAbilities)
                 {
-                    character.InnateActions.Add(linkedAction.CharacterAction);
+                    character.InnateAbilities.Add(linkedAction.CharacterAction);
                 }
                 foreach (var linkedItems in character.LinkedItems)
                 {

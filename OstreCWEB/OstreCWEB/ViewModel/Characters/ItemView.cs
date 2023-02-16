@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
+using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
@@ -13,7 +14,7 @@ namespace OstreCWEB.ViewModel.Characters
         [DisplayName("Name")]
         public string? Name { get; set; }
         [DisplayName("Linked Action")]
-        public CharacterActionView ActionToTrigger { get; set; }
+        public AbilityView ActionToTrigger { get; set; }
         [DisplayName("Linked Class")]
         public PlayableClassView PlayableClass { get; set; }
         [DisplayName("Destroyed on use")]

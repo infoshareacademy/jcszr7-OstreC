@@ -112,7 +112,7 @@ namespace OstreCWEB.Controllers
             {
                 //We apply changes from player from static list to player in db. They get saved during game session update in gameservice.  
                 activeGameInstance.ActiveCharacter.CurrentHealthPoints = activeFightInstance.ActivePlayer.CurrentHealthPoints;
-                activeGameInstance.ActiveCharacter.LinkedActions.ForEach(x => x.UsesLeftBeforeRest = activeFightInstance.ActivePlayer.LinkedActions.FirstOrDefault(y => y.CharacterActionId == x.CharacterActionId).UsesLeftBeforeRest);
+                activeGameInstance.ActiveCharacter.LinkedAbilities.ForEach(x => x.UsesLeftBeforeRest = activeFightInstance.ActivePlayer.LinkedAbilities.FirstOrDefault(y => y.CharacterActionId == x.CharacterActionId).UsesLeftBeforeRest);
                 for (var i = activeGameInstance.ActiveCharacter.LinkedItems.Count - 1; i >= 0; i--)
                 {
                     var contains = false;
@@ -148,7 +148,7 @@ namespace OstreCWEB.Controllers
                 _fightService.UpdateItemToRemove(id);
                 activeFightInstance.IsItemToDelete = true;
             }
-            _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.ActionToTrigger.CharacterActionId));
+            _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.ActionToTrigger.AbilityId));
             _fightService.ResetActiveTarget();
             return RedirectToAction("FightView");
         }

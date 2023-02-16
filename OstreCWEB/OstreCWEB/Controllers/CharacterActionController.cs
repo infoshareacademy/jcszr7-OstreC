@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.ViewModel.Characters;
 
@@ -25,7 +26,7 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> Index()
         {
             var actions = await _characterActionsRepository.GetAllAsync();
-            var model = _Mapper.Map<IEnumerable<CharacterActionView>>(actions);
+            var model = _Mapper.Map<IEnumerable<AbilityView>>(actions);
             return View(model);
         }
 
@@ -55,7 +56,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                await _characterActionsRepository.UpdateAsync(_Mapper.Map<Abilities>(item));
+                await _characterActionsRepository.UpdateAsync(_Mapper.Map<Ability>(item));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -84,7 +85,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                await _characterActionsRepository.UpdateAsync(_Mapper.Map<Abilities>(item));
+                await _characterActionsRepository.UpdateAsync(_Mapper.Map<Ability>(item));
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -29,9 +29,9 @@
             </div>
 
         }
-        @foreach (var linkedAction in Model.LinkedActions)
+        @foreach (var linkedAction in Model.LinkedAbilities)
         {
-            <div class="modal fade" id="action-@linkedAction.CharacterAction.CharacterActionId" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div class="modal fade" id="action-@linkedAction.CharacterAction.AbilityId" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content"> 
                         <div class="modal-body"> <partial name="_CharacterAction" model="@linkedAction.CharacterAction"></partial></div>
@@ -74,11 +74,11 @@
         <!--Inventory items end-->
         <!--Actions start-->
         <h2 class="card-title">Known spells and special actions</h2>
-        @if(@Model.LinkedActions.Count() == 0 ) {<div>You don't know any spells or special actions!</div>}
-        @foreach (var linkedAction in @Model.LinkedActions)
+        @if(@Model.LinkedAbilities.Count() == 0 ) {<div>You don't know any spells or special actions!</div>}
+        @foreach (var linkedAction in @Model.LinkedAbilities)
         {
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#action-@linkedAction.CharacterAction.CharacterActionId"> @linkedAction.CharacterAction.ActionName </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#action-@linkedAction.CharacterAction.AbilityId"> @linkedAction.CharacterAction.AbilityName </button>
            
         }
         <!--Actions end-->

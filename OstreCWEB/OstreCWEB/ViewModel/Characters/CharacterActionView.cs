@@ -1,16 +1,17 @@
-﻿using System.ComponentModel;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
+using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
-    public class CharacterActionView
+    public class AbilityView
     {
-        public int CharacterActionId { get; set; }
+        public int AbilityId { get; set; }
         [DisplayName("Action name")]
-        public string ActionName { get; set; }
+        public string AbilityName { get; set; }
         [DisplayName("Action description")]
-        public string ActionDescription { get; set; }
+        public string AbilityDescription { get; set; }
         [DisplayName("Action type")]
-        public CharacterActionType ActionType { get; set; }
+        public AbilityType ActionType { get; set; }
         [DisplayName("Saving Throw")]
         public bool SavingThrowPossible { get; set; }
         [DisplayName("Statistic for test")]
@@ -38,7 +39,7 @@ namespace OstreCWEB.ViewModel.Characters
         {
             get
             {
-                return this.ActionType != CharacterActionType.Cantrip;
+                return this.ActionType != AbilityType.Cantrip;
 
             }
         }

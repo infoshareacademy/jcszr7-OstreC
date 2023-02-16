@@ -6,8 +6,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
 {
     public class PlayableCharacter : Character
     {
-        //Ef config
-        [Key]
+        //Ef config 
         public string UserId { get; set; }//Id of character owner
         public User User { get; set; }
         public UserParagraph? UserParagraph { get; set; }

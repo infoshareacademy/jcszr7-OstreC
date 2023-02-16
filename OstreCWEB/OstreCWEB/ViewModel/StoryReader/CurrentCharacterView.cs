@@ -17,7 +17,7 @@ namespace OstreCWEB.ViewModel.StoryReader
         public PlayableRaceView Race { get; set; }
         public PlayableClassView CharacterClass { get; set; }
         public List<ItemCharacterView> LinkedItems { get; set; }
-        public List<ActionCharacterView> LinkedActions { get; set; }
+        public List<AbilityCharacterView> LinkedAbilities { get; set; }
         public List<StatusView> ActiveStatuses { get; set; }
 
         public IEnumerable<ItemCharacterView> ItemCharacterWithAction
@@ -54,7 +54,7 @@ namespace OstreCWEB.ViewModel.StoryReader
             return (CurrentHealthPoints * 100) / MaxHealthPoints;
         }
 
-        public bool HasShowableActions { get { return LinkedActions.Where(a => a.IsActionUsableInCombat).Count() > 0; } }
+        public bool HasShowableActions { get { return LinkedAbilities.Where(a => a.IsActionUsableInCombat).Count() > 0; } }
 
     }
 }

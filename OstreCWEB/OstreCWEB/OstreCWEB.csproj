@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OstreCWEB.Data\OstreCWEB.Repository.csproj" />
     <ProjectReference Include="..\OstreCWEB.Services\OstreCWEB.Services.csproj" />
   </ItemGroup>
 

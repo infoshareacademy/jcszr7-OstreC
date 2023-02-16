@@ -1,4 +1,6 @@
-﻿namespace OstreCWEB.ViewModel.StoryBuilder
+﻿using OstreCWEB.DomainModels.StoryModels.Enums;
+
+namespace OstreCWEB.ViewModel.StoryBuilder
 {
     public class CreatParagraphFightView
     {

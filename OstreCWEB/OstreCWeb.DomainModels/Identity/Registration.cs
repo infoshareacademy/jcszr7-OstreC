@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 namespace OstreCWEB.DomainModels.Identity
 {
     public class Registration
@@ -19,7 +18,6 @@ namespace OstreCWEB.DomainModels.Identity
         [Required]
         [Compare("Password", ErrorMessage = "Password confirmation invalid")]
         public string PasswordConfirm { get; set; }
-        [ValidateNever]
         public string? Role { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OstreCWEB.DomainModels.CharacterModels.Enums
 {
-    public enum CharacterActionType
+    public enum AbilityType
     {
         WeaponAttack = 1,
         Cantrip = 3,

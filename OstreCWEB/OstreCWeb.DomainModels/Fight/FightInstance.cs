@@ -13,7 +13,7 @@ namespace OstreCWEB.DomainModels.Fight
         public bool CombatFinished { get; set; }
         public bool PlayerWon { get; set; }
         public int ItemToDeleteId { get; set; }
-        public Abilities ActiveAction { get; set; }
+        public Ability ActiveAction { get; set; }
         public bool IsItemToDelete { get; set; }
         public bool ActionGrantedByItem { get; set; }
         public int UserParagraphId { get; set; }

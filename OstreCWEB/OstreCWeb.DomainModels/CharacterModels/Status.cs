@@ -8,7 +8,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
         //EF config
         [Key]
         public int StatusId { get; set; }
-        public List<Abilities> CharacterActions { get; set; }
+        public List<Ability> CharacterActions { get; set; }
         //
         public string Name { get; set; }
         public string Description { get; set; }

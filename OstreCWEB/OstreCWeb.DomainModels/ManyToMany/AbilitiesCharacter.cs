@@ -5,7 +5,7 @@ namespace OstreCWEB.DomainModels.ManyToMany
     {
         //Ef config
 
-        public Abilities CharacterAction { get; set; }
+        public Ability CharacterAction { get; set; }
 
         public int CharacterActionId { get; set; }
 

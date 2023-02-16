@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OstreCWEB.DomainModels.StoryModels.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.ViewModel.Game
 {

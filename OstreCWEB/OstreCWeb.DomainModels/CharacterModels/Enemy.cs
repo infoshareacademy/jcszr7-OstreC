@@ -2,7 +2,7 @@
 using OstreCWEB.DomainModels.StoryModels.Properties;
 
 namespace OstreCWEB.DomainModels.CharacterModels
-{ 
+{
     public class Enemy : Character
     {
         public Races NonPlayableRace { get; set; }
