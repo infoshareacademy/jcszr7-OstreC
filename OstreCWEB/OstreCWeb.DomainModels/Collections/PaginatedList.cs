@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+
 namespace OstreCWeb.DomainModels.Collections
 {
     public class PaginatedList<T> : List<T>

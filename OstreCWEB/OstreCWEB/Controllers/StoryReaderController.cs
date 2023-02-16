@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.ManyToMany;
+using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;

@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OstreCWEB.Data.Factory;
-using OstreCWEB.Data.Repository.Characters;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Data.Repository.ManyToMany;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.SuperAdmin;
+using OstreCWEB.Repository.Factory;
+using OstreCWEB.Repository.Repository.Characters;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.Fight;
+using OstreCWEB.Repository.Repository.Identity;
+using OstreCWEB.Repository.Repository.ManyToMany;
+using OstreCWEB.Repository.Repository.StoryModels;
+using OstreCWEB.Repository.Repository.SuperAdmin;
 
-namespace OstreCWEB.Data.RepositoryRegistration
+namespace OstreCWEB.Repository.RepositoryRegistration
 {
     public static class RepositoryRegistration
     {

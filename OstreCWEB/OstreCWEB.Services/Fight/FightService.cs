@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using OstreCWEB.Data.Factory;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.ManyToMany;
+using OstreCWEB.Repository.Factory;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.Fight;
+using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.Fight;

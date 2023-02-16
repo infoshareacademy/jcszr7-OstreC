@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.ManyToMany;
+using OstreCWEB.Repository.Repository.Fight;
+using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;

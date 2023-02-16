@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels;
 
-namespace OstreCWEB.Data.Repository.Characters.Interfaces
+namespace OstreCWEB.Repository.Repository.Characters.Interfaces
 {
     public interface IEnemyRepository
     {

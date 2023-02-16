@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Fight;
+﻿using OstreCWEB.Repository.Repository.Fight;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.Fight;
 using OstreCWEB.DomainModels.ManyToMany;

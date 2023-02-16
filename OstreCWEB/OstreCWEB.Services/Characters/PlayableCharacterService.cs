@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.Interfaces;
+﻿using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.Services.Characters

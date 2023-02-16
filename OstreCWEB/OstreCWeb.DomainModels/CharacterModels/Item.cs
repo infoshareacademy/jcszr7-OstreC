@@ -1,5 +1,4 @@
-﻿using OstreCWEB.DomainModels.Character.Enums;
-using OstreCWEB.DomainModels.CharacterModels.Enums;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.ManyToMany;
 using System.ComponentModel.DataAnnotations;
 

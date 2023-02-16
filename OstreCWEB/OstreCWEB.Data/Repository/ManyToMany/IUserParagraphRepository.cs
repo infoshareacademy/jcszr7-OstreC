@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.DomainModels.ManyToMany;
 
-namespace OstreCWEB.Data.Repository.ManyToMany
+namespace OstreCWEB.Repository.Repository.ManyToMany
 {
     public interface IUserParagraphRepository
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase;
+using OstreCWEB.Repository.DataBase;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 
 #nullable disable
 
-namespace OstreCWEB.Data.Repository.StoryModels
+namespace OstreCWEB.Repository.Repository.StoryModels
 {
     internal class StoryRepository : IStoryRepository
     {

@@ -1,7 +1,7 @@
-﻿using OstreCWEB.Data.DataBase;
+﻿using OstreCWEB.Repository.DataBase;
 using OstreCWEB.DomainModels.Identity;
 
-namespace OstreCWEB.Data.Repository.SuperAdmin
+namespace OstreCWEB.Repository.Repository.SuperAdmin
 {
 
     internal class SuperAdminRepository : ISuperAdminRepository

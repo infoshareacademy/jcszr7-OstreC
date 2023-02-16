@@ -1,5 +1,4 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels;
-using OstreCWEB.DomainModels.Characters;
 
 namespace OstreCWEB.DomainModels.Fight
 {

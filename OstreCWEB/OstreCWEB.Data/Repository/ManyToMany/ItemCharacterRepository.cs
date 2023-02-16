@@ -1,7 +1,7 @@
-﻿using OstreCWEB.Data.DataBase;
+﻿using OstreCWEB.Repository.DataBase;
 using OstreCWEB.DomainModels.ManyToMany;
 
-namespace OstreCWEB.Data.Repository.ManyToMany
+namespace OstreCWEB.Repository.Repository.ManyToMany
 {
     internal class ItemCharacterRepository : IItemCharacterRepository
     {

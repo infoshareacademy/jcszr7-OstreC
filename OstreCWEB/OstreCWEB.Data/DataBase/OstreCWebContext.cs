@@ -6,7 +6,7 @@ using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 
-namespace OstreCWEB.Data.DataBase
+namespace OstreCWEB.Repository.DataBase
 {
     public class OstreCWebContext : IdentityDbContext<User>
     {
@@ -27,7 +27,7 @@ namespace OstreCWEB.Data.DataBase
         public DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<Abilities> CharacterActions { get; set; } // Action is a keyword..
+        public DbSet<Abilities> CharacterActions { get; set; }
 
         //Story
         public DbSet<Story> Stories { get; set; }
@@ -49,7 +49,7 @@ namespace OstreCWEB.Data.DataBase
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
+           
             base.OnModelCreating(builder);
             UserConfiguration(builder);
             ConfigureCharacters(builder);
@@ -70,7 +70,7 @@ namespace OstreCWEB.Data.DataBase
                 .HasMany(x => x.ActionsGrantedByClass)
                 .WithOne(x => x.PlayableClass)
                 .HasForeignKey(x => x.PlayableClassId);
-
+           
             builder.Entity<PlayableClass>()
                 .HasMany(x => x.ItemsGrantedByClass)
                 .WithOne(x => x.PlayableClass)
@@ -80,7 +80,7 @@ namespace OstreCWEB.Data.DataBase
         }
         private void ConfigureUser(ModelBuilder builder)
         {
-            builder.Entity<User>().Navigation(e => e.UserParagraphs).AutoInclude();
+            builder.Entity<User>().Navigation(e => e.UserParagraphs).AutoInclude(); 
         }
         private void ConfigureManyToMany(ModelBuilder builder)
         {
@@ -137,7 +137,7 @@ namespace OstreCWEB.Data.DataBase
                 .HasOne(pt => pt.CharacterAction)
                 .WithMany(t => t.LinkedCharacter)
                 .HasForeignKey(pt => pt.CharacterActionId);
-
+             
         }
 
         private void UserConfiguration(ModelBuilder builder)
@@ -229,15 +229,15 @@ namespace OstreCWEB.Data.DataBase
         }
 
         private void ConfigureUsersParagraphs(ModelBuilder builder)
-        {
+        { 
             builder.Entity<UserParagraph>()
                 .HasOne(x => x.User)
-                .WithMany(x => x.UserParagraphs);
+                .WithMany(x => x.UserParagraphs); 
 
             builder.Entity<UserParagraph>()
                 .HasOne(x => x.Paragraph)
-                .WithMany(x => x.UserParagraphs);
-
+                .WithMany(x => x.UserParagraphs);  
+            
         }
 
         private void ConfigureParagraphItems(ModelBuilder builder)
@@ -253,5 +253,5 @@ namespace OstreCWEB.Data.DataBase
                 .HasOne(x => x.Paragraph)
                 .WithMany(x => x.ParagraphItems);
         }
-    }
-}
+    } 
+}     

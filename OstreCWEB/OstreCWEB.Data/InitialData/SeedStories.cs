@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.DataBase;
+﻿using OstreCWEB.Repository.DataBase;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.DomainModels.ManyToMany;
@@ -6,7 +6,7 @@ using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 
-namespace OstreCWEB.Data.InitialData
+namespace OstreCWEB.Repository.InitialData
 {
     public static class SeedStories
     {

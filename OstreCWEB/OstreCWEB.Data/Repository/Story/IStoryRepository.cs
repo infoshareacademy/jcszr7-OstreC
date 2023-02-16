@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 
-namespace OstreCWEB.Data.Repository.StoryModels
+namespace OstreCWEB.Repository.Repository.StoryModels
 {
     public interface IStoryRepository
     {

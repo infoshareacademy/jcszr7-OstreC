@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Factory;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.DataBase;
+using OstreCWEB.Repository.Factory;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.DomainModels.Identity;
 
-namespace OstreCWEB.Data.Repository.Identity
+namespace OstreCWEB.Repository.Repository.Identity
 {
 
     internal class IdentityRepository : IIdentityRepository

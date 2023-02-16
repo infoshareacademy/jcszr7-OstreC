@@ -1,5 +1,5 @@
-﻿using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.StoryModels;
+﻿using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.StoryModels;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;

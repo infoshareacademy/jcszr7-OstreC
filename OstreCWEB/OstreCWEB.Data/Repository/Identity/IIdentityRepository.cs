@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.DomainModels.Identity;
 
-namespace OstreCWEB.Data.Repository.Identity
+namespace OstreCWEB.Repository.Repository.Identity
 {
     public interface IIdentityRepository
     {

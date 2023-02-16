@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Repository.DataBase;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.Identity;
 using OstreCWEB.DomainModels.ManyToMany;
 
 #nullable disable
 
-namespace OstreCWEB.Data.Repository.ManyToMany
+namespace OstreCWEB.Repository.Repository.ManyToMany
 {
     internal class UserParagraphRepository : IUserParagraphRepository
     {

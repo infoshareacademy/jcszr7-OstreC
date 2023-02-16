@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.InitialData;
-using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Repository.DataBase;
+using OstreCWEB.Repository.InitialData;
+using OstreCWEB.Repository.Repository.Identity;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.Identity;

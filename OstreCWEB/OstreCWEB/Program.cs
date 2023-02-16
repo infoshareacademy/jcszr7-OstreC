@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.RepositoryRegistration;
+using OstreCWEB.Repository.DataBase;
+using OstreCWEB.Repository.RepositoryRegistration;
 using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.Services.ServiceRegistration;
 using Serilog;

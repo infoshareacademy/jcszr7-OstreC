@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.DomainModels.Fight;
 
-namespace OstreCWEB.Data.Repository.Fight
+namespace OstreCWEB.Repository.Repository.Fight
 {
     internal class FightRepository : IFightRepository
     {

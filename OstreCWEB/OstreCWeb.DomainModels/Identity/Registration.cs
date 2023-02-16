@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 namespace OstreCWEB.DomainModels.Identity
 {
     public class Registration

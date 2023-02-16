@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using OstreCWEB.Data.DataBase;
+using OstreCWEB.Repository.DataBase;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 
-namespace OstreCWEB.Data.Factory
+namespace OstreCWEB.Repository.Factory
 {
     internal class CharacterFactory : ICharacterFactory
     {

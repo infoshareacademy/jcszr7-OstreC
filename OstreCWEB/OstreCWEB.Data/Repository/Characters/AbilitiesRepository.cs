@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.DataBase;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.DomainModels.CharacterModels;
 
-namespace OstreCWEB.Data.Repository.Characters
+namespace OstreCWEB.Repository.Repository.Characters
 {
     internal class AbilitiesRepository : IAbilitiesRepository
     {

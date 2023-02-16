@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 
-namespace OstreCWEB.Data.Factory
+namespace OstreCWEB.Repository.Factory
 {
     public interface ICharacterFactory
     {
