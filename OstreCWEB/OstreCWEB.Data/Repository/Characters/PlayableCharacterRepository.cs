@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
@@ -22,7 +21,7 @@ namespace OstreCWEB.Data.Repository.Characters
         }
         public bool Exists(int id)
         {
-            return _db.PlayableCharacters.Any(x => x.CharacterId ==id);
+            return _db.PlayableCharacters.Any(x => x.CharacterId == id);
         }
 
         public async Task DeleteAsync(PlayableCharacter playableCharacter)
@@ -62,8 +61,8 @@ namespace OstreCWEB.Data.Repository.Characters
         public async Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId)
         {
             return await _db.PlayableCharacters
-                 .Include(x=>x.CharacterClass)
-                 .ThenInclude(y=>y.ActionsGrantedByClass)
+                 .Include(x => x.CharacterClass)
+                 .ThenInclude(y => y.ActionsGrantedByClass)
                  .Include(x => x.CharacterClass)
                  .ThenInclude(y => y.ItemsGrantedByClass)
                  .AsNoTracking()

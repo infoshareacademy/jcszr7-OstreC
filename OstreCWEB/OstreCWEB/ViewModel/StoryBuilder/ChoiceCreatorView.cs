@@ -9,7 +9,7 @@
 
         public int ParagraphId { get; set; }
         public ParagraphElementView PreviousParagraph { get; set; }
-       
+
         public int NextParagraphId { get; set; }
         public ParagraphElementView NextParagraph { get; set; }
 

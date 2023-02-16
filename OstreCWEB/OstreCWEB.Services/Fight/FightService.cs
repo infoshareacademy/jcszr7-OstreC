@@ -1,18 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using OstreCWEB.Data.DataBase.ManyToMany;
 using OstreCWEB.Data.Factory;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
 using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.Fight.Enums;
 using OstreCWEB.Data.Repository.ManyToMany;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.CharacterModels.Enums;
+using OstreCWEB.DomainModels.Fight;
+using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.Services.Factory;
-using System;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -117,7 +113,7 @@ namespace OstreCWEB.Services.Fight
         {
             _activeFightInstance.ActiveTarget = character;
         }
-        public CharacterAction ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.CharacterActionId == id);
+        public Abilities ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.CharacterActionId == id);
         public Character ChooseTarget(int id)
         {
             if (id == _activeFightInstance.ActivePlayer.CombatId)
@@ -132,10 +128,10 @@ namespace OstreCWEB.Services.Fight
             _activeFightInstance.ActiveTarget = new PlayableCharacter();
             return _activeFightInstance.ActiveTarget;
         }
-        public CharacterAction ResetActiveAction()
+        public Abilities ResetActiveAction()
         {
             //We  create playable character instance and replace the active target with null values. Character class is abstract.   
-            _activeFightInstance.ActiveAction = new CharacterAction();
+            _activeFightInstance.ActiveAction = new Abilities();
             return _activeFightInstance.ActiveAction;
         }
         private void StartAiTurn()
@@ -151,8 +147,8 @@ namespace OstreCWEB.Services.Fight
         }
         public FightInstance GetFightState(string userId, int characterId) => _fightRepository.GetById(userId, characterId);
         public Character GetActiveTarget() => _activeFightInstance.ActiveTarget;
-        public CharacterAction GetActiveActions() => _activeFightInstance.ActiveAction;
-        public void UpdateActiveAction(CharacterAction action)
+        public Abilities GetActiveActions() => _activeFightInstance.ActiveAction;
+        public void UpdateActiveAction(Abilities action)
         {
             _activeFightInstance.ActiveAction = action;
         }
@@ -165,7 +161,7 @@ namespace OstreCWEB.Services.Fight
             return FightHistory;
         }
 
-        private void ApplyAction(Character target, Character caster, CharacterAction action)
+        private void ApplyAction(Character target, Character caster, Abilities action)
         {
             var IsHit = IsTargetHit(target, caster, action);
 
@@ -243,7 +239,7 @@ namespace OstreCWEB.Services.Fight
 
         }
 
-        private bool IsTargetHit(Character target, Character caster, CharacterAction action)
+        private bool IsTargetHit(Character target, Character caster, Abilities action)
         {
             if (action.AggressiveAction && action.ActionType != CharacterActionType.Spell && action.ActionType != CharacterActionType.Cantrip)
             {
@@ -257,7 +253,7 @@ namespace OstreCWEB.Services.Fight
 
         }
 
-        private int CheckStatForHit(Character caster, CharacterAction action)
+        private int CheckStatForHit(Character caster, Abilities action)
         {
 
             var roll = HitRollWithStatus(caster);
@@ -330,7 +326,7 @@ namespace OstreCWEB.Services.Fight
                 character.ActiveStatuses.Add(status);
             }
         }
-        private int ApplyDamage(Character target, CharacterAction actions, bool savingThrow)
+        private int ApplyDamage(Character target, Abilities actions, bool savingThrow)
         {
             var updateValue = 0;
 
@@ -349,7 +345,7 @@ namespace OstreCWEB.Services.Fight
 
             return updateValue;
         }
-        private int ApplyHeal(Character target, CharacterAction actions, bool savingThrow)
+        private int ApplyHeal(Character target, Abilities actions, bool savingThrow)
         {
             var updateValue = 0;
 
@@ -375,7 +371,7 @@ namespace OstreCWEB.Services.Fight
 
             return updateValue;
         }
-        private bool SpellSavingThrow(Character target, Character caster, CharacterAction action)
+        private bool SpellSavingThrow(Character target, Character caster, Abilities action)
         {
             var targetMod = 0;
             var targetRoll = 0;

@@ -1,4 +1,5 @@
 ﻿using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.DomainModels.Identity;
 using System.Security.Claims;
 
 namespace OstreCWEB.Services.Identity
@@ -10,7 +11,7 @@ namespace OstreCWEB.Services.Identity
         {
             _identityRepository = identityRepository;
         }
-    
+
         public async Task<List<User>> GetAllUsers()
         {
             throw new NotImplementedException();
@@ -26,15 +27,15 @@ namespace OstreCWEB.Services.Identity
         }
 
         public string GetUserId(ClaimsPrincipal user)
-        { 
-                if (user == null) { return ""; } 
+        {
+            if (user == null) { return ""; }
 
-                var userId = user.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier);
 
-                if (userId == null)  { return ""; } 
+            if (userId == null) { return ""; }
 
-                return userId.Value; 
+            return userId.Value;
 
-        } 
+        }
     }
 }

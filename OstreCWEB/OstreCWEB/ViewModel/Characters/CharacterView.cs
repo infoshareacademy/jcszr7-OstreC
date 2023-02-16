@@ -1,13 +1,11 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
     public class CharacterView
     {
         public int CombatId { get; set; }
-        [DisplayName("Character name")] 
+        [DisplayName("Character name")]
         public string CharacterName { get; set; }
         [DisplayName("Current health points")]
         public int CurrentHealthPoints { get; set; }

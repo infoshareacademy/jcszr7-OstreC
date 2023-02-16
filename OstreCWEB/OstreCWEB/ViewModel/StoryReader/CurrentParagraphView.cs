@@ -1,6 +1,4 @@
-﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
-
-namespace OstreCWEB.ViewModel.StoryReader
+﻿namespace OstreCWEB.ViewModel.StoryReader
 {
     public class CurrentParagraphView
     {

@@ -20,7 +20,7 @@ namespace OstreCWEB.Services.ServiceRegistration
             services.AddTransient<IPlayableCharacterService, PlayableCharacterService>();
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<ISeeder, SeedCharacters>();
-            services.AddTransient<IFightFactory, FightFactory>();           
+            services.AddTransient<IFightFactory, FightFactory>();
         }
     }
 }

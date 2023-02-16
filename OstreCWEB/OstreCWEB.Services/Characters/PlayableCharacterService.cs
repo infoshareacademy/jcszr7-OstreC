@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
+﻿using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.Services.Characters
 {
-    public class PlayableCharacterService : IPlayableCharacterService 
+    public class PlayableCharacterService : IPlayableCharacterService
     {
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
         private readonly ICharacterClassRepository _characterClassRepository;
@@ -16,7 +14,7 @@ namespace OstreCWEB.Services.Characters
             _playableCharacterRepository = characterRepository;
             _characterClassRepository = characterClassRepository;
             _characterRaceRepository = characterRaceRepository;
-        } 
+        }
         public bool Exists(int id)
         {
             return _playableCharacterRepository.Exists(id);
@@ -26,7 +24,7 @@ namespace OstreCWEB.Services.Characters
             throw new NotImplementedException();
         }
         public Task Create(PlayableCharacter playableCharacter)
-        {            
+        {
             playableCharacter.CharacterClass = _characterClassRepository.GetById(playableCharacter.PlayableClassId);
             playableCharacter.Race = _characterRaceRepository.GetById(playableCharacter.RaceId);
             playableCharacter.Strenght = playableCharacter.Strenght + playableCharacter.CharacterClass.StrengthBonus + playableCharacter.Race.StrengthBonus;
@@ -53,15 +51,15 @@ namespace OstreCWEB.Services.Characters
         public async Task<List<PlayableCharacter>> GetAllTemplates(string userId)
         {
             return await _playableCharacterRepository.GetAllTemplatesExceptAsync(userId);
-        } 
+        }
         public async Task<PlayableCharacter> GetById(int id)
         {
             return await _playableCharacterRepository.GetByIdAsync(id);
-        } 
+        }
         public Task Remove(Character charater)
         {
             throw new NotImplementedException();
-        } 
+        }
         public Task Update(Character charater)
         {
             throw new NotImplementedException();

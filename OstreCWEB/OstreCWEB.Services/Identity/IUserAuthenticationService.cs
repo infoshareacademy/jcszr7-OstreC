@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Identity;
+﻿using OstreCWEB.DomainModels.Identity;
 
 namespace OstreCWEB.Services.Identity
 {

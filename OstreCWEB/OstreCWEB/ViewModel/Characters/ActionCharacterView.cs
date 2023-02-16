@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
 using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
@@ -11,7 +10,7 @@ namespace OstreCWEB.ViewModel.Characters
         [DisplayName("Uses left:")]
         //Amount of uses before action is not available 
         public int UsesLeftBeforeRest { get; set; }
-        public bool IsActionUsableInCombat 
+        public bool IsActionUsableInCombat
         {
             get
             {
@@ -22,7 +21,7 @@ namespace OstreCWEB.ViewModel.Characters
                 }
                 else { return false; }
             }
-        } 
+        }
         public bool CanShowUsesLeft
         {
             get

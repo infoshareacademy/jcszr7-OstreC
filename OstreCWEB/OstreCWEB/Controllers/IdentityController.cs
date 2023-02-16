@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace OstreCWEB.Controllers
 {
- 
+
     public class IdentityController : Controller
     {
-       
-            // GET: HomeController1
-            public ActionResult Index(int id)
+
+        // GET: HomeController1
+        public ActionResult Index(int id)
         {
-          
+
 
             return View();
         }

@@ -1,6 +1,4 @@
-﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
-
-namespace OstreCWEB.ViewModel.StoryBuilder
+﻿namespace OstreCWEB.ViewModel.StoryBuilder
 {
     public class CreatNewParagraphView
     {

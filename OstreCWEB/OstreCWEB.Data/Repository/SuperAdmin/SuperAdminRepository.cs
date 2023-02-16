@@ -1,5 +1,5 @@
 ﻿using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.DomainModels.Identity;
 
 namespace OstreCWEB.Data.Repository.SuperAdmin
 {
@@ -14,7 +14,7 @@ namespace OstreCWEB.Data.Repository.SuperAdmin
 
         public void Test()
         {
-            var x =_db.Paragraphs.Where(s => s.Id == 2).FirstOrDefault();
+            var x = _db.Paragraphs.Where(s => s.Id == 2).FirstOrDefault();
             _db.Paragraphs.Remove(x);
             _db.SaveChanges();
 

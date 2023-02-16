@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Models;
-using System.Diagnostics; 
+using System.Diagnostics;
 namespace OstreCWEB.Controllers
 {
     public class FAQController : Controller
     {
-        private readonly ILogger<FAQController> _logger; 
+        private readonly ILogger<FAQController> _logger;
         public FAQController(ILogger<FAQController> logger) => _logger = logger;
-   
+
         [Authorize]
         public IActionResult Index()
         {

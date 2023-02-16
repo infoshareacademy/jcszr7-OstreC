@@ -1,5 +1,5 @@
-﻿@model OstreCWEB.ViewModel.StoryBuilder.StoryParagraphsView
-
+﻿@model OstreCWEB.ViewModel.StoryBuilder.StoryParagraphsView 
+@using OstreCWEB.DomainModels.StoryModels.Enums
 @{
     ViewData["Title"] = $"Story " + @Model.Name;
 }
@@ -46,7 +46,7 @@
             <tbody>
                 @foreach (var item in Model.Paragraphs)
                 {
-                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.DescOfStage)
+                    @if (item.ParagraphType == ParagraphType.DescOfStage)
                     {
                         <tr>
                             <td>
@@ -63,7 +63,7 @@
                             </td>
                         </tr>
                     }
-                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Fight)
+                    @if (item.ParagraphType == ParagraphType.Fight)
                     {
                         <tr class="table-danger">
                             <td>
@@ -80,7 +80,7 @@
                             </td>
                         </tr>
                     }
-                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Test)
+                    @if (item.ParagraphType == ParagraphType.Test)
                     {
                         <tr class="table-warning">
                             <td>

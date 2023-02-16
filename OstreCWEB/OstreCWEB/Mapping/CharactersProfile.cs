@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.ViewModel.Fight;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.ViewModel.Characters;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
 
 namespace OstreCWEB.Mapping
 {
@@ -14,10 +13,10 @@ namespace OstreCWEB.Mapping
             CreateMap<PlayableCharacter, PlayableCharacterView>();
             CreateMap<PlayableCharacter, PlayableCharacterRow>();
             CreateMap<Enemy, CharacterView>();
-            CreateMap<CharacterAction, CharacterActionView>();
+            CreateMap<Abilities, CharacterActionView>();
             CreateMap<Item, ItemView>();
             CreateMap<Item, ItemEditView>()
-                .ForMember(x => x.AllExistingActions, options => options.Ignore())  
+                .ForMember(x => x.AllExistingActions, options => options.Ignore())
                 .ForMember(x => x.AllExistingClasses, options => options.Ignore());
             CreateMap<ItemEditView, Item>()
                 .ForMember(x => x.LinkedCharacters, options => options.Ignore())
@@ -30,7 +29,7 @@ namespace OstreCWEB.Mapping
             CreateMap<PlayableClass, PlayableClassView>();
             CreateMap<Character, CharacterView>();
             CreateMap<ItemCharacter, ItemCharacterView>();
-            CreateMap<ActionCharacter, ActionCharacterView>();
+            CreateMap<AbilitiesCharacter, ActionCharacterView>();
 
             CreateMap<PlayableCharacter, PlayableCharacterCreateView>()
                 .ForMember(dest => dest.CharacterClasses, opt => opt.Ignore())
@@ -57,14 +56,14 @@ namespace OstreCWEB.Mapping
                 .ForMember(dest => dest.PlayableCharacter, opt => opt.Ignore())
                 .ForMember(dest => dest.ActionsGrantedByClass, opt => opt.Ignore())
                 .ForMember(dest => dest.ItemsGrantedByClass, opt => opt.Ignore());
-            CreateMap<CharacterAction, CharacterActionEditView>()
+            CreateMap<Abilities, CharacterActionEditView>()
                 .ForMember(x => x.AllStatuses, options => options.Ignore())
                 .ForMember(x => x.AllClasses, options => options.Ignore());
-            CreateMap<CharacterActionEditView, CharacterAction>()
+            CreateMap<CharacterActionEditView, Abilities>()
                 .ForMember(x => x.LinkedCharacter, options => options.Ignore())
                  .ForMember(x => x.LinkedItems, options => options.Ignore())
                   .ForMember(x => x.Status, options => options.Ignore())
              .ForMember(x => x.PlayableClass, options => options.Ignore());
-        } 
+        }
     }
 }

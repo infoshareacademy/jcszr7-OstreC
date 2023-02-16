@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.DomainModels.StoryModels;
+using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Services.StoryServices.Models;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.StoryBuilder;
@@ -9,7 +9,7 @@ namespace OstreCWEB.Mapping
 {
     public class StoryProfile : Profile
     {
-        public StoryProfile() 
+        public StoryProfile()
         {
             //Game
             CreateMap<Paragraph, GameParagraphView>();
@@ -61,9 +61,9 @@ namespace OstreCWEB.Mapping
 
             CreateMap<CreatNewParagraphView, CreatParagraphFightView>()
                 .ForMember(dest => dest.FirstEnemyId, opt => opt.Ignore())
-                .ForMember(dest => dest.FirstAmountOfEnemy, opt => opt.Ignore())               
+                .ForMember(dest => dest.FirstAmountOfEnemy, opt => opt.Ignore())
                 .ForMember(dest => dest.SecondEnemyId, opt => opt.Ignore())
-                .ForMember(dest => dest.SecondAmountOfEnemy, opt => opt.Ignore())               
+                .ForMember(dest => dest.SecondAmountOfEnemy, opt => opt.Ignore())
                 .ForMember(dest => dest.ThirdEnemyId, opt => opt.Ignore())
                 .ForMember(dest => dest.ThirdAmountOfEnemy, opt => opt.Ignore())
                 .ForMember(dest => dest.Enemies, opt => opt.Ignore());

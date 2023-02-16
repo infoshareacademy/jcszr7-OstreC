@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.ViewModel.Characters;
+using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
@@ -11,9 +10,9 @@ namespace OstreCWEB.Data.Repository.Characters
         private OstreCWebContext _context;
         public ItemRepository(OstreCWebContext context)
         {
-           _context = context;
+            _context = context;
         }
-         
+
 
         public async Task CreateAsync(Item item)
         {
@@ -31,7 +30,7 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return await _context.Items
                 .Include(i => i.ActionToTrigger)
-                .Include(i=>i.PlayableClass)
+                .Include(i => i.PlayableClass)
                 .ToListAsync();
         }
 

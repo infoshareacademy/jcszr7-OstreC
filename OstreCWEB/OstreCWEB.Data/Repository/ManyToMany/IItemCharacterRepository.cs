@@ -1,9 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.MetaTags;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OstreCWEB.DomainModels.ManyToMany;
 
 namespace OstreCWEB.Data.Repository.ManyToMany
 {

@@ -2,8 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.RepositoryRegistration;
+using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.Services.ServiceRegistration;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
@@ -15,15 +15,16 @@ var builder = WebApplication.CreateBuilder(args);
 //Allows retrying CRUD operations in case of transient failures.
 //builder.Services.AddDbContext<OstreCWebContext>(
 //    options => options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB")));
- builder.Services.AddDbContext<OstreCWebContext>(options => { 
-     options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"));
-     options.EnableSensitiveDataLogging();
- });
+builder.Services.AddDbContext<OstreCWebContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OstreCWEB"));
+    options.EnableSensitiveDataLogging();
+});
 
-    // for Identity
-    builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<OstreCWebContext>()
-    .AddDefaultTokenProviders();
+// for Identity
+builder.Services.AddIdentity<User, IdentityRole>()
+.AddEntityFrameworkStores<OstreCWebContext>()
+.AddDefaultTokenProviders();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,11 +32,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Login/Login");
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services 
-    .AddAutoMapper(typeof(Program)) 
+builder.Services
+    .AddAutoMapper(typeof(Program))
     .AddControllersWithViews()
-    .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles) 
-    .AddRazorRuntimeCompilation(); 
+    .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
+    .AddRazorRuntimeCompilation();
 
 
 builder.Services
@@ -55,7 +56,7 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning);
 });
 
- 
+
 var app = builder.Build();
 
 app.Services.GetRequiredService<IMapper>().ConfigurationProvider.AssertConfigurationIsValid();

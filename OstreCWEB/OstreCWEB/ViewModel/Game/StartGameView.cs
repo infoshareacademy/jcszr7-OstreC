@@ -8,10 +8,10 @@ namespace OstreCWEB.ViewModel.Game
     public class StartGameView
     {
         //This class will be merged with story reader next week. 
-       public UserView User { get; set; }
-        [DisplayName("Other characters")] 
-        
-       public List<PlayableCharacterRow> OtherUsersCharacters { get; set; }
+        public UserView User { get; set; }
+        [DisplayName("Other characters")]
+
+        public List<PlayableCharacterRow> OtherUsersCharacters { get; set; }
         [DisplayName("Other Stories")]
         public List<StoriesView> OtherUsersStories { get; set; }
         [DisplayName("Saved Game")]
@@ -20,7 +20,7 @@ namespace OstreCWEB.ViewModel.Game
         public PlayableCharacterView ActiveCharacter { get; set; }
         [DisplayName("Chosen Story")]
         public StoriesView ActiveStory { get; set; }
-       public StartGameView( )
+        public StartGameView()
         {
             User = new UserView();
             OtherUsersCharacters = new List<PlayableCharacterRow>();

@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.Enums;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
@@ -30,17 +29,18 @@ namespace OstreCWEB.ViewModel.Characters
         public StatusView Status { get; set; }
         public int StatusId { get; set; }
         //Defined for actions reseting with rest.
-        [DisplayName("Uses max before rest:")] 
+        [DisplayName("Uses max before rest:")]
         public int UsesMaxBeforeRest { get; set; }
         //Defined for items which have max use before disapearing. 
-        [DisplayName("Deals damage:")] 
+        [DisplayName("Deals damage:")]
         public bool AggressiveAction { get; set; }
-        public bool CanShowUsesMax 
-        { get
+        public bool CanShowUsesMax
+        {
+            get
             {
                 return this.ActionType != CharacterActionType.Cantrip;
-            
-            } 
+
+            }
         }
     }
 }

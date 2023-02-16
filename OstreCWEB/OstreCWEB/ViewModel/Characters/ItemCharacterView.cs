@@ -1,6 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
@@ -14,7 +12,7 @@ namespace OstreCWEB.ViewModel.Characters
         //Paremeters for items in the given relationship
 
         [DisplayName("Euipped")]
-        public bool IsEquipped { get; set; } 
+        public bool IsEquipped { get; set; }
 
     }
 }

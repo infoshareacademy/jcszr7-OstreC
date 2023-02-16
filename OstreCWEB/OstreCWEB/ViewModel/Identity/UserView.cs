@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.ViewModel.Characters;
+﻿using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.StoryBuilder;
 using System.ComponentModel;
 

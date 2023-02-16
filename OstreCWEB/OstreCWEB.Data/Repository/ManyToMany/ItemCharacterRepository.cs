@@ -1,6 +1,5 @@
 ﻿using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
-using OstreCWEB.Data.Repository.StoryModels;
+using OstreCWEB.DomainModels.ManyToMany;
 
 namespace OstreCWEB.Data.Repository.ManyToMany
 {
@@ -38,6 +37,6 @@ namespace OstreCWEB.Data.Repository.ManyToMany
         {
             throw new NotImplementedException();
         }
-      
+
     }
 }

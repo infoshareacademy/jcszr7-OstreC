@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Data.Repository.ManyToMany;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;
@@ -22,10 +21,10 @@ namespace OstreCWEB.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public StoryReaderController(
-            IMapper mapper, 
-            ILogger<StoryReaderController> logger, 
-            IGameService gameService, 
-            IUserParagraphRepository userParagraphRepository, 
+            IMapper mapper,
+            ILogger<StoryReaderController> logger,
+            IGameService gameService,
+            IUserParagraphRepository userParagraphRepository,
             IStoryService storyService,
             IUserService userService,
             IHttpContextAccessor httpContextAccessor
@@ -131,11 +130,11 @@ namespace OstreCWEB.Controllers
             {
                 await _gameService.EquipItemAsync(id, _userService.GetUserId(User));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
-           
+
             return RedirectToAction(nameof(Index));
         }
     }

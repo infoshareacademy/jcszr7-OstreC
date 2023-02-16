@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.DataBase;
 using OstreCWEB.Models;
 using System.Diagnostics;
-using OstreCWEB.Data.Repository.Identity;
-using Microsoft.AspNetCore.Authorization;
 
 namespace OstreCWEB.Controllers
 {
@@ -13,21 +10,21 @@ namespace OstreCWEB.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger )
+        public HomeController(ILogger<HomeController> logger)
         {
-            _logger = logger; 
+            _logger = logger;
         }
 
         public ActionResult Index()
-        { 
+        {
             return View();
         }
         //public ActionResult InitializeFight()
         //{
         //    return RedirectToAction(nameof(FightView));
         //}
-       
-        
+
+
         public IActionResult Privacy()
         {
             return View();

@@ -1,14 +1,11 @@
-﻿using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Factory;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
+﻿using OstreCWEB.Data.Factory;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
 using OstreCWEB.Data.Repository.Identity;
 using OstreCWEB.Data.Repository.ManyToMany;
 using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.CharacterModels.Enums;
+using OstreCWEB.DomainModels.ManyToMany;
 
 namespace OstreCWEB.Services.Game
 {
@@ -58,7 +55,7 @@ namespace OstreCWEB.Services.Game
             await _identityRepository.Update(user);
             return newGameInstance;
         }
- 
+
 
 
         public Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)
@@ -163,7 +160,7 @@ namespace OstreCWEB.Services.Game
                     modifire = 0;
                     break;
             }
-        
+
             int[] result = new int[2];
             result[0] = roll;
             result[1] = modifire;
@@ -224,7 +221,7 @@ namespace OstreCWEB.Services.Game
         }
         public async Task EquipItemAsync(int itemRelationId, string userId)
         {
-            var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId); 
+            var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             var itemToEquip = gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId);
 
             //Every item has specific condition, a two handed sword can't be used with a shield etc. 
@@ -237,10 +234,10 @@ namespace OstreCWEB.Services.Game
             {
                 throw new Exception("Special Items can't be equipped!");
             }
-          
+
             await _userParagraphRepository.SaveChangesAsync();
-        } 
-        private async Task DesequipAlreadyEquipped(PlayableCharacter character,ItemCharacter itemToEquip)
+        }
+        private async Task DesequipAlreadyEquipped(PlayableCharacter character, ItemCharacter itemToEquip)
         {
             switch (itemToEquip.Item.ItemType)
             {
@@ -252,7 +249,7 @@ namespace OstreCWEB.Services.Game
                         {
                             item.IsEquipped = false;
                         }
-                    } 
+                    }
                     return;
                 case ItemType.SingleHandedWeapon:
                     //desequip two handed weapon
@@ -274,7 +271,7 @@ namespace OstreCWEB.Services.Game
                         }
                     }
                     return;
-                case ItemType.SpecialItem: 
+                case ItemType.SpecialItem:
                     return;
                 default:
                     foreach (var item in character.LinkedItems)
@@ -284,9 +281,9 @@ namespace OstreCWEB.Services.Game
                             item.IsEquipped = false;
                         }
                     }
-                    return; 
+                    return;
             }
-           
-        } 
+
+        }
     }
 }

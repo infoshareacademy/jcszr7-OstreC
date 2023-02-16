@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.DomainModels.CharacterModels;
 
 #nullable disable
 
@@ -37,7 +37,7 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return await _context.Enemies
                 .Include(e => e.LinkedItems)
-                .Include(e=>e.LinkedActions) 
+                .Include(e => e.LinkedActions)
                 .SingleOrDefaultAsync(e => e.CharacterId == id);
         }
 

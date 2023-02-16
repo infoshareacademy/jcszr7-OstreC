@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
 using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.Data.Repository.Characters
 {
@@ -41,8 +41,8 @@ namespace OstreCWEB.Data.Repository.Characters
         private async Task<PlayableClass> GetByIdAsync(int id)
         {
             return await _context.PlayableCharacterClasses
-                .Include(x=>x.ItemsGrantedByClass)
-                .Include(x=>x.ActionsGrantedByClass)
+                .Include(x => x.ItemsGrantedByClass)
+                .Include(x => x.ActionsGrantedByClass)
                 .SingleOrDefaultAsync(x => x.PlayableClassId == id);
         }
         public PlayableClass GetById(int id)

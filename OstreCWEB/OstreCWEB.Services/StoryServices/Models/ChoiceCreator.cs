@@ -1,6 +1,4 @@
-﻿using OstreCWEB.Data.Repository.StoryModels;
-
-namespace OstreCWEB.Services.StoryServices.Models
+﻿namespace OstreCWEB.Services.StoryServices.Models
 {
     public class ChoiceCreator
     {

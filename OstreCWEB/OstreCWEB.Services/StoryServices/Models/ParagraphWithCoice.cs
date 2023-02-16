@@ -1,6 +1,4 @@
-﻿using OstreCWEB.Data.Repository.StoryModels.Enums;
-
-namespace OstreCWEB.Services.StoryServices.Models
+﻿namespace OstreCWEB.Services.StoryServices.Models
 {
     public class ParagraphWithCoice
     {

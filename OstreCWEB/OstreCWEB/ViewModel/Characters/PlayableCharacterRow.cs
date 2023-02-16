@@ -3,7 +3,7 @@
 namespace OstreCWEB.ViewModel.Characters
 {
     public class PlayableCharacterRow
-    { 
+    {
         public int CharacterId { get; set; }
 
         [DisplayName("Character Name")]
@@ -11,6 +11,6 @@ namespace OstreCWEB.ViewModel.Characters
         [DisplayName("Character Race")]
         public PlayableRaceView Race { get; set; }
         [DisplayName("Character Class")]
-        public PlayableClassView CharacterClass { get; set; } 
+        public PlayableClassView CharacterClass { get; set; }
     }
 }
