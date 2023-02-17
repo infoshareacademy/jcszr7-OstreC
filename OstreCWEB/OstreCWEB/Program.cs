@@ -8,6 +8,7 @@ using OstreCWEB.Services.ServiceRegistration;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using System.Text.Json.Serialization;
+using SeedIdentity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,9 +23,10 @@ builder.Services.AddDbContext<OstreCWebContext>(options =>
 });
 
 // for Identity
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>(options => { options.Stores.MaxLengthForKeys = 128; })
 .AddEntityFrameworkStores<OstreCWebContext>()
-.AddDefaultTokenProviders();
+.AddRoles<IdentityRole>()
+.AddDefaultTokenProviders(); 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -65,8 +67,7 @@ app.Services.GetRequiredService<IMapper>().ConfigurationProvider.AssertConfigura
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-    //app.UseMigrationsEndPoint();
+    app.UseSwaggerUI(); 
 }
 else
 {
@@ -115,5 +116,20 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "ChangeSecondParagraph",
     pattern: "{controller=Home}/{action=Index}/{id?}/{secondParagraphId?}/");
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<OstreCWebContext>();
+
+    context.Database.Migrate();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
+
+
+    SeedDevelopmentData.Initialize(context, userManager, roleManager).Wait();
+}
 
 app.Run();
