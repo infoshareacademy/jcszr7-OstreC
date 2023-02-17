@@ -10,7 +10,7 @@ namespace OstreCWEB.Repository.InitialData
 {
     public static class SeedStories
     {
-        public static void Initialize(OstreCWebContext context, User user)
+        public static void Seed(OstreCWebContext context, User user)
         {
             if (context.Stories.Any())
             {
@@ -68,7 +68,7 @@ namespace OstreCWEB.Repository.InitialData
                                 new ParagraphItem
                                 {
                                     AmountOfItems = 2,
-                                    Item = context.Items.SingleOrDefault(x => x.Name == "Healing Potion"),
+                                    Item = context.Items.FirstOrDefault(x => x.Name == "Healing Potion"),
                                     ParagraphId = 3
                                 }
                             }

@@ -432,7 +432,7 @@ internal class SeedCharacters : ISeeder
         users[1].CharactersCreated.Add(playableCharacters[1]);
         users[2].CharactersCreated.Add(playableCharacters[2]);
         _db.SaveChanges();
-        SeedStories.Initialize(_db, users.FirstOrDefault(u => u.UserName == "AdminUser"));
+        
     }
 
     public List<PlayableCharacter> UpdatePlayableCharacterItemsRelations(List<PlayableCharacter> characters)

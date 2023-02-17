@@ -7,8 +7,8 @@ using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.Services.ServiceRegistration;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using System.Text.Json.Serialization;
-using SeedIdentity.Data;
+using System.Text.Json.Serialization; 
+using OstreCWEB.Repository.InitialData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -129,7 +129,10 @@ using (var scope = app.Services.CreateScope())
     var userManager = services.GetRequiredService<UserManager<User>>();
 
 
-    SeedDevelopmentData.Initialize(context, userManager, roleManager).Wait();
+    if (!context.Users.Any())
+    {
+        SeedDevelopmentData.Initialize(context, userManager, roleManager).Wait();
+    }
 }
 
 app.Run();

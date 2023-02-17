@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using OstreCWeb.DomainModels.Collections;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.ViewModel.Characters;
@@ -23,13 +25,18 @@ namespace OstreCWEB.Controllers
             _CharacterActionsRepository = characterActionsRepository;
         }
         // GET: ItemController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder, int? pageNumber)
         {
-            var items = await _ItemRepository.GetAllAsync();
-            var model = _Mapper.Map<IEnumerable<ItemView>>(items);
-            return View(model);
-        }
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentSort"] = sortOrder;
 
+            int pageSize = 5;
+            var items = await _ItemRepository.GetPaginatedListAsync();
+            return View(
+                  await PaginatedList<Item>.CreateAsync(items, pageNumber ?? 1, pageSize)
+                );
+        }
+       
         // GET: ItemController/Details/5
         public ActionResult Details(int id)
         {
