@@ -1,4 +1,4 @@
-﻿using OstreCWEB.Data.Repository.StoryModels;
+﻿using OstreCWEB.DomainModels.StoryModels;
 
 namespace OstreCWEB.Services.StoryServices.Models
 {

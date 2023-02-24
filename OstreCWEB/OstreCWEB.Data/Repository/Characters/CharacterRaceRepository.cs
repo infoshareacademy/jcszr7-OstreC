@@ -1,14 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OstreCWEB.Repository.DataBase;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.DomainModels.CharacterModels;
 
-namespace OstreCWEB.Data.Repository.Characters
+namespace OstreCWEB.Repository.Repository.Characters
 {
     internal class CharacterRaceRepository : ICharacterRaceRepository
     {
@@ -17,7 +12,7 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             _ostreCWebContext = ostreCWebContext;
         }
-         
+
         public async Task CreateAsync(PlayableRace item)
         {
             _ostreCWebContext.PlayableCharacterRaces.Add(item);
@@ -40,7 +35,7 @@ namespace OstreCWEB.Data.Repository.Characters
             return await _ostreCWebContext.PlayableCharacterRaces.SingleOrDefaultAsync(x => x.PlayableRaceId == id);
         }
         public PlayableRace GetById(int id)
-        {            
+        {
             return _ostreCWebContext.PlayableCharacterRaces.SingleOrDefault(x => x.PlayableRaceId == id);
         }
 

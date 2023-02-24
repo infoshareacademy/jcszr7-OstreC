@@ -1,4 +1,4 @@
-﻿@using OstreCWEB.Data.Repository.Characters.Enums
+﻿@using OstreCWEB.DomainModels.CharacterModels.Enums
 @model OstreCWEB.ViewModel.Characters.ItemCharacterView
  
 <dl class="row">
@@ -9,10 +9,10 @@
         @(Model.Item.ActionToTrigger.PossibleTarget==TargetType.Target?"Enemy":"Yourself")
     </dd>
     <dt class="col-sm-2 border-bottom">
-        <label asp-for="@Model.Item.ActionToTrigger.ActionDescription"></label>
+        <label asp-for="@Model.Item.ActionToTrigger.AbilityDescription"></label>
     </dt>
     <dd class="col-sm-10">
-        @Model.Item.ActionToTrigger.ActionDescription
+        @Model.Item.ActionToTrigger.AbilityDescription
     </dd>
     @if (@Model.Item.ActionToTrigger.AggressiveAction)
     {
@@ -22,7 +22,7 @@
         <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.StatForTest"></label></dt>
         <dd class="col-sm-10">@Model.Item.ActionToTrigger.StatForTest.ToString()</dd>
     }
-    @if (@Model.Item.ActionToTrigger.ActionType != CharacterActionType.SpecialAction)
+    @if (@Model.Item.ActionToTrigger.ActionType != AbilityType.SpecialAction)
     {
         <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.Max_Dmg"></label></dt>
         <dd class="col-sm-10">@Model.Item.ActionToTrigger.Max_Dmg</dd>

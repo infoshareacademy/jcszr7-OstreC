@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.ManyToMany;
+using OstreCWEB.DomainModels.StoryModels;
+using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.ViewModel.Identity;
 using OstreCWEB.ViewModel.StoryReader;
 

@@ -1,11 +1,10 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Fight.Enums;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
 using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
     public class StatusView
-    { 
+    {
         public int StatusId { get; set; }
         [DisplayName("Status name")]
         public string Name { get; set; }

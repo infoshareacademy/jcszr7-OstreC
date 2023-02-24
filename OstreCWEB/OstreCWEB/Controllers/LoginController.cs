@@ -1,12 +1,8 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
-using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.Services.Identity;
-using System.Net.Mail;
-using System.Net;
-using NuGet.Packaging.Signing;
 
 namespace OstreCWEB.Controllers
 {
@@ -92,26 +88,5 @@ namespace OstreCWEB.Controllers
             }
             return View(model);
         }
-
-
-
-
-
-
-        // Admin account
-        //public async Task<IActionResult> Reg()
-        //{
-        //    var model = new Registration
-        //    {
-        //        Username = "admin",
-        //        Name = "admin",
-        //        Email = "admin",
-        //        Password = "Admin@1234"
-        //    };
-        //    model.Role = "admin";
-        //    var result = await this._service.RegistrationAsync(model);
-        //    return Ok(result);
-        //}
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
 using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
@@ -11,18 +10,18 @@ namespace OstreCWEB.ViewModel.Characters
         [DisplayName("Item Type")]
         public ItemType ItemType { get; set; }
         [DisplayName("Armor Class")]
-        public int ArmorClass { get; set; } 
+        public int ArmorClass { get; set; }
         [DisplayName("Name")]
         public string? Name { get; set; }
-        [DisplayName("Linked Action")] 
+        [DisplayName("Linked Action")]
         public int? ActionToTriggerId { get; set; }
         [DisplayName("Granted by class")]
         public int? PlayableClassId { get; set; }
-        public  Dictionary<int, string> AllExistingActions { get; set; }
+        public Dictionary<int, string> AllExistingActions { get; set; }
         public Dictionary<int, string> AllExistingClasses { get; set; }
 
         [DisplayName("Destroyed on use")]
-        public bool DeleteOnUse { get; set; }  
+        public bool DeleteOnUse { get; set; }
         public bool isArmor
         {
             get
@@ -45,7 +44,7 @@ namespace OstreCWEB.ViewModel.Characters
                 return this.ItemType != ItemType.SpecialItem;
             }
         }
-     
-     
+
+
     }
 }

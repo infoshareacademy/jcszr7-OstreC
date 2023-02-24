@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.ViewModel.Identity;
 
 namespace OstreCWEB.Mapping

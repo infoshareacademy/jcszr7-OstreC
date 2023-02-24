@@ -1,5 +1,5 @@
-﻿@using OstreCWEB.Data.Repository.Characters.Enums
-@using OstreCWEB.Data.Repository.Fight.Enums
+﻿@using OstreCWEB.DomainModels.CharacterModels.Enums
+ 
 @model OstreCWEB.ViewModel.Fight.FightViewModel;
 @{
     ViewData["Title"] = "Fight";
@@ -59,7 +59,7 @@
         <div class="card ">
         @if (Model.CanShowActiveAction)
                     {
-                       <p>Chosen action: @Model.ActiveAction.ActionName</p> 
+                       <p>Chosen action: @Model.ActiveAction.AbilityName</p> 
                        <p> <label asp-for="@Model.ActiveAction.PossibleTarget"></label>  @(Model.ActiveAction.PossibleTarget == TargetType.Caster? "Yourself" : "Enemy")</p>    
                     }
                     else
@@ -83,12 +83,12 @@
                       @if(Model.ActivePlayer.HasShowableActions)
                       {
                        <h5>Your abilities</h5>
-                            @foreach (var action in @Model.ActivePlayer.LinkedActions)
+                            @foreach (var action in @Model.ActivePlayer.LinkedAbilities)
                         {
                             if(action.IsActionUsableInCombat)
                             {
                             <li class="list-group-item">
-                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.CharacterActionId" asp-action="SetActiveAction">@action.CharacterAction.ActionName
+                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.AbilityId" asp-action="SetActiveAction">@action.CharacterAction.AbilityName
                                 @if (action.CanShowUsesLeft) {
                                     <p>Uses left: @action.UsesLeftBeforeRest</p>
                                 }

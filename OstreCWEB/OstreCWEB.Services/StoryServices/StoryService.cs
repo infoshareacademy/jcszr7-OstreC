@@ -1,9 +1,9 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
+﻿using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.StoryModels;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.StoryModels;
+using OstreCWEB.DomainModels.StoryModels.Enums;
+using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Services.StoryServices.Models;
 
 namespace OstreCWEB.Services.StoryServices
@@ -449,8 +449,8 @@ namespace OstreCWEB.Services.StoryServices
         {
             var choice = await _storyRepository.GetChoiceDetailsById(choiceCreator.Id);
 
-                choice.ChoiceText = choiceCreator.ChoiceText;
-                choice.NextParagraphId = choiceCreator.NextParagraphId;
+            choice.ChoiceText = choiceCreator.ChoiceText;
+            choice.NextParagraphId = choiceCreator.NextParagraphId;
 
             await _storyRepository.UpdateChoice(choice);
         }

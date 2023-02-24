@@ -1,16 +1,16 @@
-﻿using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Characters.Enums;
-using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
+﻿using OstreCWEB.Repository.DataBase;
+using OstreCWEB.DomainModels.CharacterModels.Enums;
+using OstreCWEB.DomainModels.Identity;
+using OstreCWEB.DomainModels.ManyToMany;
+using OstreCWEB.DomainModels.StoryModels;
+using OstreCWEB.DomainModels.StoryModels.Enums;
+using OstreCWEB.DomainModels.StoryModels.Properties;
 
-namespace OstreCWEB.Data.InitialData
+namespace OstreCWEB.Repository.InitialData
 {
     public static class SeedStories
     {
-        public static void Initialize(OstreCWebContext context, User user)
+        public static void Seed(OstreCWebContext context, User user)
         {
             if (context.Stories.Any())
             {
@@ -29,7 +29,7 @@ namespace OstreCWEB.Data.InitialData
                         {
                             ParagraphType = ParagraphType.DescOfStage,
                             RestoreRest = false,
-                            StageDescription = "You die, load the game or start over!",                                                   
+                            StageDescription = "You die, load the game or start over!",
                         },
                         new Paragraph
                         {
@@ -68,7 +68,7 @@ namespace OstreCWEB.Data.InitialData
                                 new ParagraphItem
                                 {
                                     AmountOfItems = 2,
-                                    Item = context.Items.SingleOrDefault(x => x.Name == "Healing Potion"),
+                                    Item = context.Items.FirstOrDefault(x => x.Name == "Healing Potion"),
                                     ParagraphId = 3
                                 }
                             }
@@ -210,7 +210,7 @@ namespace OstreCWEB.Data.InitialData
                         }
                     },
                     FirstParagraphId = 2,
-                });;
+                }); ;
             context.SaveChanges();
         }
     }

@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
+using Microsoft.Data.SqlClient;
+using OstreCWeb.DomainModels.Collections;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.ViewModel.Characters;
+
 namespace OstreCWEB.Controllers
 {
     [Authorize(Roles = "admin")]
@@ -12,9 +15,9 @@ namespace OstreCWEB.Controllers
         public ICharacterClassRepository _characterClassRepository { get; }
         public IItemRepository _ItemRepository { get; }
         public IMapper _Mapper { get; }
-        public ICharacterActionsRepository _CharacterActionsRepository { get; }
+        public IAbilitiesRepository _CharacterActionsRepository { get; }
 
-        public ItemsController(ICharacterClassRepository characterClassRepository,IItemRepository itemRepository,IMapper mapper,ICharacterActionsRepository characterActionsRepository)
+        public ItemsController(ICharacterClassRepository characterClassRepository, IItemRepository itemRepository, IMapper mapper, IAbilitiesRepository characterActionsRepository)
         {
             _characterClassRepository = characterClassRepository;
             _ItemRepository = itemRepository;
@@ -22,26 +25,18 @@ namespace OstreCWEB.Controllers
             _CharacterActionsRepository = characterActionsRepository;
         }
         // GET: ItemController
-        public async Task<ActionResult> Index( string sortOrder,  int? pageNumber)
+        public async Task<ActionResult> Index(string sortOrder, int? pageNumber)
         {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : ""; 
-            ViewData["CurrentSort"] = sortOrder; 
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentSort"] = sortOrder;
 
-          int pageSize = 5; 
-            var items =  await _ItemRepository.GetPaginatedListAsync();  
+            int pageSize = 5;
+            var items = await _ItemRepository.GetPaginatedListAsync();
             return View(
                   await PaginatedList<Item>.CreateAsync(items, pageNumber ?? 1, pageSize)
                 );
         }
-        //public async Task<ActionResult> Index()
-        //{
-            
-          
-        //    var items = await _ItemRepository.GetAllAsync(); 
-        //    var model = _Mapper.Map<IEnumerable<ItemView>>(items);
-        //    return View(model);
-        //}
-
+       
         // GET: ItemController/Details/5
         public ActionResult Details(int id)
         {
@@ -56,7 +51,7 @@ namespace OstreCWEB.Controllers
             var allClasses = await _characterClassRepository.GetAllAsync();
             model.AllExistingActions = new Dictionary<int, string>();
             model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.CharacterActionId, x.ActionName));
+            allActions.ForEach(x => model.AllExistingActions.Add(x.AbilityId, x.AbilityName));
             allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
             return View(model);
         }
@@ -67,7 +62,7 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> Create(ItemEditView item)
         {
             try
-            { 
+            {
                 await _ItemRepository.UpdateAsync(_Mapper.Map<Item>(item));
                 return RedirectToAction(nameof(Index));
             }
@@ -85,7 +80,7 @@ namespace OstreCWEB.Controllers
             var allClasses = await _characterClassRepository.GetAllAsync();
             model.AllExistingActions = new Dictionary<int, string>();
             model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.CharacterActionId,x.ActionName));
+            allActions.ForEach(x => model.AllExistingActions.Add(x.AbilityId, x.AbilityName));
             allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
             return View(model);
         }
@@ -112,13 +107,13 @@ namespace OstreCWEB.Controllers
             try
             {
                 await _ItemRepository.DeleteAsync(id);
-               
+
             }
             catch
             {
                 //log error
-            } 
+            }
             return RedirectToAction(nameof(Index));
-        } 
+        }
     }
 }

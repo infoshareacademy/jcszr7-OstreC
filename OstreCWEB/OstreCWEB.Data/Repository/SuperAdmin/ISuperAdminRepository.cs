@@ -1,6 +1,6 @@
-﻿using OstreCWEB.Data.Repository.Identity;
+﻿using OstreCWEB.DomainModels.Identity;
 
-namespace OstreCWEB.Data.Repository.SuperAdmin
+namespace OstreCWEB.Repository.Repository.SuperAdmin
 {
     public interface ISuperAdminRepository
     {

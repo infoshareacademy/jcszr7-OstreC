@@ -1,18 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Factory;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Enums;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Fight;
-using OstreCWEB.Data.Repository.Fight.Enums;
-using OstreCWEB.Data.Repository.ManyToMany;
+using OstreCWEB.Repository.Factory;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.Fight;
+using OstreCWEB.Repository.Repository.ManyToMany;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.CharacterModels.Enums;
+using OstreCWEB.DomainModels.Fight;
+using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.Services.Factory;
-using System;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -92,9 +88,9 @@ namespace OstreCWEB.Services.Fight
             {
                 _fightRepository.DeleteLinkedItem(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
             }
-            if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != CharacterActionType.Cantrip)
+            if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != AbilityType.Cantrip)
             {
-                _activeFightInstance.ActivePlayer.LinkedActions.First(a => a.CharacterAction.CharacterActionId == _activeFightInstance.ActiveAction.CharacterActionId).UsesLeftBeforeRest--;
+                _activeFightInstance.ActivePlayer.LinkedAbilities.First(a => a.CharacterAction.AbilityId == _activeFightInstance.ActiveAction.AbilityId).UsesLeftBeforeRest--;
             }
 
             if (_activeFightInstance.PlayerActionCounter <= 0)
@@ -117,7 +113,7 @@ namespace OstreCWEB.Services.Fight
         {
             _activeFightInstance.ActiveTarget = character;
         }
-        public CharacterAction ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAvailableActions.First(a => a.CharacterActionId == id);
+        public Ability ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAbilities.First(a => a.AbilityId == id);
         public Character ChooseTarget(int id)
         {
             if (id == _activeFightInstance.ActivePlayer.CombatId)
@@ -132,10 +128,10 @@ namespace OstreCWEB.Services.Fight
             _activeFightInstance.ActiveTarget = new PlayableCharacter();
             return _activeFightInstance.ActiveTarget;
         }
-        public CharacterAction ResetActiveAction()
+        public Ability ResetActiveAction()
         {
             //We  create playable character instance and replace the active target with null values. Character class is abstract.   
-            _activeFightInstance.ActiveAction = new CharacterAction();
+            _activeFightInstance.ActiveAction = new Ability();
             return _activeFightInstance.ActiveAction;
         }
         private void StartAiTurn()
@@ -144,15 +140,15 @@ namespace OstreCWEB.Services.Fight
 
             foreach (var enemy in _activeFightInstance.ActiveEnemies)
             {
-                var result = random.Next(0, enemy.AllAvailableActions.Count());
-                var enemyAction = enemy.AllAvailableActions[result];
+                var result = random.Next(0, enemy.AllAbilities.Count());
+                var enemyAction = enemy.AllAbilities[result];
                 ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
             }
         }
         public FightInstance GetFightState(string userId, int characterId) => _fightRepository.GetById(userId, characterId);
         public Character GetActiveTarget() => _activeFightInstance.ActiveTarget;
-        public CharacterAction GetActiveActions() => _activeFightInstance.ActiveAction;
-        public void UpdateActiveAction(CharacterAction action)
+        public Ability GetActiveActions() => _activeFightInstance.ActiveAction;
+        public void UpdateActiveAction(Ability action)
         {
             _activeFightInstance.ActiveAction = action;
         }
@@ -165,7 +161,7 @@ namespace OstreCWEB.Services.Fight
             return FightHistory;
         }
 
-        private void ApplyAction(Character target, Character caster, CharacterAction action)
+        private void ApplyAction(Character target, Character caster, Ability action)
         {
             var IsHit = IsTargetHit(target, caster, action);
 
@@ -184,7 +180,7 @@ namespace OstreCWEB.Services.Fight
 
                     _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
-                           $" due to {caster.CharacterName} using {action.ActionName}" +
+                           $" due to {caster.CharacterName} using {action.AbilityName}" +
                            $" saving throw was {(savingThrow ? "successful" : "failed")}, " +
                            GetLogCharacterIsBlind(caster) +
                            GetLogCharacterIsBlessed(caster));
@@ -203,7 +199,7 @@ namespace OstreCWEB.Services.Fight
                         {
                             _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
-                           $" due to {caster.CharacterName}  using {action.ActionName}" +
+                           $" due to {caster.CharacterName}  using {action.AbilityName}" +
                            GetLogCharacterIsBlind(caster) +
                            GetLogCharacterIsBlessed(caster));
                         }
@@ -211,14 +207,14 @@ namespace OstreCWEB.Services.Fight
                         {
                             _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
-                           $" due to {caster.CharacterName}  using {action.ActionName} and died" +
+                           $" due to {caster.CharacterName}  using {action.AbilityName} and died" +
                            GetLogCharacterIsBlind(caster) +
                            GetLogCharacterIsBlessed(caster));
                         }
                     }
                     else
                     {
-                        if (action.ActionName == "Bless")
+                        if (action.AbilityName == "Bless")
                         {
                             _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                                                         $" {target.CharacterName} used bless on himself!");
@@ -228,7 +224,7 @@ namespace OstreCWEB.Services.Fight
                             var heal = ApplyHeal(target, action, savingThrow);
                             _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
                                 $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
-                                $" due to {caster.CharacterName}  using {action.ActionName}");
+                                $" due to {caster.CharacterName}  using {action.AbilityName}");
                         }
 
                     }
@@ -238,14 +234,14 @@ namespace OstreCWEB.Services.Fight
             else
             {
                 _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                                            $" {caster.CharacterName} tried to use {action.ActionName} on {target.CharacterName}, but have missed");
+                                            $" {caster.CharacterName} tried to use {action.AbilityName} on {target.CharacterName}, but have missed");
             }
 
         }
 
-        private bool IsTargetHit(Character target, Character caster, CharacterAction action)
+        private bool IsTargetHit(Character target, Character caster, Ability action)
         {
-            if (action.AggressiveAction && action.ActionType != CharacterActionType.Spell && action.ActionType != CharacterActionType.Cantrip)
+            if (action.AggressiveAction && action.ActionType != AbilityType.Spell && action.ActionType != AbilityType.Cantrip)
             {
 
                 var casterMod = CheckStatForHit(caster, action);
@@ -257,7 +253,7 @@ namespace OstreCWEB.Services.Fight
 
         }
 
-        private int CheckStatForHit(Character caster, CharacterAction action)
+        private int CheckStatForHit(Character caster, Ability action)
         {
 
             var roll = HitRollWithStatus(caster);
@@ -330,7 +326,7 @@ namespace OstreCWEB.Services.Fight
                 character.ActiveStatuses.Add(status);
             }
         }
-        private int ApplyDamage(Character target, CharacterAction actions, bool savingThrow)
+        private int ApplyDamage(Character target, Ability actions, bool savingThrow)
         {
             var updateValue = 0;
 
@@ -349,7 +345,7 @@ namespace OstreCWEB.Services.Fight
 
             return updateValue;
         }
-        private int ApplyHeal(Character target, CharacterAction actions, bool savingThrow)
+        private int ApplyHeal(Character target, Ability actions, bool savingThrow)
         {
             var updateValue = 0;
 
@@ -375,7 +371,7 @@ namespace OstreCWEB.Services.Fight
 
             return updateValue;
         }
-        private bool SpellSavingThrow(Character target, Character caster, CharacterAction action)
+        private bool SpellSavingThrow(Character target, Character caster, Ability action)
         {
             var targetMod = 0;
             var targetRoll = 0;

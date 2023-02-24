@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Services.Characters;
-using OstreCWEB.Services.Identity;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.Services.Characters;
+using OstreCWEB.Services.Identity;
 using OstreCWEB.ViewModel.Characters;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using OstreCWEB.Data.Repository.Characters.Enums;
 
 namespace OstreCWEB.Controllers
 {
@@ -28,7 +25,7 @@ namespace OstreCWEB.Controllers
         {
             //var model = _playableCharacterService.GetAll();
             return View();
-        }     
+        }
 
         // POST: CharacterCreatorController/Create
         [HttpPost]
@@ -84,7 +81,7 @@ namespace OstreCWEB.Controllers
             foreach (var charClass in modelCharacterList)
             {
                 classesDictionary.Add(charClass.PlayableClassId, charClass.ClassName);
-            }            
+            }
 
             model.CharacterClasses = classesDictionary;
 

@@ -1,5 +1,5 @@
-﻿using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
+﻿using OstreCWEB.DomainModels.StoryModels;
+using OstreCWEB.DomainModels.StoryModels.Properties;
 
 namespace OstreCWEB.Services.StoryServices.Models
 {

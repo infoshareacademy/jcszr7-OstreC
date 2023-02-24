@@ -1,8 +1,7 @@
-﻿@using OstreCWEB.Data.Repository.Characters.CharacterModels
+﻿@using OstreCWEB.DomainModels.CharacterModels
+@using OstreCWEB.DomainModels.CharacterModels.Enums 
 @using OstreCWEB.ViewModel.Characters
-@using OstreCWEB.Data.Repository.Characters.Enums
-@* @model PaginatedList<OstreCWEB.ViewModel.Characters.Item>*@
-@model PaginatedList<Item>
+@model OstreCWeb.DomainModels.Collections.PaginatedList<Item>
 @{
 }
 <div class="card">
@@ -18,7 +17,7 @@
                     <th scope="col"> <Label asp-for=" FirstOrDefault().Name"></Label></th>
                     <th scope="col"> <Label asp-for=" FirstOrDefault().ItemType"></Label></th>
                     <th scope="col"> <Label asp-for=" FirstOrDefault().ArmorClass"></Label></th>
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActionToTrigger.ActionName"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActionToTrigger.AbilityName"></Label></th>
                     <th scope="col"> <Label asp-for=" FirstOrDefault().DeleteOnUse"></Label></th>
                     <th scope="col"> <Label>Equipable</Label></th>
                     <th scope="col"> <Label asp-for=" FirstOrDefault().PlayableClass"></Label></th>
@@ -31,7 +30,7 @@
                         <th scope="row">@item.Name</th>
                         <td>@item.ItemType.ToString()</td>
                         <td>@(item.ItemType == ItemType.Armor || item.ItemType == ItemType.Shield ? item.ArmorClass : "N/A")</td>
-                        <td>@(item.ActionToTrigger != null ? item.ActionToTrigger.ActionName : "N/A")</td>
+                        <td>@(item.ActionToTrigger != null ? item.ActionToTrigger.AbilityName : "N/A")</td>
                         <td>@(item.DeleteOnUse ? "Yes" : "No")</td>
                         <td>@(item.ItemType != ItemType.SpecialItem ? "Yes" : "No")</td>
                         <td>@(item.PlayableClass != null ? item.PlayableClass.ClassName : "N/A")</td>

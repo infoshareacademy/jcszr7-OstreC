@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.DataBase;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.DomainModels.CharacterModels;
 
 #nullable disable
 
-namespace OstreCWEB.Data.Repository.Characters
+namespace OstreCWEB.Repository.Repository.Characters
 {
     internal class EnemyRepository : IEnemyRepository
     {
@@ -37,7 +37,7 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return await _context.Enemies
                 .Include(e => e.LinkedItems)
-                .Include(e=>e.LinkedActions) 
+                .Include(e => e.LinkedAbilities)
                 .SingleOrDefaultAsync(e => e.CharacterId == id);
         }
 
@@ -45,7 +45,7 @@ namespace OstreCWEB.Data.Repository.Characters
         {
             return await _context.Enemies
                 .Include(e => e.LinkedItems)
-                .Include(e => e.LinkedActions)
+                .Include(e => e.LinkedAbilities)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(e => e.CharacterId == id);
         }

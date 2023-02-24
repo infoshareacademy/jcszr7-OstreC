@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.ManyToMany;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.ManyToMany;
+using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.ViewModel.Characters;
 
 namespace OstreCWEB.Controllers
@@ -15,18 +15,18 @@ namespace OstreCWEB.Controllers
         public IItemRepository _ItemRepository { get; }
         public IMapper _Mapper { get; }
         public IUserParagraphRepository _userParagraphRepository { get; }
-        public ICharacterActionsRepository _CharacterActionsRepository { get; }
+        public IAbilitiesRepository _CharacterActionsRepository { get; }
 
-        public PlayableClassController(ICharacterClassRepository characterClassRepository,IMapper mapper,IUserParagraphRepository userParagraphRepository)
+        public PlayableClassController(ICharacterClassRepository characterClassRepository, IMapper mapper, IUserParagraphRepository userParagraphRepository)
         {
-            _characterClassRepository = characterClassRepository; 
+            _characterClassRepository = characterClassRepository;
             _Mapper = mapper;
             _userParagraphRepository = userParagraphRepository;
         }
         // GET: ItemController
         public async Task<ActionResult> Index()
         {
-            var classes =  await _characterClassRepository.GetAllAsync();
+            var classes = await _characterClassRepository.GetAllAsync();
             var model = _Mapper.Map<IEnumerable<PlayableClassView>>(classes);
             return View(model);
         }
@@ -40,7 +40,7 @@ namespace OstreCWEB.Controllers
         // GET: ItemController/Create
         public async Task<ActionResult> Create()
         {
-            var model = new PlayableClassView();   
+            var model = new PlayableClassView();
             return View(model);
         }
 
@@ -62,8 +62,8 @@ namespace OstreCWEB.Controllers
 
         // GET: ItemController/Edit/5
         public async Task<ActionResult> Edit(int id)
-        { 
-            var model = _Mapper.Map<PlayableClassView>(await _characterClassRepository.GetByIdNoIncludesAsync(id)); 
+        {
+            var model = _Mapper.Map<PlayableClassView>(await _characterClassRepository.GetByIdNoIncludesAsync(id));
             return View(model);
         }
 
@@ -89,13 +89,13 @@ namespace OstreCWEB.Controllers
             try
             {
                 await _userParagraphRepository.DeleteInstanceBasedOnClass(id);
-                await _characterClassRepository.DeleteAsync(id); 
+                await _characterClassRepository.DeleteAsync(id);
             }
             catch
             {
                 //log error
-            } 
+            }
             return RedirectToAction(nameof(Index));
-        } 
+        }
     }
 }

@@ -1,16 +1,10 @@
-﻿using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.ViewModel.Characters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OstreCWEB.DomainModels.CharacterModels;
 
-namespace OstreCWEB.Data.Repository.Characters.Interfaces
+namespace OstreCWEB.Repository.Repository.Characters.Interfaces
 {
     public interface IItemRepository
     {
-        public   Task<Item> GetByIdAsync(int id);
+        public Task<Item> GetByIdAsync(int id);
         public Task<List<Item>> GetAllAsync();
         public Task UpdateAsync(Item item);
         public Task CreateAsync(Item item);

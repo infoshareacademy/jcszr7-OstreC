@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.ViewModel.Characters;
 
 namespace OstreCWEB.Controllers
@@ -10,23 +10,23 @@ namespace OstreCWEB.Controllers
     [Authorize(Roles = "admin")]
     public class CharacterActionController : Controller
     {
-        public ICharacterClassRepository _characterClassRepository { get; } 
+        public ICharacterClassRepository _characterClassRepository { get; }
         public IMapper _Mapper { get; }
-        public ICharacterActionsRepository _characterActionsRepository { get; }
+        public IAbilitiesRepository _characterActionsRepository { get; }
         public IStatusRepository _statusRepository { get; }
 
-        public CharacterActionController(IMapper mapper,ICharacterActionsRepository characterActionsRepository,IStatusRepository status, ICharacterClassRepository characterClassRepository)
-        { 
+        public CharacterActionController(IMapper mapper, IAbilitiesRepository characterActionsRepository, IStatusRepository status, ICharacterClassRepository characterClassRepository)
+        {
             _Mapper = mapper;
             _characterActionsRepository = characterActionsRepository;
             _statusRepository = status;
-            _characterClassRepository = characterClassRepository;   
+            _characterClassRepository = characterClassRepository;
         }
         // GET: ItemController
         public async Task<ActionResult> Index()
         {
             var actions = await _characterActionsRepository.GetAllAsync();
-            var model = _Mapper.Map<IEnumerable<CharacterActionView>>(actions);
+            var model = _Mapper.Map<IEnumerable<AbilityView>>(actions);
             return View(model);
         }
 
@@ -42,7 +42,7 @@ namespace OstreCWEB.Controllers
             var model = new CharacterActionEditView();
             model.AllStatuses = new Dictionary<int, string>();
             model.AllClasses = new Dictionary<int, string>();
-            var statuses = await  _statusRepository.GetAllAsync();
+            var statuses = await _statusRepository.GetAllAsync();
             var classes = await _characterClassRepository.GetAllAsync();
             statuses.ForEach(x => model.AllStatuses.Add(x.StatusId, x.StatusType.ToString()));
             classes.ForEach(x => model.AllClasses.Add(x.PlayableClassId, x.ClassName));
@@ -56,7 +56,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                await _characterActionsRepository.UpdateAsync(_Mapper.Map<CharacterAction>(item));
+                await _characterActionsRepository.UpdateAsync(_Mapper.Map<Ability>(item));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -85,7 +85,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                await _characterActionsRepository.UpdateAsync(_Mapper.Map<CharacterAction>(item));
+                await _characterActionsRepository.UpdateAsync(_Mapper.Map<Ability>(item));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -100,13 +100,13 @@ namespace OstreCWEB.Controllers
             try
             {
                 await _characterActionsRepository.DeleteAsync(id);
-               
+
             }
             catch
             {
                 //log error
-            } 
+            }
             return RedirectToAction(nameof(Index));
-        } 
+        }
     }
 }

@@ -1,10 +1,10 @@
-﻿using OstreCWEB.Data.DataBase.ManyToMany;
+﻿using OstreCWEB.DomainModels.ManyToMany;
 
-namespace OstreCWEB.Data.Repository.ManyToMany
+namespace OstreCWEB.Repository.Repository.ManyToMany
 {
     public interface IUserParagraphRepository
     {
-        public Task<UserParagraph> Add(); 
+        public Task<UserParagraph> Add();
         public Task<List<UserParagraph>> GetAll();
         public Task Create(UserParagraph newGameSession);
         public Task UpdateAsync(UserParagraph gameSession);

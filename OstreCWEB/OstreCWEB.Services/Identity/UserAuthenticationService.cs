@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Identity;
-using System.Net.Mail;
+using OstreCWEB.DomainModels.Identity;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 
 namespace OstreCWEB.Services.Identity

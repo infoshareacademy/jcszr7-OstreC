@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.ManyToMany;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.ManyToMany;
+using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.ViewModel.Characters;
 
 namespace OstreCWEB.Controllers
@@ -11,28 +11,28 @@ namespace OstreCWEB.Controllers
     [Authorize(Roles = "admin")]
     public class PlayableRaceController : Controller
     {
-        public ICharacterRaceRepository _characterRaceRepository { get; } 
+        public ICharacterRaceRepository _characterRaceRepository { get; }
         public IMapper _Mapper { get; }
         public IUserParagraphRepository _userParagraphRepository { get; }
 
-        public PlayableRaceController(ICharacterRaceRepository characterRaceRepository,IMapper mapper,IUserParagraphRepository userParagraphRepository)
+        public PlayableRaceController(ICharacterRaceRepository characterRaceRepository, IMapper mapper, IUserParagraphRepository userParagraphRepository)
         {
-            _characterRaceRepository = characterRaceRepository; 
+            _characterRaceRepository = characterRaceRepository;
             _Mapper = mapper;
             _userParagraphRepository = userParagraphRepository;
         }
         // GET: ItemController
         public async Task<ActionResult> Index()
         {
-            var classes =  await _characterRaceRepository.GetAllAsync();
+            var classes = await _characterRaceRepository.GetAllAsync();
             var model = _Mapper.Map<IEnumerable<PlayableRaceView>>(classes);
             return View(model);
-        } 
+        }
 
         // GET: ItemController/Create
         public async Task<ActionResult> Create()
         {
-            var model = new PlayableRaceView();   
+            var model = new PlayableRaceView();
             return View(model);
         }
 
@@ -42,7 +42,7 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> Create(PlayableRaceView playableRace)
         {
             try
-            { 
+            {
                 await _characterRaceRepository.CreateAsync(_Mapper.Map<PlayableRace>(playableRace));
                 return RedirectToAction(nameof(Index));
             }
@@ -86,8 +86,8 @@ namespace OstreCWEB.Controllers
             catch
             {
                 //log error
-            } 
+            }
             return RedirectToAction(nameof(Index));
-        } 
+        }
     }
 }

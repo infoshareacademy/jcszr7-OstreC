@@ -1,5 +1,5 @@
-﻿using OstreCWEB.Data.Repository.Characters.Enums;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
+using OstreCWEB.DomainModels.StoryModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.ViewModel.StoryBuilder

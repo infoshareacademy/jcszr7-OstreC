@@ -1,17 +1,17 @@
-﻿using OstreCWEB.Data.Repository.Characters.Enums;
+﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
 using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Characters
 {
-    public class CharacterActionView
+    public class AbilityView
     {
-        public int CharacterActionId { get; set; }
+        public int AbilityId { get; set; }
         [DisplayName("Action name")]
-        public string ActionName { get; set; }
+        public string AbilityName { get; set; }
         [DisplayName("Action description")]
-        public string ActionDescription { get; set; }
+        public string AbilityDescription { get; set; }
         [DisplayName("Action type")]
-        public CharacterActionType ActionType { get; set; }
+        public AbilityType ActionType { get; set; }
         [DisplayName("Saving Throw")]
         public bool SavingThrowPossible { get; set; }
         [DisplayName("Statistic for test")]
@@ -30,17 +30,18 @@ namespace OstreCWEB.ViewModel.Characters
         public StatusView Status { get; set; }
         public int StatusId { get; set; }
         //Defined for actions reseting with rest.
-        [DisplayName("Uses max before rest:")] 
+        [DisplayName("Uses max before rest:")]
         public int UsesMaxBeforeRest { get; set; }
         //Defined for items which have max use before disapearing. 
-        [DisplayName("Deals damage:")] 
+        [DisplayName("Deals damage:")]
         public bool AggressiveAction { get; set; }
-        public bool CanShowUsesMax 
-        { get
+        public bool CanShowUsesMax
+        {
+            get
             {
-                return this.ActionType != CharacterActionType.Cantrip;
-            
-            } 
+                return this.ActionType != AbilityType.Cantrip;
+
+            }
         }
     }
 }

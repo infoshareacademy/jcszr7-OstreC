@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using OstreCWEB.Data.Repository.Fight;
+using OstreCWEB.DomainModels.Fight;
 using OstreCWEB.ViewModel.Fight;
 
 namespace OstreCWEB.Mapping

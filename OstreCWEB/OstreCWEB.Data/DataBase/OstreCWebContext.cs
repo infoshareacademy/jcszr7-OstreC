@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
-using OstreCWEB.Data.Repository.Identity;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.Identity;
+using OstreCWEB.DomainModels.ManyToMany;
+using OstreCWEB.DomainModels.StoryModels;
+using OstreCWEB.DomainModels.StoryModels.Properties;
 
-namespace OstreCWEB.Data.DataBase
+namespace OstreCWEB.Repository.DataBase
 {
     public class OstreCWebContext : IdentityDbContext<User>
     {
         //Relations many to many
-        public DbSet<ActionCharacter> ActionCharactersRelation { get; set; }
+        public DbSet<AbilitiesCharacter> ActionCharactersRelation { get; set; }
         public DbSet<ItemCharacter> ItemsCharactersRelation { get; set; }
         public DbSet<UserParagraph> UserParagraphs { get; set; }
         public DbSet<ParagraphItem> ParagraphItems { get; set; }
@@ -28,7 +27,7 @@ namespace OstreCWEB.Data.DataBase
         public DbSet<PlayableRace> PlayableCharacterRaces { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<CharacterAction> CharacterActions { get; set; } // Action is a keyword..
+        public DbSet<Ability> CharacterActions { get; set; }
 
         //Story
         public DbSet<Story> Stories { get; set; }
@@ -88,8 +87,8 @@ namespace OstreCWEB.Data.DataBase
             builder.Entity<ItemCharacter>().Navigation(e => e.Item).AutoInclude();
             builder.Entity<ItemCharacter>().Navigation(e => e.Character).AutoInclude();
 
-            builder.Entity<ActionCharacter>().Navigation(e => e.CharacterAction).AutoInclude();
-            builder.Entity<ActionCharacter>().Navigation(e => e.Character).AutoInclude();
+            builder.Entity<AbilitiesCharacter>().Navigation(e => e.CharacterAction).AutoInclude();
+            builder.Entity<AbilitiesCharacter>().Navigation(e => e.Character).AutoInclude();
 
             builder.Entity<UserParagraph>().Navigation(e => e.Paragraph).AutoInclude();
             builder.Entity<UserParagraph>().Navigation(e => e.ActiveCharacter).AutoInclude();
@@ -117,24 +116,24 @@ namespace OstreCWEB.Data.DataBase
 
         private void ConfigureActions(ModelBuilder builder)
         {
-            builder.Entity<CharacterAction>().Navigation(e => e.Status).AutoInclude();
+            builder.Entity<Ability>().Navigation(e => e.Status).AutoInclude();
 
-            builder.Entity<CharacterAction>()
+            builder.Entity<Ability>()
                 .HasMany(x => x.LinkedItems)
                 .WithOne(x => x.ActionToTrigger)
                 .HasForeignKey(x => x.ActionToTriggerId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
 
-            builder.Entity<ActionCharacter>()
+            builder.Entity<AbilitiesCharacter>()
                 .HasKey(x => new { x.CharacterId, x.CharacterActionId });
 
-            builder.Entity<ActionCharacter>()
+            builder.Entity<AbilitiesCharacter>()
                 .HasOne(pt => pt.Character)
-                .WithMany(p => p.LinkedActions)
+                .WithMany(p => p.LinkedAbilities)
                 .HasForeignKey(pt => pt.CharacterId);
 
-            builder.Entity<ActionCharacter>()
+            builder.Entity<AbilitiesCharacter>()
                 .HasOne(pt => pt.CharacterAction)
                 .WithMany(t => t.LinkedCharacter)
                 .HasForeignKey(pt => pt.CharacterActionId);
@@ -152,7 +151,7 @@ namespace OstreCWEB.Data.DataBase
         {
             builder.Entity<PlayableCharacter>().Navigation(e => e.CharacterClass).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.Race).AutoInclude();
-            builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedActions).AutoInclude();
+            builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedAbilities).AutoInclude();
             builder.Entity<PlayableCharacter>().Navigation(e => e.LinkedItems).AutoInclude();
 
             builder.Entity<Character>().HasKey(entity => entity.CharacterId);

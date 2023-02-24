@@ -1,4 +1,4 @@
-﻿ @model IEnumerable<OstreCWEB.ViewModel.Characters.CharacterActionView>
+﻿@model IEnumerable<OstreCWEB.ViewModel.Characters.AbilityView>
 @{
 }
 <div class="card">
@@ -11,8 +11,8 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActionName"></Label></th>
-                    <th scope="col"> <Label asp-for=" FirstOrDefault().ActionDescription"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().AbilityName"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().AbilityDescription"></Label></th>
                     <th scope="col"> <Label asp-for=" FirstOrDefault().ActionType"></Label></th>
                     <th scope="col"> <Label asp-for=" FirstOrDefault().Status.Name"></Label></th> 
                 </tr>
@@ -21,11 +21,11 @@
                 @foreach (var action in Model)
                 {
                     <tr>
-                        <th scope="row">@action.ActionName</th>
-                        <td>@action.ActionDescription</td>
+                        <th scope="row">@action.AbilityName</th>
+                        <td>@action.AbilityDescription</td>
                         <td>@action.ActionType.ToString()</td> 
-                        <td><a asp-controller="CharacterAction" asp-action="Edit" asp-route-id="@action.CharacterActionId" type="button" class="btn btn-primary">Edit</a></td>
-                        <td><a asp-controller="CharacterAction" asp-action="Delete" asp-route-id="@action.CharacterActionId" type="button" class="btn btn-primary">Delete</a></td>
+                        <td><a asp-controller="CharacterAction" asp-action="Edit" asp-route-id="@action.AbilityId" type="button" class="btn btn-primary">Edit</a></td>
+                        <td><a asp-controller="CharacterAction" asp-action="Delete" asp-route-id="@action.AbilityId" type="button" class="btn btn-primary">Delete</a></td>
                     </tr>
                 }
             </tbody>

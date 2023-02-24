@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.Data.Repository.StoryModels;
-using OstreCWEB.Data.Repository.StoryModels.Enums;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
-using OstreCWEB.Services.Characters;
+using OstreCWEB.DomainModels.StoryModels;
+using OstreCWEB.DomainModels.StoryModels.Enums;
+using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;
 using OstreCWEB.Services.StoryServices.Models;
@@ -320,7 +319,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                await _storyService.UpdateParagraph(_mapper.Map<EditParagraph>(model), _userService.GetUserId(User));               
+                await _storyService.UpdateParagraph(_mapper.Map<EditParagraph>(model), _userService.GetUserId(User));
                 return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(model.StoryId)));
             }
             catch

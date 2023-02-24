@@ -1,33 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.DataBase.ManyToMany;
-using OstreCWEB.Data.Repository.Characters.Interfaces;
-using OstreCWEB.Data.Repository.Identity;
+using OstreCWEB.Repository.DataBase;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.Identity;
+using OstreCWEB.DomainModels.ManyToMany;
 
 #nullable disable
 
-namespace OstreCWEB.Data.Repository.ManyToMany
+namespace OstreCWEB.Repository.Repository.ManyToMany
 {
     internal class UserParagraphRepository : IUserParagraphRepository
     {
         private OstreCWebContext _context;
         private readonly IIdentityRepository _identityRepository;
-        private readonly IPlayableCharacterRepository _playableCharacterRepository; 
+        private readonly IPlayableCharacterRepository _playableCharacterRepository;
         public UserParagraphRepository(OstreCWebContext context, IIdentityRepository indentityRepository, IPlayableCharacterRepository playableCharacterRepository)
         {
             _context = context;
             _identityRepository = indentityRepository;
-            _playableCharacterRepository = playableCharacterRepository; 
+            _playableCharacterRepository = playableCharacterRepository;
         }
 
-        
+
         public async Task DeleteInstanceBasedOnRace(int raceId)
         {
-            var instances = await _context.PlayableCharacters 
+            var instances = await _context.PlayableCharacters
                 .Where(x => x.RaceId == raceId && !x.IsTemplate)
                 .Include(x => x.UserParagraph)
                 .Select(x => x.UserParagraph)
-                .ToListAsync(); 
+                .ToListAsync();
             _context.UserParagraphs.RemoveRange(instances);
             await _context.SaveChangesAsync();
         }
@@ -50,33 +50,33 @@ namespace OstreCWEB.Data.Repository.ManyToMany
             _context.UserParagraphs.AddAsync(newGameSession);
             await _context.SaveChangesAsync();
         }
-        public async Task Delete(UserParagraph gameSession) 
+        public async Task Delete(UserParagraph gameSession)
         {
             _context.PlayableCharacters.Remove(gameSession.ActiveCharacter);
-            _context.UserParagraphs.Remove(gameSession); 
-            await _context.SaveChangesAsync(); 
+            _context.UserParagraphs.Remove(gameSession);
+            await _context.SaveChangesAsync();
         }
         public async Task<List<UserParagraph>> GetAll()
         {
             return await _context.UserParagraphs.ToListAsync();
         }
-        public async Task<UserParagraph> GetById(int id )
+        public async Task<UserParagraph> GetById(int id)
         {
-            return await _context.UserParagraphs.SingleOrDefaultAsync(c=>c.UserParagraphId == id);
+            return await _context.UserParagraphs.SingleOrDefaultAsync(c => c.UserParagraphId == id);
         }
         public async Task UpdateAsync(UserParagraph gameSession)
         {
             _context.UserParagraphs.Update(gameSession);
             await _context.SaveChangesAsync();
-        } 
-       
+        }
+
         public async Task<UserParagraph> GetByUserParagraphIdAsync(int userParagraphId)
         {
             return await _context.UserParagraphs
                 .Include(x => x.User)
                 .Include(x => x.ActiveCharacter)
-                .SingleOrDefaultAsync(u=>u.UserParagraphId == userParagraphId); 
-        } 
+                .SingleOrDefaultAsync(u => u.UserParagraphId == userParagraphId);
+        }
 
         public async Task<UserParagraph> GetActiveByUserIdAsync(string userId)
         {
@@ -85,11 +85,11 @@ namespace OstreCWEB.Data.Repository.ManyToMany
                 .Include(x => x.Paragraph)
                     .ThenInclude(p => p.Choices)
                 .Include(x => x.Paragraph)
-                    .ThenInclude(x => x.TestProp) 
+                    .ThenInclude(x => x.TestProp)
                 .Include(x => x.Paragraph)
                     .ThenInclude(x => x.FightProp)
                     .ThenInclude(y => y.ParagraphEnemies)
-                    .ThenInclude(z => z.Enemy)                
+                    .ThenInclude(z => z.Enemy)
                 .Include(x => x.Paragraph)
                     .ThenInclude(p => p.ParagraphItems)
                         .ThenInclude(pi => pi.Item)
@@ -98,35 +98,35 @@ namespace OstreCWEB.Data.Repository.ManyToMany
         }
         public async Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(string userId)
         {
-           var result = await _context.UserParagraphs
-                .Include(x=>x.ActiveCharacter)
-                .Include(x => x.Paragraph)
-                    .ThenInclude(p => p.Choices)
-                .Include(x => x.Paragraph)
-                    .ThenInclude(x => x.TestProp)
-                .Include(x => x.Paragraph)
-                    .ThenInclude(x => x.FightProp)
-                    .ThenInclude(y => y.ParagraphEnemies)
-                    .ThenInclude(z => z.Enemy) 
-                .AsNoTracking()
-                .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);
+            var result = await _context.UserParagraphs
+                 .Include(x => x.ActiveCharacter)
+                 .Include(x => x.Paragraph)
+                     .ThenInclude(p => p.Choices)
+                 .Include(x => x.Paragraph)
+                     .ThenInclude(x => x.TestProp)
+                 .Include(x => x.Paragraph)
+                     .ThenInclude(x => x.FightProp)
+                     .ThenInclude(y => y.ParagraphEnemies)
+                     .ThenInclude(z => z.Enemy)
+                 .AsNoTracking()
+                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);
             var test = _context.ChangeTracker;
             return result;
         }
         public UserParagraph GetActiveByUserIdNoTracking(string userId)
         {
-           var result = _context.UserParagraphs
-                .Include(x => x.Paragraph)
-                    .ThenInclude(p => p.Choices)
-                .Include(x => x.Paragraph)
-                    .ThenInclude(x => x.TestProp)
-                .Include(x => x.Paragraph)
-                    .ThenInclude(x => x.FightProp)
-                    .ThenInclude(y => y.ParagraphEnemies)
-                    .ThenInclude(z => z.Enemy)
-                .Include(x => x.ActiveCharacter)
-                .AsNoTracking()
-                .SingleOrDefault(s => s.User.Id == userId && s.ActiveGame);
+            var result = _context.UserParagraphs
+                 .Include(x => x.Paragraph)
+                     .ThenInclude(p => p.Choices)
+                 .Include(x => x.Paragraph)
+                     .ThenInclude(x => x.TestProp)
+                 .Include(x => x.Paragraph)
+                     .ThenInclude(x => x.FightProp)
+                     .ThenInclude(y => y.ParagraphEnemies)
+                     .ThenInclude(z => z.Enemy)
+                 .Include(x => x.ActiveCharacter)
+                 .AsNoTracking()
+                 .SingleOrDefault(s => s.User.Id == userId && s.ActiveGame);
             var test = _context.ChangeTracker;
             return result;
         }

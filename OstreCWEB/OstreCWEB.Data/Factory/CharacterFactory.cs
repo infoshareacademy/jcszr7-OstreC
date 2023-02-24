@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json.Linq;
-using OstreCWEB.Data.DataBase;
-using OstreCWEB.Data.Repository.Characters.CharacterModels;
-using OstreCWEB.Data.Repository.Characters.MetaTags;
-using OstreCWEB.Data.Repository.StoryModels.Properties;
-using OstreCWEB.Services.Factory;
+using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.ManyToMany;
+using OstreCWEB.DomainModels.StoryModels.Properties;
+using OstreCWEB.Repository.DataBase;
 
-namespace OstreCWEB.Data.Factory
+namespace OstreCWEB.Repository.Factory
 {
     internal class CharacterFactory : ICharacterFactory
     {
@@ -88,11 +85,11 @@ namespace OstreCWEB.Data.Factory
             {
                 foreach (var linkedAction in template.CharacterClass.ActionsGrantedByClass)
                 {
-                    newInstance.LinkedActions.Add(
-                         new ActionCharacter()
+                    newInstance.LinkedAbilities.Add(
+                         new AbilitiesCharacter()
                          {
                              CharacterId = newInstance.CharacterId,  
-                             CharacterActionId = linkedAction.CharacterActionId, 
+                             CharacterActionId = linkedAction.AbilityId, 
                              UsesLeftBeforeRest = linkedAction.UsesMaxBeforeRest
                          });
                 }
@@ -118,7 +115,7 @@ namespace OstreCWEB.Data.Factory
         }
         private Enemy ConfigureNewInstanceItems(Enemy template, Enemy newInstance)
         {
-            if (template.LinkedActions != null)
+            if (template.LinkedAbilities != null)
             {
                 foreach (var linkedItem in template.LinkedItems)
                 {
@@ -137,12 +134,12 @@ namespace OstreCWEB.Data.Factory
         }
         private Enemy ConfigureNewInstanceAction(Enemy template, Enemy newInstance)
         {
-            if (template.LinkedActions != null)
+            if (template.LinkedAbilities != null)
             {
-                foreach (var linkedAction in template.LinkedActions)
+                foreach (var linkedAction in template.LinkedAbilities)
                 {
-                    newInstance.LinkedActions.Add(
-                         new ActionCharacter()
+                    newInstance.LinkedAbilities.Add(
+                         new AbilitiesCharacter()
                          {
                              CharacterId = newInstance.CharacterId,
                              Character = newInstance,
