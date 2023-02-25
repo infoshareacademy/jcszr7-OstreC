@@ -64,7 +64,19 @@ namespace OstreCWEB.Services.Fight
             {
                 var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
                 fightInstance.FightHistory.Add("Fight initialized");
-                _fightRepository.Add(userId, fightInstance, out string operationResult);
+
+               var playerInitiative =  InitiativeCheck(fightInstance.ActivePlayer);
+               var enemiesInitiative = InitiativeCheck(fightInstance.ActiveEnemies.FirstOrDefault());
+               if (playerInitiative >= enemiesInitiative)
+               {
+                    fightInstance.isPlayerFirst= true;
+               }
+               else fightInstance.isPlayerFirst= false;
+
+              
+
+                _fightRepository.Add(userId, fightInstance, out string operationResult); 
+
             }
             else
             {
@@ -253,7 +265,22 @@ namespace OstreCWEB.Services.Fight
 
         }
 
-        private int InitiativeCheck(Character character) => DiceThrow20() + CalculateModifier(character.Dexterity);
+        private bool IsPlayerFirst()
+        {
+            var playerInitiative = InitiativeCheck(_activeFightInstance.ActivePlayer);
+            var enemyInitiaive = InitiativeCheck(_activeFightInstance.ActiveEnemies.FirstOrDefault());
+            if (playerInitiative >= enemyInitiaive)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private int InitiativeCheck(Character character)
+        {
+           var  result = DiceThrow20() + CalculateModifier(character.Dexterity);
+           return result;
+        }
 
         private int CheckStatForHit(Character caster, Ability action)
         {
