@@ -253,9 +253,10 @@ namespace OstreCWEB.Services.Fight
 
         }
 
+        private int InitiativeCheck(Character character) => DiceThrow20() + CalculateModifier(character.Dexterity);
+
         private int CheckStatForHit(Character caster, Ability action)
         {
-
             var roll = HitRollWithStatus(caster);
             var modifier = 0;
             switch (action.StatForTest)
@@ -439,6 +440,8 @@ namespace OstreCWEB.Services.Fight
                     return 0;
             }
         }
+
+
         private int CalculateModifier(int value)
         {
             List<int> numbers = new List<int>() {
