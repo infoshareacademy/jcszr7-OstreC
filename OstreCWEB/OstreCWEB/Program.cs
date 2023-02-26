@@ -9,6 +9,7 @@ using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using System.Text.Json.Serialization; 
 using OstreCWEB.Repository.InitialData;
+using OstreCWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,9 @@ builder.Services
 builder.Services
     .AddServices();
 
+builder.Services.AddHttpClient(TestRestApiConfiguration.TestRestApiClientName,
+                client => { client.BaseAddress = new Uri("https://api.open5e.com"); });
+
 builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 {
     loggerConfiguration.WriteTo.Console();
@@ -60,6 +64,7 @@ builder.Host.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 
 
 var app = builder.Build();
+
 
 app.Services.GetRequiredService<IMapper>().ConfigurationProvider.AssertConfigurationIsValid();
 
