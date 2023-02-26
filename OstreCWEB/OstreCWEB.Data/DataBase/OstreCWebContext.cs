@@ -52,21 +52,6 @@ namespace OstreCWEB.Repository.DataBase
         {
             builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             base.OnModelCreating(builder);
-            ConfigureParagraphItems(builder);
-        }
-
-        private void ConfigureParagraphItems(ModelBuilder builder)
-        {
-            builder.Entity<ParagraphItem>()
-                .HasKey(x => new { x.ItemId, x.ParagraphId });
-
-            builder.Entity<ParagraphItem>()
-                .HasOne(x => x.Item)
-                .WithMany(x => x.ParagraphItems);
-
-            builder.Entity<ParagraphItem>()
-                .HasOne(x => x.Paragraph)
-                .WithMany(x => x.ParagraphItems);
         }
     } 
 }     

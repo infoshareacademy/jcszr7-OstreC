@@ -217,7 +217,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("CharacterActions");
+                    b.ToTable("CharacterActions", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Character", b =>
@@ -265,7 +265,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("CharacterId");
 
-                    b.ToTable("Character");
+                    b.ToTable("Character", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Character");
                 });
@@ -303,7 +303,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("PlayableClassId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.PlayableClass", b =>
@@ -341,7 +341,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("PlayableClassId");
 
-                    b.ToTable("PlayableCharacterClasses");
+                    b.ToTable("PlayableCharacterClasses", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.PlayableRace", b =>
@@ -376,7 +376,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("PlayableRaceId");
 
-                    b.ToTable("PlayableCharacterRaces");
+                    b.ToTable("PlayableCharacterRaces", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Status", b =>
@@ -400,7 +400,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("StatusId");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Statuses", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.Identity.User", b =>
@@ -499,7 +499,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("CharacterActionId");
 
-                    b.ToTable("ActionCharactersRelation");
+                    b.ToTable("ActionCharactersRelation", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.ItemCharacter", b =>
@@ -525,7 +525,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemsCharactersRelation");
+                    b.ToTable("ItemsCharactersRelation", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.ParagraphItem", b =>
@@ -543,7 +543,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ParagraphId");
 
-                    b.ToTable("ParagraphItems");
+                    b.ToTable("ParagraphItems", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.UserParagraph", b =>
@@ -576,7 +576,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserParagraphs");
+                    b.ToTable("UserParagraphs", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Paragraph", b =>
@@ -604,7 +604,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Paragraphs");
+                    b.ToTable("Paragraphs", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.Choice", b =>
@@ -629,7 +629,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ParagraphId");
 
-                    b.ToTable("Choices");
+                    b.ToTable("Choices", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.DialogProp", b =>
@@ -648,7 +648,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("DialogProps");
+                    b.ToTable("DialogProps", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.EnemyInParagraph", b =>
@@ -674,7 +674,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("FightPropId");
 
-                    b.ToTable("EnemyInParagraphs");
+                    b.ToTable("EnemyInParagraphs", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.FightProp", b =>
@@ -693,7 +693,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("FightProps");
+                    b.ToTable("FightProps", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.ShopkeeperProp", b =>
@@ -712,7 +712,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("ShopkeeperProps");
+                    b.ToTable("ShopkeeperProps", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.TestProp", b =>
@@ -737,7 +737,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("TestProps");
+                    b.ToTable("TestProps", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Story", b =>
@@ -766,7 +766,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Stories");
+                    b.ToTable("Stories", (string)null);
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Enemy", b =>
