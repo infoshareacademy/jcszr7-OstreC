@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OstreCWEB.Repository.DataBase;
 
@@ -11,9 +12,10 @@ using OstreCWEB.Repository.DataBase;
 namespace OstreCWEB.Repository.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    partial class OstreCWebContextModelSnapshot : ModelSnapshot
+    [Migration("20230225173700_check")]
+    partial class check
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,7 +219,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("CharacterActions", (string)null);
+                    b.ToTable("CharacterActions");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Character", b =>
@@ -265,7 +267,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("CharacterId");
 
-                    b.ToTable("Character", (string)null);
+                    b.ToTable("Character");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Character");
                 });
@@ -303,7 +305,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("PlayableClassId");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.PlayableClass", b =>
@@ -341,7 +343,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("PlayableClassId");
 
-                    b.ToTable("PlayableCharacterClasses", (string)null);
+                    b.ToTable("PlayableCharacterClasses");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.PlayableRace", b =>
@@ -376,7 +378,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("PlayableRaceId");
 
-                    b.ToTable("PlayableCharacterRaces", (string)null);
+                    b.ToTable("PlayableCharacterRaces");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Status", b =>
@@ -400,7 +402,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("StatusId");
 
-                    b.ToTable("Statuses", (string)null);
+                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.Identity.User", b =>
@@ -499,7 +501,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("CharacterActionId");
 
-                    b.ToTable("ActionCharactersRelation", (string)null);
+                    b.ToTable("ActionCharactersRelation");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.ItemCharacter", b =>
@@ -525,7 +527,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemsCharactersRelation", (string)null);
+                    b.ToTable("ItemsCharactersRelation");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.ParagraphItem", b =>
@@ -543,7 +545,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ParagraphId");
 
-                    b.ToTable("ParagraphItems", (string)null);
+                    b.ToTable("ParagraphItems");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.UserParagraph", b =>
@@ -576,7 +578,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserParagraphs", (string)null);
+                    b.ToTable("UserParagraphs");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Paragraph", b =>
@@ -604,7 +606,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Paragraphs", (string)null);
+                    b.ToTable("Paragraphs");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.Choice", b =>
@@ -629,7 +631,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ParagraphId");
 
-                    b.ToTable("Choices", (string)null);
+                    b.ToTable("Choices");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.DialogProp", b =>
@@ -648,7 +650,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("DialogProps", (string)null);
+                    b.ToTable("DialogProps");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.EnemyInParagraph", b =>
@@ -674,7 +676,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("FightPropId");
 
-                    b.ToTable("EnemyInParagraphs", (string)null);
+                    b.ToTable("EnemyInParagraphs");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.FightProp", b =>
@@ -693,7 +695,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("FightProps", (string)null);
+                    b.ToTable("FightProps");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.ShopkeeperProp", b =>
@@ -712,7 +714,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("ShopkeeperProps", (string)null);
+                    b.ToTable("ShopkeeperProps");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.TestProp", b =>
@@ -737,7 +739,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("TestProps", (string)null);
+                    b.ToTable("TestProps");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Story", b =>
@@ -766,7 +768,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Stories", (string)null);
+                    b.ToTable("Stories");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Enemy", b =>

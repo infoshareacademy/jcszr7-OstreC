@@ -9,6 +9,7 @@ using OstreCWEB.DomainModels.Fight;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.Services.Factory;
 using System.Security.Claims;
+using System;
 
 namespace OstreCWEB.Services.Fight
 {
@@ -64,15 +65,38 @@ namespace OstreCWEB.Services.Fight
             {
                 var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
                 fightInstance.FightHistory.Add("Fight initialized");
+
+                var playerInitiative = InitiativeCheck(fightInstance.ActivePlayer);
+                var enemiesInitiative = InitiativeCheck(fightInstance.ActiveEnemies.FirstOrDefault());
+                if (playerInitiative >= enemiesInitiative)
+                {
+                    fightInstance.isPlayerFirst = true;
+                }
+                else fightInstance.isPlayerFirst = false;
+
+
+
                 _fightRepository.Add(userId, fightInstance, out string operationResult);
+
             }
             else
             {
                 throw new Exception("Fight initialization failed. Game instance doesn't exist or active paragraph is not a fight");
             }
         }
+
         public async Task CommitAction(string userId)
         {
+            var isplayerFirst = _activeFightInstance.isPlayerFirst;
+
+            if (!isplayerFirst && _activeFightInstance.AiFirstTurnCounter == 1)
+            {
+                _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                "Player has lost an initiaive roll, The monsters will attack now!");
+                StartAiTurn();
+                _activeFightInstance.AiFirstTurnCounter--;
+            }
+
             _activeFightInstance.PlayerActionCounter--;
             ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
 
@@ -107,6 +131,7 @@ namespace OstreCWEB.Services.Fight
                 var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
                 FinishFight(fightWon);
             }
+
         }
         public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
         public void UpdateActiveTarget(Character character)
@@ -253,9 +278,25 @@ namespace OstreCWEB.Services.Fight
 
         }
 
+        private bool IsPlayerFirst()
+        {
+            var playerInitiative = InitiativeCheck(_activeFightInstance.ActivePlayer);
+            var enemyInitiaive = InitiativeCheck(_activeFightInstance.ActiveEnemies.FirstOrDefault());
+            if (playerInitiative >= enemyInitiaive)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private int InitiativeCheck(Character character)
+        {
+            var result = DiceThrow20() + CalculateModifier(character.Dexterity);
+            return result;
+        }
+
         private int CheckStatForHit(Character caster, Ability action)
         {
-
             var roll = HitRollWithStatus(caster);
             var modifier = 0;
             switch (action.StatForTest)
@@ -439,6 +480,8 @@ namespace OstreCWEB.Services.Fight
                     return 0;
             }
         }
+
+
         private int CalculateModifier(int value)
         {
             List<int> numbers = new List<int>() {

@@ -17,5 +17,8 @@ namespace OstreCWEB.DomainModels.Fight
         public bool IsItemToDelete { get; set; }
         public bool ActionGrantedByItem { get; set; }
         public int UserParagraphId { get; set; }
+        public bool isPlayerFirst { get; set; }
+
+        public int AiFirstTurnCounter { get; set; } = 1;
     }
 }

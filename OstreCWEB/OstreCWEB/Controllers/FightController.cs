@@ -108,6 +108,7 @@ namespace OstreCWEB.Controllers
             activeFightInstance.ActionGrantedByItem = false;
             _fightService.ResetActiveTarget();
             _fightService.ResetActiveAction();
+            
             if (fightState.CombatFinished)
             {
                 //We apply changes from player from static list to player in db. They get saved during game session update in gameservice.  
