@@ -27,8 +27,8 @@
                             <td>@gameSession.ActiveCharacter.CharacterClass.ClassName</td>
                             <td>@gameSession.Paragraph.StageDescription</td>
                             <td>
-                                <a asp-controller="Game" asp-action="LoadGame" asp-route-id="@gameSession.UserParagraphId" type="button" class="btn btn-primary">Load Save</a>
-                                <a asp-controller="Game" asp-action="DeleteGame" asp-route-id="@gameSession.UserParagraphId" type="button" class="btn btn-Danger">Delete Save</a>
+                                <a asp-controller="Game" asp-action="LoadGame" asp-route-id="@gameSession.Id" type="button" class="btn btn-primary">Load Save</a>
+                                <a asp-controller="Game" asp-action="DeleteGame" asp-route-id="@gameSession.Id" type="button" class="btn btn-Danger">Delete Save</a>
                             </td>
                         </tr>
                     }

@@ -27,7 +27,7 @@ namespace OstreCWEB.Services.StoryServices
             return await _storyRepository.GetAllStories();
         }
 
-        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(string userId)
+        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(int userId)
         {
             return await _storyRepository.GetStoriesByUserId(userId);
         }
@@ -48,13 +48,13 @@ namespace OstreCWEB.Services.StoryServices
 
         //Story
 
-        public async Task AddStory(Story story, string userId)
+        public async Task AddStory(Story story, int userId)
         {
             story.UserId = userId;
             await _storyRepository.AddStory(story);
         }
 
-        public async Task UpdateStory(int idStory, string Name, string Description, string userId)
+        public async Task UpdateStory(int idStory, string Name, string Description, int userId)
         {
             var story = await _storyRepository.GetStoryByIdAsync(idStory);
 
@@ -71,7 +71,7 @@ namespace OstreCWEB.Services.StoryServices
             }
         }
 
-        public async Task DeleteStory(int idStory, string userId)
+        public async Task DeleteStory(int idStory, int userId)
         {
             var story = await _storyRepository.GetStoryByIdAsync(idStory);
 
@@ -92,7 +92,7 @@ namespace OstreCWEB.Services.StoryServices
         }
 
 
-        public async Task AddParagraph(Paragraph paragraph, string userId)
+        public async Task AddParagraph(Paragraph paragraph, int userId)
         {
             var userStories = await _storyRepository.GetStoriesByUserId(userId);
 
@@ -156,7 +156,7 @@ namespace OstreCWEB.Services.StoryServices
                 throw new Exception("This is not your Story");
             }
         }
-        public async Task DeleteParagraph(int idParagraph, string userId)
+        public async Task DeleteParagraph(int idParagraph, int userId)
         {
 
             var paragraph = await _storyRepository.GetParagraphById(idParagraph);
@@ -301,7 +301,7 @@ namespace OstreCWEB.Services.StoryServices
             return EditParagraph;
         }
 
-        public async Task UpdateParagraph(EditParagraph editParagraph, string userId)
+        public async Task UpdateParagraph(EditParagraph editParagraph, int userId)
         {
             var userStories = await _storyRepository.GetStoriesByUserId(userId);
 

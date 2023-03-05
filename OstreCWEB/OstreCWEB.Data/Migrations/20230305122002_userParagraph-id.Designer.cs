@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OstreCWEB.Repository.DataBase;
 
@@ -11,9 +12,10 @@ using OstreCWEB.Repository.DataBase;
 namespace OstreCWEB.Repository.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    partial class OstreCWebContextModelSnapshot : ModelSnapshot
+    [Migration("20230305122002_userParagraph-id")]
+    partial class userParagraphid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,11 +274,11 @@ namespace OstreCWEB.Repository.Migrations
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Item", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"), 1L, 1);
 
                     b.Property<int?>("ActionToTriggerId")
                         .HasColumnType("int");
@@ -297,7 +299,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<int?>("PlayableClassId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ItemId");
 
                     b.HasIndex("ActionToTriggerId");
 

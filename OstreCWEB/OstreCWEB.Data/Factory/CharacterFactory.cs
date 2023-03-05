@@ -20,13 +20,9 @@ namespace OstreCWEB.Repository.Factory
         public  Task<PlayableCharacter> CreatePlayableCharacterInstance(PlayableCharacter template)
         {
             var newInstance = new PlayableCharacter(); 
-            ConfigureNewInstanceProperties(template, newInstance);
-            _ostreCWebContext.PlayableCharacters.Add(newInstance);
-            _ostreCWebContext.SaveChanges();
-
-            ConfigureNewInstanceAction(template, newInstance);
-            ConfigureNewInstanceItems(template, newInstance);
-            _ostreCWebContext.SaveChanges(); 
+            ConfigureNewInstanceProperties(template, newInstance); 
+            ConfigureNewInstanceAbilities(template, newInstance);
+            ConfigureNewInstanceItems(template, newInstance); 
             return Task.FromResult(newInstance);
         } 
         public Task<List<Enemy>> CreateEnemiesInstances(List<EnemyInParagraph> enemiesInParagraphs)
@@ -38,7 +34,7 @@ namespace OstreCWEB.Repository.Factory
                 {//todo://Define newinstance configuration
                     var newInstance = new Enemy();
                     ConfigureNewInstanceProperties(creationInstructions.Enemy, newInstance);
-                    ConfigureNewInstanceAction(creationInstructions.Enemy, newInstance);
+                    ConfigureNewInstanceAbilities(creationInstructions.Enemy, newInstance);
                     ConfigureNewInstanceItems(creationInstructions.Enemy, newInstance);
 
                     generatedEnemies.Add(newInstance);
@@ -79,7 +75,7 @@ namespace OstreCWEB.Repository.Factory
 
             return Task.FromResult(newInstance);
         }  
-        private PlayableCharacter ConfigureNewInstanceAction(PlayableCharacter template, PlayableCharacter newInstance)
+        private PlayableCharacter ConfigureNewInstanceAbilities(PlayableCharacter template, PlayableCharacter newInstance)
         {
             if(template.CharacterClass.ActionsGrantedByClass != null && template.CharacterClass.ActionsGrantedByClass.Count() >0)
             {
@@ -88,7 +84,7 @@ namespace OstreCWEB.Repository.Factory
                     newInstance.LinkedAbilities.Add(
                          new AbilitiesCharacter()
                          {
-                             CharacterId = newInstance.CharacterId,  
+                            Character = newInstance,
                              CharacterActionId = linkedAction.AbilityId, 
                              UsesLeftBeforeRest = linkedAction.UsesMaxBeforeRest
                          });
@@ -105,8 +101,8 @@ namespace OstreCWEB.Repository.Factory
                     newInstance.LinkedItems.Add(
                         new ItemCharacter()
                         {
-                            CharacterId = newInstance.CharacterId,  
-                            ItemId = linkedItem.ItemId,
+                            Character = newInstance,
+                            ItemId = linkedItem.Id,
                             IsEquipped = false
                         });
                 } 
@@ -132,7 +128,7 @@ namespace OstreCWEB.Repository.Factory
             }
             return newInstance;
         }
-        private Enemy ConfigureNewInstanceAction(Enemy template, Enemy newInstance)
+        private Enemy ConfigureNewInstanceAbilities(Enemy template, Enemy newInstance)
         {
             if (template.LinkedAbilities != null)
             {

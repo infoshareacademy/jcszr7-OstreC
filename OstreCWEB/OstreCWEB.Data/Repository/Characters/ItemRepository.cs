@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.Repository.DataBase;
 using OstreCWEB.Repository.Repository.Characters.Interfaces;
-using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.Repository.Repository.Characters
 {
-    internal class ItemRepository : IItemRepository
+    internal class ItemRepository : EntityBaseRepo<Item>, IItemRepository<Item>
     {
         private OstreCWebContext _context;
-        public ItemRepository(OstreCWebContext context)
+        public ItemRepository(OstreCWebContext context):base(context)
         {
             _context = context;
         }
@@ -33,11 +33,7 @@ namespace OstreCWEB.Repository.Repository.Characters
                 .Include(i => i.PlayableClass)
                 .ToListAsync();
         }
-
-        public async Task<Item> GetByIdAsync(int id)
-        {
-            return await _context.Items.FirstOrDefaultAsync(x => x.ItemId == id);
-        }
+         
 
         public async Task UpdateAsync(Item item)
         {

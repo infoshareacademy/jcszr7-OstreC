@@ -13,11 +13,11 @@ namespace OstreCWEB.Controllers
     public class ItemsController : Controller
     {
         public ICharacterClassRepository _characterClassRepository { get; }
-        public IItemRepository _ItemRepository { get; }
+        public IItemRepository<Item> _ItemRepository { get; }
         public IMapper _Mapper { get; }
         public IAbilitiesRepository _CharacterActionsRepository { get; }
 
-        public ItemsController(ICharacterClassRepository characterClassRepository, IItemRepository itemRepository, IMapper mapper, IAbilitiesRepository characterActionsRepository)
+        public ItemsController(ICharacterClassRepository characterClassRepository, IItemRepository<Item> itemRepository, IMapper mapper, IAbilitiesRepository characterActionsRepository)
         {
             _characterClassRepository = characterClassRepository;
             _ItemRepository = itemRepository;

@@ -11,7 +11,7 @@ namespace OstreCWEB.Repository.InitialData
 {
     internal class SeedUsers
     {
-        public static async Task<List<User>> Seed(OstreCWebContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task<List<User>> Seed(OstreCWebContext context, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             string asdminRole = "admin";
             string memberRole = "user";
@@ -37,12 +37,23 @@ namespace OstreCWEB.Repository.InitialData
 
             if (await roleManager.FindByNameAsync(asdminRole) == null)
             {
-                await roleManager.CreateAsync(new IdentityRole(asdminRole));
+              
+                await roleManager.CreateAsync(new IdentityRole<int>
+                {
+                    Name =asdminRole,
+                    NormalizedName = asdminRole.ToUpper()
+                   
+                });
             }
 
             if (await roleManager.FindByNameAsync(memberRole) == null)
             {
-                await roleManager.CreateAsync(new IdentityRole(memberRole));
+                await roleManager.CreateAsync(new IdentityRole<int>
+                {
+                    Name = memberRole,
+                    NormalizedName = memberRole.ToUpper()
+
+                });
             }
 
             if (await userManager.FindByNameAsync("AdminUser") == null)

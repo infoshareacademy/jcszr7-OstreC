@@ -13,7 +13,7 @@ namespace OstreCWEB.Services.Game
 {
     internal class GameService : IGameService
     {
-        private readonly IUserParagraphRepository _userParagraphRepository;
+        private readonly IUserParagraphRepository<UserParagraph> _userParagraphRepository;
         private readonly IIdentityRepository _identityRepository;
         private readonly IStoryRepository _storyRepository;
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
@@ -21,7 +21,7 @@ namespace OstreCWEB.Services.Game
         private readonly IItemCharacterRepository _itemCharacterRepository;
 
         public GameService(
-            IUserParagraphRepository userParagraphRepository,
+            IUserParagraphRepository<UserParagraph> userParagraphRepository,
             IIdentityRepository identityRepository,
             IStoryRepository storyRepository,
             IPlayableCharacterRepository playableCharacter,
@@ -35,20 +35,18 @@ namespace OstreCWEB.Services.Game
             _characterFactory = characterFactory;
             _itemCharacterRepository = itemCharacterRepository;
         }
-        public async Task<UserParagraph> CreateNewGameInstanceAsync(string userId, int characterTemplateId, int storyId)
+        public async Task<UserParagraph> CreateNewGameInstanceAsync(int userId, int characterTemplateId, int storyId)
         {
-            var user = await _identityRepository.GetUser(userId);
+            var user = await _identityRepository.GetUser(userId); 
             if (user.UserParagraphs.Count >= 5) { throw new Exception(); }
             var newGameInstance = new UserParagraph();
 
-            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId);
-
-            newGameInstance.User = user;
+            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId); 
             newGameInstance.Paragraph = await _storyRepository.GetParagraphById(story.FirstParagraphId);
 
             var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId);
             var newCharacterInstance = _characterFactory.CreatePlayableCharacterInstance(notTrackedCharacter).Result;
-
+            newCharacterInstance.UserId = userId;
             newGameInstance.ActiveCharacter = newCharacterInstance;
             newGameInstance.ActiveGame = true;
 
@@ -65,7 +63,7 @@ namespace OstreCWEB.Services.Game
             return _characterFactory.CreateEnemiesInstances(enemiesToGenerate);
         }
 
-        public async Task NextParagraphAsync(string userId, int choiceId)
+        public async Task NextParagraphAsync(int userId, int choiceId)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.Paragraph = await _storyRepository.GetParagraphById(userParagraph.Paragraph.Choices[choiceId].NextParagraphId);
@@ -96,19 +94,19 @@ namespace OstreCWEB.Services.Game
             await _userParagraphRepository.Delete(userParagraph);
         }
 
-        public async Task SetActiveGameInstanceAsync(int userParagraphId, string userId)
+        public async Task SetActiveGameInstanceAsync(int userParagraphId, int userId)
         {
             var user = await _identityRepository.GetUser(userId);
             user.UserParagraphs.ForEach(s =>
             {
-                if (s.UserParagraphId == userParagraphId) { s.ActiveGame = true; }
+                if (s.Id == userParagraphId) { s.ActiveGame = true; }
                 else { s.ActiveGame = false; }
             });
             _identityRepository.Update(user);
         }
 
 
-        public async Task HealCharacterAsync(string userId)
+        public async Task HealCharacterAsync(int userId)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             userParagraph.ActiveCharacter.CurrentHealthPoints = userParagraph.ActiveCharacter.MaxHealthPoints;
@@ -119,7 +117,7 @@ namespace OstreCWEB.Services.Game
             await _userParagraphRepository.UpdateAsync(userParagraph);
         }
 
-        public async Task<int> TestThrowAsync(string userId, int rollValue, int modifire)
+        public async Task<int> TestThrowAsync(int userId, int rollValue, int modifire)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
 
@@ -130,7 +128,7 @@ namespace OstreCWEB.Services.Game
             return result < testDifficulty ? 0 : 1; // 0 - Failure, 1 - Success
         }
 
-        public async Task<int[]> ThrowDice(int maxValue, string userId)
+        public async Task<int[]> ThrowDice(int maxValue, int userId)
         {
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
 
@@ -215,13 +213,13 @@ namespace OstreCWEB.Services.Game
             }
             await _itemCharacterRepository.AddRange(items);
         }
-        public async Task UnequipItemAsync(int itemRelationId, string userId)
+        public async Task UnequipItemAsync(int itemRelationId, int userId)
         {
             var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId).IsEquipped = false;
             await _userParagraphRepository.SaveChangesAsync();
         }
-        public async Task EquipItemAsync(int itemRelationId, string userId)
+        public async Task EquipItemAsync(int itemRelationId, int userId)
         {
             var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             var itemToEquip = gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId);

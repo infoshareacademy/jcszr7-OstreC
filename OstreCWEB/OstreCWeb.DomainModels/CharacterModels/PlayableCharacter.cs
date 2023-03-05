@@ -1,18 +1,17 @@
 ﻿using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.DomainModels.ManyToMany;
-using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
     public class PlayableCharacter : Character
     {
         //Ef config 
-        public string UserId { get; set; }//Id of character owner
+        public int UserId { get; set; }//Id of character owner
         public User User { get; set; }
         public UserParagraph? UserParagraph { get; set; }
-        public int? UserParagraphId { get; set; }  
+        public int? UserParagraphId { get; set; }
         public PlayableRace Race { get; set; }
-        public int RaceId { get; set; } 
+        public int RaceId { get; set; }
         public PlayableClass CharacterClass { get; set; }
         public int PlayableClassId { get; set; }
         //

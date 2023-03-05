@@ -23,7 +23,7 @@ namespace OstreCWEB.Repository.Repository.Identity
             _context.Add(user);
             return Task.CompletedTask;
         }
-        public async Task<User> GetUser(string id)
+        public async Task<User> GetUser(int id)
         {
             var user = await _context.Users
                 .Include(x => x.UserParagraphs)

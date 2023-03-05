@@ -17,29 +17,24 @@ namespace OstreCWEB.Services.Fight
     {
         private IFightRepository _fightRepository;
         private FightInstance _activeFightInstance;
-        private IFightFactory _fightFactory;
-        private IUserParagraphRepository _userParagraphRepository;
-        private ICharacterFactory _characterFactory;
-        private readonly IPlayableCharacterRepository _playableCharacterRepository;
+        private IFightFactory _fightFactory; 
+        private ICharacterFactory _characterFactory; 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public FightService(
             IFightRepository fightRepository,
-            IFightFactory fightFactory,
-            IUserParagraphRepository userParagraphRepository,
+            IFightFactory fightFactory, 
             ICharacterFactory characterFactory,
             IPlayableCharacterRepository playableCharacterRepository,
             IHttpContextAccessor httpContextAccessor
             )
         {
             _fightRepository = fightRepository;
-            _fightFactory = fightFactory;
-            _userParagraphRepository = userParagraphRepository;
-            _characterFactory = characterFactory;
-            _playableCharacterRepository = playableCharacterRepository;
+            _fightFactory = fightFactory; 
+            _characterFactory = characterFactory; 
             _httpContextAccessor = httpContextAccessor;
         }
-        public FightInstance GetActiveFightInstance(string userId, int characterId)
+        public FightInstance GetActiveFightInstance(int userId, int characterId)
         {
             var httpUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _activeFightInstance = _fightRepository.GetById(userId, characterId);
@@ -57,7 +52,7 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        public async Task InitializeFightAsync(string userId, UserParagraph gameInstance)
+        public async Task InitializeFightAsync(int userId, UserParagraph gameInstance)
         {
             if (_activeFightInstance != null) { throw new Exception("Fight already initialized"); }
 
@@ -85,7 +80,7 @@ namespace OstreCWEB.Services.Fight
             }
         }
 
-        public async Task CommitAction(string userId)
+        public async Task CommitAction(int userId)
         {
             var isplayerFirst = _activeFightInstance.isPlayerFirst;
 
@@ -170,7 +165,7 @@ namespace OstreCWEB.Services.Fight
                 ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
             }
         }
-        public FightInstance GetFightState(string userId, int characterId) => _fightRepository.GetById(userId, characterId);
+        public FightInstance GetFightState(int userId, int characterId) => _fightRepository.GetById(userId, characterId);
         public Character GetActiveTarget() => _activeFightInstance.ActiveTarget;
         public Ability GetActiveActions() => _activeFightInstance.ActiveAction;
         public void UpdateActiveAction(Ability action)
@@ -529,7 +524,7 @@ namespace OstreCWEB.Services.Fight
         {
             _activeFightInstance.ItemToDeleteId = id;
         }
-        public async Task DeleteFightInstanceAsync(string userId)
+        public async Task DeleteFightInstanceAsync(int userId)
         {
             _fightRepository.Delete(userId, _activeFightInstance.ActivePlayer.CharacterId, out string operationResult);
         }

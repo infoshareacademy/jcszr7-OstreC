@@ -8,16 +8,13 @@ using OstreCWEB.DomainModels.ManyToMany;
 
 namespace OstreCWEB.Repository.Repository.ManyToMany
 {
-    internal class UserParagraphRepository : IUserParagraphRepository
+    internal class UserParagraphRepository : EntityBaseRepo<UserParagraph> , IUserParagraphRepository<UserParagraph>
     {
-        private OstreCWebContext _context;
-        private readonly IIdentityRepository _identityRepository;
-        private readonly IPlayableCharacterRepository _playableCharacterRepository;
-        public UserParagraphRepository(OstreCWebContext context, IIdentityRepository indentityRepository, IPlayableCharacterRepository playableCharacterRepository)
+        private OstreCWebContext _context; 
+        public UserParagraphRepository(OstreCWebContext context) :base(context)
         {
-            _context = context;
-            _identityRepository = indentityRepository;
-            _playableCharacterRepository = playableCharacterRepository;
+            _context = context; 
+
         }
 
 
@@ -55,15 +52,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
             _context.PlayableCharacters.Remove(gameSession.ActiveCharacter);
             _context.UserParagraphs.Remove(gameSession);
             await _context.SaveChangesAsync();
-        }
-        public async Task<List<UserParagraph>> GetAll()
-        {
-            return await _context.UserParagraphs.ToListAsync();
-        }
-        public async Task<UserParagraph> GetById(int id)
-        {
-            return await _context.UserParagraphs.SingleOrDefaultAsync(c => c.UserParagraphId == id);
-        }
+        }  
         public async Task UpdateAsync(UserParagraph gameSession)
         {
             _context.UserParagraphs.Update(gameSession);
@@ -75,10 +64,10 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
             return await _context.UserParagraphs
                 .Include(x => x.User)
                 .Include(x => x.ActiveCharacter)
-                .SingleOrDefaultAsync(u => u.UserParagraphId == userParagraphId);
+                .SingleOrDefaultAsync(u => u.Id == userParagraphId);
         }
 
-        public async Task<UserParagraph> GetActiveByUserIdAsync(string userId)
+        public async Task<UserParagraph> GetActiveByUserIdAsync(int userId)
         {
             return await _context.UserParagraphs
                 .Include(z => z.User)
@@ -96,7 +85,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
                 .Include(x => x.ActiveCharacter)
                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);
         }
-        public async Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(string userId)
+        public async Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(int userId)
         {
             var result = await _context.UserParagraphs
                  .Include(x => x.ActiveCharacter)
@@ -113,7 +102,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
             var test = _context.ChangeTracker;
             return result;
         }
-        public UserParagraph GetActiveByUserIdNoTracking(string userId)
+        public UserParagraph GetActiveByUserIdNoTracking(int userId)
         {
             var result = _context.UserParagraphs
                  .Include(x => x.Paragraph)

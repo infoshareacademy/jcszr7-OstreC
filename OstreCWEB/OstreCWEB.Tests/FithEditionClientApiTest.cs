@@ -1,7 +1,6 @@
-using OstreCWEB.Services;
-using Moq;
-using OstreCWeb.Services;
 using FluentAssertions;
+using Moq;
+using OstreCWEB.Services;
 
 namespace OstreCWEB.Tests
 {

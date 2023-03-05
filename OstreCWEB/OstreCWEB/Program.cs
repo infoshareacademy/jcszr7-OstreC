@@ -24,9 +24,9 @@ builder.Services.AddDbContext<OstreCWebContext>(options =>
 });
 
 // for Identity
-builder.Services.AddIdentity<User, IdentityRole>(options => { options.Stores.MaxLengthForKeys = 128; })
+builder.Services.AddIdentity<User, IdentityRole<int>>(options => { options.Stores.MaxLengthForKeys = 128; })
 .AddEntityFrameworkStores<OstreCWebContext>()
-.AddRoles<IdentityRole>()
+.AddRoles<IdentityRole<int>>()
 .AddDefaultTokenProviders(); 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -130,7 +130,7 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<OstreCWebContext>();
 
     context.Database.Migrate();
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
     var userManager = services.GetRequiredService<UserManager<User>>();
 
 

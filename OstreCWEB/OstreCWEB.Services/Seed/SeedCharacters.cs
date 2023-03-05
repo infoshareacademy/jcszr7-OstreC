@@ -450,7 +450,7 @@ internal class SeedCharacters : ISeeder
                      new ItemCharacter()
                      {
                          CharacterId = character.CharacterId,
-                         ItemId = item.ItemId,
+                         ItemId = item.Id,
                          IsEquipped = true
                      });
                 }
@@ -467,7 +467,7 @@ internal class SeedCharacters : ISeeder
                             new ItemCharacter()
                             {
                                 CharacterId = character.CharacterId,
-                                ItemId = item.ItemId,
+                                ItemId = item.Id,
                                 IsEquipped = false
                             });
                     }
@@ -491,7 +491,7 @@ internal class SeedCharacters : ISeeder
                      new ItemCharacter()
                      {
                          CharacterId = character.CharacterId,
-                         ItemId = item.ItemId,
+                         ItemId = item.Id,
                          IsEquipped = true
                      });
                 }
@@ -506,7 +506,7 @@ internal class SeedCharacters : ISeeder
                           new ItemCharacter()
                           {
                               CharacterId = character.CharacterId,
-                              ItemId = item.ItemId,
+                              ItemId = item.Id,
                               IsEquipped = true
                           });
                     }

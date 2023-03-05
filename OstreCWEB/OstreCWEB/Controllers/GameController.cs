@@ -108,6 +108,7 @@ namespace OstreCWEB.Controllers
                 var getStoryTask = _storyService.GetStoryById(gameSessionView.Paragraph.StoryId);
                 gameSessionView.Story = _mapper.Map<StoriesView>(getStoryTask);
             }
+            Console.WriteLine();
             model.OtherUsersStories = _mapper.Map<List<StoriesView>>(await _storyService.GetAllStories());
             model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
             return View(model);

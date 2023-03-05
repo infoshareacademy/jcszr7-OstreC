@@ -27,7 +27,7 @@ namespace OstreCWEB.Repository.Repository.StoryModels
                 .ToList();
         }
 
-        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(string userId)
+        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(int userId)
         {
             return _ostreCWebContext.Stories
                 .Where(s => s.UserId == userId)

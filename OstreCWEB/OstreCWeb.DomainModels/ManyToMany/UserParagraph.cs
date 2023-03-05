@@ -2,14 +2,14 @@
 using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.DomainModels.StoryModels;
 using System.ComponentModel.DataAnnotations;
+using OstreCWeb.DomainModels;
 
 namespace OstreCWEB.DomainModels.ManyToMany
-{
-    //It will be replaced by story reader mclasses most likely.
-    public class UserParagraph
+{ 
+    public class UserParagraph : IEntityBase
     {
         [Key]
-        public int UserParagraphId { get; set; }
+        public int Id { get; set; }
         //Many to many 
         public User User { get; set; }
         public Paragraph Paragraph { get; set; }

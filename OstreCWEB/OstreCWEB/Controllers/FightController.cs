@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.Repository.Repository.Fight;
 using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.Services.Fight;
@@ -13,12 +14,11 @@ namespace OstreCWEB.Controllers
     [Authorize]
     public class FightController : Controller
     {
-        private IFightService _fightService;
-        private IFightRepository _fightRepository;
+        private IFightService _fightService; 
         private IUserService _userService;
         private IGameService _gameService;
         private readonly IMapper _mapper;
-        private readonly IUserParagraphRepository _userParagraphRepository;
+        private readonly IUserParagraphRepository<UserParagraph> _userParagraphRepository;
         private readonly ILogger<FightController> _logger;
 
         public FightController(
@@ -26,12 +26,11 @@ namespace OstreCWEB.Controllers
             IFightService fightService,
             IFightRepository fightRepository,
             IMapper mapper,
-            IUserParagraphRepository userParagraphRepository,
+            IUserParagraphRepository<UserParagraph> userParagraphRepository,
             ILogger<FightController> logger,
             IGameService gameService
             )
-        {
-            _fightRepository = fightRepository;
+        { 
             _fightService = fightService;
             _mapper = mapper;
             _userService = userService;

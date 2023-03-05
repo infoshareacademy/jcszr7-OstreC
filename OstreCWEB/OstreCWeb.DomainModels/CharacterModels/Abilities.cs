@@ -1,4 +1,5 @@
-﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.ManyToMany;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,7 +7,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
 {
 
     //"using" a spell , item  or weapon is an action. 
-    public class Ability
+    public class Ability  
     {
         //EF config
         [Key]
@@ -29,8 +30,8 @@ namespace OstreCWEB.DomainModels.CharacterModels
         public int Hit_Dice_Nr { get; set; }
         public TargetType PossibleTarget { get; set; }
         public bool InflictsStatus { get; set; }
-        public Statistics StatForTest { get; set; } 
-        public int UsesMaxBeforeRest { get; set; } 
+        public Statistics StatForTest { get; set; }
+        public int UsesMaxBeforeRest { get; set; }
         public bool AggressiveAction { get; set; }
     }
 }

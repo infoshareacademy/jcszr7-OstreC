@@ -1,6 +1,5 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels;
 using System.ComponentModel.DataAnnotations;
-using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.DomainModels.ManyToMany
 {
