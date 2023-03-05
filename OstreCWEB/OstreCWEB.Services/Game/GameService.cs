@@ -13,7 +13,7 @@ namespace OstreCWEB.Services.Game
 {
     internal class GameService : IGameService
     {
-        private readonly IUserParagraphRepository _userParagraphRepository;
+        private readonly IUserParagraphRepository<UserParagraph> _userParagraphRepository;
         private readonly IIdentityRepository _identityRepository;
         private readonly IStoryRepository _storyRepository;
         private readonly IPlayableCharacterRepository _playableCharacterRepository;
@@ -21,7 +21,7 @@ namespace OstreCWEB.Services.Game
         private readonly IItemCharacterRepository _itemCharacterRepository;
 
         public GameService(
-            IUserParagraphRepository userParagraphRepository,
+            IUserParagraphRepository<UserParagraph> userParagraphRepository,
             IIdentityRepository identityRepository,
             IStoryRepository storyRepository,
             IPlayableCharacterRepository playableCharacter,
@@ -41,14 +41,12 @@ namespace OstreCWEB.Services.Game
             if (user.UserParagraphs.Count >= 5) { throw new Exception(); }
             var newGameInstance = new UserParagraph();
 
-            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId);
-
-            //newGameInstance.User = user;
+            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId); 
             newGameInstance.Paragraph = await _storyRepository.GetParagraphById(story.FirstParagraphId);
 
             var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId);
             var newCharacterInstance = _characterFactory.CreatePlayableCharacterInstance(notTrackedCharacter).Result;
-
+            newCharacterInstance.UserId = userId;
             newGameInstance.ActiveCharacter = newCharacterInstance;
             newGameInstance.ActiveGame = true;
 
@@ -101,7 +99,7 @@ namespace OstreCWEB.Services.Game
             var user = await _identityRepository.GetUser(userId);
             user.UserParagraphs.ForEach(s =>
             {
-                if (s.UserParagraphId == userParagraphId) { s.ActiveGame = true; }
+                if (s.Id == userParagraphId) { s.ActiveGame = true; }
                 else { s.ActiveGame = false; }
             });
             _identityRepository.Update(user);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.Services.Game;
@@ -16,7 +17,7 @@ namespace OstreCWEB.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<StoryReaderController> _logger;
         private readonly IGameService _gameService;
-        private readonly IUserParagraphRepository _userParagraphRepository;
+        private readonly IUserParagraphRepository<UserParagraph> _userParagraphRepository;
         private readonly IStoryService _storyService;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -25,7 +26,7 @@ namespace OstreCWEB.Controllers
             IMapper mapper,
             ILogger<StoryReaderController> logger,
             IGameService gameService,
-            IUserParagraphRepository userParagraphRepository,
+            IUserParagraphRepository<UserParagraph> userParagraphRepository,
             IStoryService storyService,
             IUserService userService,
             IHttpContextAccessor httpContextAccessor

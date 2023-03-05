@@ -106,7 +106,7 @@ namespace OstreCWEB.Repository.Factory
                         new ItemCharacter()
                         {
                             Character = newInstance,
-                            ItemId = linkedItem.ItemId,
+                            ItemId = linkedItem.Id,
                             IsEquipped = false
                         });
                 } 

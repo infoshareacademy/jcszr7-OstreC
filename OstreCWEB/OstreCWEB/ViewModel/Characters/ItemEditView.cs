@@ -6,7 +6,7 @@ namespace OstreCWEB.ViewModel.Characters
     public class ItemEditView
     {
 
-        public int ItemId { get; set; }
+        public int Id { get; set; }
         [DisplayName("Item Type")]
         public ItemType ItemType { get; set; }
         [DisplayName("Armor Class")]

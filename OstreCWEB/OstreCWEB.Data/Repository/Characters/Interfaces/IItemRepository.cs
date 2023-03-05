@@ -2,7 +2,7 @@
 
 namespace OstreCWEB.Repository.Repository.Characters.Interfaces
 {
-    public interface IItemRepository
+    public interface IItemRepository<T> : IEntityBaseRepo<T> where T:class
     {
         public Task<Item> GetByIdAsync(int id);
         public Task<List<Item>> GetAllAsync();

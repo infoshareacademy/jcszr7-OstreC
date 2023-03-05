@@ -17,26 +17,21 @@ namespace OstreCWEB.Services.Fight
     {
         private IFightRepository _fightRepository;
         private FightInstance _activeFightInstance;
-        private IFightFactory _fightFactory;
-        private IUserParagraphRepository _userParagraphRepository;
-        private ICharacterFactory _characterFactory;
-        private readonly IPlayableCharacterRepository _playableCharacterRepository;
+        private IFightFactory _fightFactory; 
+        private ICharacterFactory _characterFactory; 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public FightService(
             IFightRepository fightRepository,
-            IFightFactory fightFactory,
-            IUserParagraphRepository userParagraphRepository,
+            IFightFactory fightFactory, 
             ICharacterFactory characterFactory,
             IPlayableCharacterRepository playableCharacterRepository,
             IHttpContextAccessor httpContextAccessor
             )
         {
             _fightRepository = fightRepository;
-            _fightFactory = fightFactory;
-            _userParagraphRepository = userParagraphRepository;
-            _characterFactory = characterFactory;
-            _playableCharacterRepository = playableCharacterRepository;
+            _fightFactory = fightFactory; 
+            _characterFactory = characterFactory; 
             _httpContextAccessor = httpContextAccessor;
         }
         public FightInstance GetActiveFightInstance(int userId, int characterId)

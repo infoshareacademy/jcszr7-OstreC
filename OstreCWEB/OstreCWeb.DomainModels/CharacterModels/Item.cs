@@ -1,14 +1,15 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.ManyToMany;
 using System.ComponentModel.DataAnnotations;
+using OstreCWeb.DomainModels;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
-    public class Item
+    public class Item : IEntityBase
     {
         //Ef Config
         [Key]
-        public int ItemId { get; set; }
+        public int Id { get; set; }
         public List<ItemCharacter> LinkedCharacters { get; set; }
         public List<ParagraphItem> ParagraphItems { get; set; }
         public Ability? ActionToTrigger { get; set; }

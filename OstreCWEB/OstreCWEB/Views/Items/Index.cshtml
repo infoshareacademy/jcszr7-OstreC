@@ -34,8 +34,8 @@
                         <td>@(item.DeleteOnUse ? "Yes" : "No")</td>
                         <td>@(item.ItemType != ItemType.SpecialItem ? "Yes" : "No")</td>
                         <td>@(item.PlayableClass != null ? item.PlayableClass.ClassName : "N/A")</td>
-                        <td><a asp-controller="Items" asp-action="Edit" asp-route-id="@item.ItemId" type="button" class="btn btn-primary">Edit</a></td>
-                        <td><a asp-controller="Items" asp-action="Delete" asp-route-id="@item.ItemId" type="button" class="btn btn-primary">Delete</a></td>
+                        <td><a asp-controller="Items" asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">Edit</a></td>
+                        <td><a asp-controller="Items" asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-primary">Delete</a></td>
                     </tr>
                 }
             </tbody>

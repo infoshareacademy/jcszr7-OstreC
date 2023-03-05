@@ -465,7 +465,7 @@ namespace OstreCWEB.Repository.Migrations
                         name: "FK_ParagraphItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
-                        principalColumn: "ItemId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ParagraphItems_Paragraphs_ParagraphId",
@@ -601,7 +601,7 @@ namespace OstreCWEB.Repository.Migrations
                         name: "FK_ItemsCharactersRelation_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
-                        principalColumn: "ItemId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -726,7 +726,7 @@ namespace OstreCWEB.Repository.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ItemsCharactersRelation_ItemId",
                 table: "ItemsCharactersRelation",
-                column: "ItemId");
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ParagraphItems_ParagraphId",

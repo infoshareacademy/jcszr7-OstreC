@@ -5,6 +5,7 @@ using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.ViewModel.Characters;
+using OstreCWEB.DomainModels.ManyToMany;
 
 namespace OstreCWEB.Controllers
 {
@@ -13,9 +14,9 @@ namespace OstreCWEB.Controllers
     {
         public ICharacterRaceRepository _characterRaceRepository { get; }
         public IMapper _Mapper { get; }
-        public IUserParagraphRepository _userParagraphRepository { get; }
+        public IUserParagraphRepository<UserParagraph> _userParagraphRepository { get; }
 
-        public PlayableRaceController(ICharacterRaceRepository characterRaceRepository, IMapper mapper, IUserParagraphRepository userParagraphRepository)
+        public PlayableRaceController(ICharacterRaceRepository characterRaceRepository, IMapper mapper, IUserParagraphRepository<UserParagraph> userParagraphRepository)
         {
             _characterRaceRepository = characterRaceRepository;
             _Mapper = mapper;

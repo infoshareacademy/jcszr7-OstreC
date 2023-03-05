@@ -9,7 +9,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public bool RestoreRest { get; set; }
 
         //public int AmountOfItems { get; set; }
-        //public int ItemId { get; set; }
+        //public int Id { get; set; }
 
         public int StoryId { get; set; }
     }

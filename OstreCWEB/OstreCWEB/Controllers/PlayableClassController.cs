@@ -5,19 +5,18 @@ using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.ViewModel.Characters;
+using OstreCWEB.DomainModels.ManyToMany;
 
 namespace OstreCWEB.Controllers
 {
     [Authorize(Roles = "admin")]
     public class PlayableClassController : Controller
     {
-        public ICharacterClassRepository _characterClassRepository { get; }
-        public IItemRepository _ItemRepository { get; }
+        public ICharacterClassRepository _characterClassRepository { get; } 
         public IMapper _Mapper { get; }
-        public IUserParagraphRepository _userParagraphRepository { get; }
-        public IAbilitiesRepository _CharacterActionsRepository { get; }
+        public IUserParagraphRepository<UserParagraph> _userParagraphRepository { get; } 
 
-        public PlayableClassController(ICharacterClassRepository characterClassRepository, IMapper mapper, IUserParagraphRepository userParagraphRepository)
+        public PlayableClassController(ICharacterClassRepository characterClassRepository, IMapper mapper, IUserParagraphRepository<UserParagraph> userParagraphRepository)
         {
             _characterClassRepository = characterClassRepository;
             _Mapper = mapper;
