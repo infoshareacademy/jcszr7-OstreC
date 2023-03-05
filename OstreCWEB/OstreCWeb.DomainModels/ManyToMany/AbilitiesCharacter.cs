@@ -1,4 +1,4 @@
-﻿using OstreCWEB.DomainModels.CharacterModels; 
+﻿using OstreCWEB.DomainModels.CharacterModels;
 namespace OstreCWEB.DomainModels.ManyToMany
 {
     public class AbilitiesCharacter

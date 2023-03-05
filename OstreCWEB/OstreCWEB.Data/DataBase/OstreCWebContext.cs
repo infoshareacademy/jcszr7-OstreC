@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.Identity;
@@ -9,7 +10,7 @@ using System.Reflection.Emit;
 
 namespace OstreCWEB.Repository.DataBase
 {
-    public class OstreCWebContext : IdentityDbContext<User>
+    public class OstreCWebContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         //Relations many to many
         public DbSet<AbilitiesCharacter> ActionCharactersRelation { get; set; }

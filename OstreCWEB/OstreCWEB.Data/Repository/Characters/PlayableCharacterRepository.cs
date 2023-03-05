@@ -39,7 +39,7 @@ namespace OstreCWEB.Repository.Repository.Characters
         /// </summary>
         /// <param name="userCharacters"></param>
         /// <returns></returns>
-        public async Task<List<PlayableCharacter>> GetAllTemplatesExceptAsync(string userId)
+        public async Task<List<PlayableCharacter>> GetAllTemplatesExceptAsync(int userId)
         {
             return await _db.PlayableCharacters.Where(c => c.UserId != userId && c.IsTemplate == true).ToListAsync();
         }

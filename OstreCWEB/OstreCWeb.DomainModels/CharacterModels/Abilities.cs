@@ -29,8 +29,8 @@ namespace OstreCWEB.DomainModels.CharacterModels
         public int Hit_Dice_Nr { get; set; }
         public TargetType PossibleTarget { get; set; }
         public bool InflictsStatus { get; set; }
-        public Statistics StatForTest { get; set; } 
-        public int UsesMaxBeforeRest { get; set; } 
+        public Statistics StatForTest { get; set; }
+        public int UsesMaxBeforeRest { get; set; }
         public bool AggressiveAction { get; set; }
     }
 }

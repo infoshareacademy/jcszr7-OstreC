@@ -13,7 +13,7 @@ namespace OstreCWEB.DomainModels.StoryModels
         public int FirstParagraphId { get; set; }
 
         // DB
-        public string? UserId { get; set; }
+        public int? UserId { get; set; }
         public User? User { get; set; }
 
         public int GetAmountOfParagraphs()

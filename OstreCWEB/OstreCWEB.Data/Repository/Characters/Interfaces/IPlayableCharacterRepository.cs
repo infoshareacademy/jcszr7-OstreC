@@ -6,7 +6,7 @@ namespace OstreCWEB.Repository.Repository.Characters.Interfaces
     {
         public Task<PlayableCharacter> GetByIdAsync(int id);
         public Task<List<PlayableCharacter>> GetAllTemplatesAsync();
-        public Task<List<PlayableCharacter>> GetAllTemplatesExceptAsync(string id);
+        public Task<List<PlayableCharacter>> GetAllTemplatesExceptAsync(int id);
         public Task UpdateAsync(PlayableCharacter playableCharacter);
         public Task<PlayableCharacter> Create(PlayableCharacter playableCharacter);
         public Task DeleteAsync(PlayableCharacter playableCharacter);

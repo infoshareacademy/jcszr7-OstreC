@@ -7,7 +7,7 @@ namespace OstreCWEB.Services.Characters
         public Task<PlayableCharacter> GetById(int id);
         public Task Create(PlayableCharacter playableCharacter);
         public Task<List<PlayableCharacter>> GetAll();
-        public Task<List<PlayableCharacter>> GetAllTemplates(string id);
+        public Task<List<PlayableCharacter>> GetAllTemplates(int id);
         public Task Add(Character charater);
         public Task Update(Character charater);
         public Task Remove(Character charater);

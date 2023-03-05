@@ -22,10 +22,13 @@ namespace OstreCWEB.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -49,7 +52,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,9 +66,8 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -74,7 +76,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,9 +90,8 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -99,7 +100,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -112,9 +113,8 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -123,13 +123,13 @@ namespace OstreCWEB.Repository.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -138,10 +138,10 @@ namespace OstreCWEB.Repository.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -217,7 +217,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("CharacterActions", (string)null);
+                    b.ToTable("CharacterActions");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Character", b =>
@@ -265,7 +265,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("CharacterId");
 
-                    b.ToTable("Character", (string)null);
+                    b.ToTable("Character");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Character");
                 });
@@ -303,7 +303,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("PlayableClassId");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.PlayableClass", b =>
@@ -341,7 +341,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("PlayableClassId");
 
-                    b.ToTable("PlayableCharacterClasses", (string)null);
+                    b.ToTable("PlayableCharacterClasses");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.PlayableRace", b =>
@@ -376,7 +376,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("PlayableRaceId");
 
-                    b.ToTable("PlayableCharacterRaces", (string)null);
+                    b.ToTable("PlayableCharacterRaces");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Status", b =>
@@ -400,13 +400,16 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("StatusId");
 
-                    b.ToTable("Statuses", (string)null);
+                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.Identity.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -499,7 +502,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("CharacterActionId");
 
-                    b.ToTable("ActionCharactersRelation", (string)null);
+                    b.ToTable("ActionCharactersRelation");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.ItemCharacter", b =>
@@ -525,7 +528,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemsCharactersRelation", (string)null);
+                    b.ToTable("ItemsCharactersRelation");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.ParagraphItem", b =>
@@ -543,7 +546,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ParagraphId");
 
-                    b.ToTable("ParagraphItems", (string)null);
+                    b.ToTable("ParagraphItems");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.UserParagraph", b =>
@@ -566,9 +569,8 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<bool>("Rest")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserParagraphId");
 
@@ -576,7 +578,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserParagraphs", (string)null);
+                    b.ToTable("UserParagraphs");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Paragraph", b =>
@@ -604,7 +606,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Paragraphs", (string)null);
+                    b.ToTable("Paragraphs");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.Choice", b =>
@@ -629,7 +631,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("ParagraphId");
 
-                    b.ToTable("Choices", (string)null);
+                    b.ToTable("Choices");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.DialogProp", b =>
@@ -648,7 +650,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("DialogProps", (string)null);
+                    b.ToTable("DialogProps");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.EnemyInParagraph", b =>
@@ -674,7 +676,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasIndex("FightPropId");
 
-                    b.ToTable("EnemyInParagraphs", (string)null);
+                    b.ToTable("EnemyInParagraphs");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.FightProp", b =>
@@ -693,7 +695,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("FightProps", (string)null);
+                    b.ToTable("FightProps");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.ShopkeeperProp", b =>
@@ -712,7 +714,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("ShopkeeperProps", (string)null);
+                    b.ToTable("ShopkeeperProps");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Properties.TestProp", b =>
@@ -737,7 +739,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasIndex("ParagraphId")
                         .IsUnique();
 
-                    b.ToTable("TestProps", (string)null);
+                    b.ToTable("TestProps");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.StoryModels.Story", b =>
@@ -759,14 +761,14 @@ namespace OstreCWEB.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Stories", (string)null);
+                    b.ToTable("Stories");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Enemy", b =>
@@ -789,9 +791,8 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<int>("RaceId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("UserParagraphId")
                         .HasColumnType("int");
@@ -809,16 +810,16 @@ namespace OstreCWEB.Repository.Migrations
                     b.HasDiscriminator().HasValue("PlayableCharacter");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("OstreCWEB.DomainModels.Identity.User", null)
                         .WithMany()
@@ -827,7 +828,7 @@ namespace OstreCWEB.Repository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("OstreCWEB.DomainModels.Identity.User", null)
                         .WithMany()
@@ -836,9 +837,9 @@ namespace OstreCWEB.Repository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -851,7 +852,7 @@ namespace OstreCWEB.Repository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("OstreCWEB.DomainModels.Identity.User", null)
                         .WithMany()

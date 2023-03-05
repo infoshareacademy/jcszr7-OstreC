@@ -78,7 +78,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
                 .SingleOrDefaultAsync(u => u.UserParagraphId == userParagraphId);
         }
 
-        public async Task<UserParagraph> GetActiveByUserIdAsync(string userId)
+        public async Task<UserParagraph> GetActiveByUserIdAsync(int userId)
         {
             return await _context.UserParagraphs
                 .Include(z => z.User)
@@ -96,7 +96,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
                 .Include(x => x.ActiveCharacter)
                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);
         }
-        public async Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(string userId)
+        public async Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(int userId)
         {
             var result = await _context.UserParagraphs
                  .Include(x => x.ActiveCharacter)
@@ -113,7 +113,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
             var test = _context.ChangeTracker;
             return result;
         }
-        public UserParagraph GetActiveByUserIdNoTracking(string userId)
+        public UserParagraph GetActiveByUserIdNoTracking(int userId)
         {
             var result = _context.UserParagraphs
                  .Include(x => x.Paragraph)

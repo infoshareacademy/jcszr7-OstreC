@@ -48,7 +48,7 @@ namespace OstreCWEB.Services.Characters
         /// </summary>
         /// <param name="userCharacters"></param>
         /// <returns></returns>
-        public async Task<List<PlayableCharacter>> GetAllTemplates(string userId)
+        public async Task<List<PlayableCharacter>> GetAllTemplates(int userId)
         {
             return await _playableCharacterRepository.GetAllTemplatesExceptAsync(userId);
         }
