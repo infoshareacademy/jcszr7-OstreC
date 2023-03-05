@@ -11,9 +11,9 @@ namespace OstreCWEB.Services.Identity
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly RoleManager<IdentityRole<int>> roleManager;
 
-        public UserAuthenticationService(SignInManager<User> signInManager, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public UserAuthenticationService(SignInManager<User> signInManager, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
@@ -102,7 +102,7 @@ namespace OstreCWEB.Services.Identity
             }
 
             if (!await roleManager.RoleExistsAsync(model.Role))
-                await roleManager.CreateAsync(new IdentityRole(model.Role));
+                await roleManager.CreateAsync(new IdentityRole<int>(model.Role));
 
             if (await roleManager.RoleExistsAsync(model.Role))
             {
@@ -114,10 +114,10 @@ namespace OstreCWEB.Services.Identity
             return status;
 
         }
-        public async Task<StatusIdentity> ChangePasswordAsync(ChangePassword model, string userId)
+        public async Task<StatusIdentity> ChangePasswordAsync(ChangePassword model, int userId)
         {
-            var status = new StatusIdentity();
-            var user = await userManager.FindByIdAsync(userId);
+            var status = new StatusIdentity(); 
+            var user = await userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
                 status.Message = "User does not exist";

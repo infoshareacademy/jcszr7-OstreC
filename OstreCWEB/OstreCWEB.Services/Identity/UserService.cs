@@ -17,24 +17,25 @@ namespace OstreCWEB.Services.Identity
             throw new NotImplementedException();
         }
 
-        public async Task<User> GetUserById(string id)
+        public async Task<User> GetUserById(int id)
         {
             return await _identityRepository.GetUser(id);
         }
-        public async Task<User> GetUserByIdForNewGameInstance(string id)
+        public async Task<User> GetUserByIdForNewGameInstance(int id)
         {
             return await _identityRepository.GetUser(id);
         }
 
-        public string GetUserId(ClaimsPrincipal user)
+        public int GetUserId(ClaimsPrincipal user)
         {
-            if (user == null) { return ""; }
+            if (user == null) { return 0; }
 
             var userId = user.FindFirst(ClaimTypes.NameIdentifier);
 
-            if (userId == null) { return ""; }
+            if (userId == null) { return 0; }
 
-            return userId.Value;
+            int.TryParse(userId.Value, out var result);
+            return result;
 
         }
     }

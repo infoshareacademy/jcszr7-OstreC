@@ -16,7 +16,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
         public int? PlayableClassId { get; set; }
         public PlayableClass? PlayableClass { get; set; }
         // 
-        public ItemType ItemType { get; set; } 
+        public ItemType ItemType { get; set; }
         public int? ArmorClass { get; set; }
         public string Name { get; set; }
         public bool DeleteOnUse { get; set; }

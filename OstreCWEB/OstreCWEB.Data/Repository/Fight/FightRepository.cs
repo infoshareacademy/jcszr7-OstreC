@@ -4,14 +4,14 @@ namespace OstreCWEB.Repository.Repository.Fight
 {
     internal class FightRepository : IFightRepository
     {
-        private static List<KeyValuePair<string, FightInstance>> FightInstances { get; set; } = new List<KeyValuePair<string, FightInstance>>();
+        private static List<KeyValuePair<int, FightInstance>> FightInstances { get; set; } = new List<KeyValuePair<int, FightInstance>>();
 
 
-        public bool Add(string userId, FightInstance fightInstance, out string operationResult)
+        public bool Add(int userId, FightInstance fightInstance, out string operationResult)
         {
             if (FightInstances.Where(x => x.Key == userId).Count() < 5)
             {
-                FightInstances.Add(new KeyValuePair<string, FightInstance>(userId, fightInstance));
+                FightInstances.Add(new KeyValuePair<int, FightInstance>(userId, fightInstance));
                 operationResult = "operation success";
                 return true;
             }
@@ -21,7 +21,7 @@ namespace OstreCWEB.Repository.Repository.Fight
                 return false;
             }
         }
-        public FightInstance? GetById(string userId, int characterId)
+        public FightInstance? GetById(int userId, int characterId)
         {
             foreach (var fightInstanceDictionary in FightInstances)
             {
@@ -42,9 +42,9 @@ namespace OstreCWEB.Repository.Repository.Fight
             fightInstance.ActivePlayer.LinkedItems.First(i => i.Id == itemToDelete)
             );
         }
-        public bool Delete(string userId, int characterId, out string operationResult)
+        public bool Delete(int userId, int characterId, out string operationResult)
         {
-            foreach (KeyValuePair<string, FightInstance> kvp in FightInstances)
+            foreach (KeyValuePair<int, FightInstance> kvp in FightInstances)
             {
                 if (kvp.Key == userId && kvp.Value.ActivePlayer.CharacterId == characterId)
                 {

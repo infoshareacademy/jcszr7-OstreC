@@ -7,7 +7,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
     {
         public Races NonPlayableRace { get; set; }
 
-        public List<EnemyInParagraph> EnemyInParagraphs { get; set; } 
+        public List<EnemyInParagraph> EnemyInParagraphs { get; set; }
     }
 }
 
