@@ -20,13 +20,9 @@ namespace OstreCWEB.Repository.Factory
         public  Task<PlayableCharacter> CreatePlayableCharacterInstance(PlayableCharacter template)
         {
             var newInstance = new PlayableCharacter(); 
-            ConfigureNewInstanceProperties(template, newInstance);
-            //_ostreCWebContext.PlayableCharacters.Add(newInstance);
-            //_ostreCWebContext.SaveChanges();
-
+            ConfigureNewInstanceProperties(template, newInstance); 
             ConfigureNewInstanceAbilities(template, newInstance);
-            ConfigureNewInstanceItems(template, newInstance);
-            //_ostreCWebContext.SaveChanges(); 
+            ConfigureNewInstanceItems(template, newInstance); 
             return Task.FromResult(newInstance);
         } 
         public Task<List<Enemy>> CreateEnemiesInstances(List<EnemyInParagraph> enemiesInParagraphs)
