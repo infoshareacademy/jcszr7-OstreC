@@ -88,7 +88,7 @@
                             if(action.IsActionUsableInCombat)
                             {
                             <li class="list-group-item">
-                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.AbilityId" asp-action="SetActiveAction">@action.CharacterAction.AbilityName
+                            <a class="btn btn-danger" asp-route-id="@action.CharacterAction.Id" asp-action="SetActiveAction">@action.CharacterAction.AbilityName
                                 @if (action.CanShowUsesLeft) {
                                     <p>Uses left: @action.UsesLeftBeforeRest</p>
                                 }
@@ -139,7 +139,7 @@
             {
                 <div class="col ">
 
-                    @*<div class=" card  @((Model.ActiveTarget != null && Model.ActiveTarget.CombatId != null && Model.ActiveTarget.CombatId == Model.ActiveEnemies[i].CombatId ? " f" : " .bg-danger"))">*@
+                    @*<div class=" card  @((Model.ActiveTarget != null && Model.ActiveTarget.CombatPlayableCharacterCreateView != null && Model.ActiveTarget.CombatPlayableCharacterCreateView == Model.ActiveEnemies[i].CombatPlayableCharacterCreateView ? " f" : " .bg-danger"))">*@
                     <div class=" card">
 
                         @{

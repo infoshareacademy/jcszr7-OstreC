@@ -169,7 +169,7 @@ internal class SeedCharacters : ISeeder
                 Hit_Dice_Nr = 2,
                 PossibleTarget = TargetType.Target,
                 InflictsStatus = true,
-                Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 1),
+                Status = _db.Statuses.FirstOrDefault(s=>s.Id == 1),
                 StatForTest = Statistics.Dexterity,
                 UsesMaxBeforeRest = 2,
                  AggressiveAction = true
@@ -201,7 +201,7 @@ internal class SeedCharacters : ISeeder
                 Hit_Dice_Nr = 0,
                 PossibleTarget = TargetType.Caster,
                 InflictsStatus = true,
-                Status = _db.Statuses.FirstOrDefault(s=>s.StatusId == 2),
+                Status = _db.Statuses.FirstOrDefault(s=>s.Id == 2),
                 StatForTest = Statistics.None,
                 UsesMaxBeforeRest = 1,
                  AggressiveAction = false
@@ -449,7 +449,7 @@ internal class SeedCharacters : ISeeder
                     character.LinkedItems.Add(
                      new ItemCharacter()
                      {
-                         CharacterId = character.CharacterId,
+                         CharacterId = character.Id,
                          ItemId = item.Id,
                          IsEquipped = true
                      });
@@ -466,7 +466,7 @@ internal class SeedCharacters : ISeeder
                         character.LinkedItems.Add(
                             new ItemCharacter()
                             {
-                                CharacterId = character.CharacterId,
+                                CharacterId = character.Id,
                                 ItemId = item.Id,
                                 IsEquipped = false
                             });
@@ -490,7 +490,7 @@ internal class SeedCharacters : ISeeder
                     character.LinkedItems.Add(
                      new ItemCharacter()
                      {
-                         CharacterId = character.CharacterId,
+                         CharacterId = character.Id,
                          ItemId = item.Id,
                          IsEquipped = true
                      });
@@ -505,7 +505,7 @@ internal class SeedCharacters : ISeeder
                         character.LinkedItems.Add(
                           new ItemCharacter()
                           {
-                              CharacterId = character.CharacterId,
+                              CharacterId = character.Id,
                               ItemId = item.Id,
                               IsEquipped = true
                           });

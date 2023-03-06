@@ -20,7 +20,7 @@ namespace OstreCWEB.Repository.Configurations
                 .HasForeignKey(x => x.ActionToTriggerId);
 
             //builder.Entity<ItemCharacter>()
-            // .HasKey(x => new { x.Id, x.CharacterId }); 
+            // .HasKey(x => new { x.Id, x.Id }); 
         }
     }
 }

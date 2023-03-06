@@ -10,7 +10,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
         //Ef Config
         //=============================================================//
         [Key]
-        public int CharacterId { get; set; }
+        public int Id { get; set; }
         //Actions granted on level 1 based on class+race+ user choices. 
         public List<AbilitiesCharacter>? LinkedAbilities { get; set; }
         //All items ( equipped+ in inventory)

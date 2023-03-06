@@ -13,7 +13,7 @@ namespace OstreCWEB.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<PlayableClass> builder)
         {
-            builder.HasKey(x => x.PlayableClassId);
+            builder.HasKey(x => x.Id);
 
             builder
                 .HasMany(x => x.ActionsGrantedByClass)

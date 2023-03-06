@@ -51,8 +51,8 @@ namespace OstreCWEB.Controllers
             var allClasses = await _characterClassRepository.GetAllAsync();
             model.AllExistingActions = new Dictionary<int, string>();
             model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.AbilityId, x.AbilityName));
-            allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
+            allActions.ForEach(x => model.AllExistingActions.Add(x.Id, x.AbilityName));
+            allClasses.ForEach(x => model.AllExistingClasses.Add(x.Id, x.ClassName));
             return View(model);
         }
 
@@ -80,8 +80,8 @@ namespace OstreCWEB.Controllers
             var allClasses = await _characterClassRepository.GetAllAsync();
             model.AllExistingActions = new Dictionary<int, string>();
             model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.AbilityId, x.AbilityName));
-            allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
+            allActions.ForEach(x => model.AllExistingActions.Add(x.Id, x.AbilityName));
+            allClasses.ForEach(x => model.AllExistingClasses.Add(x.Id, x.ClassName));
             return View(model);
         }
 

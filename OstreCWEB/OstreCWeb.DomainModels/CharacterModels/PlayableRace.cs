@@ -6,7 +6,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
     {
         //Ef Config// 
         [Key]
-        public int PlayableRaceId { get; set; }
+        public int Id { get; set; }
         public List<PlayableCharacter> PlayableCharacter { get; set; }
         // 
         public string RaceName { get; set; }

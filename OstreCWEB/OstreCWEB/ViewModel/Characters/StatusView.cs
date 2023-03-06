@@ -5,7 +5,7 @@ namespace OstreCWEB.ViewModel.Characters
 {
     public class StatusView
     {
-        public int StatusId { get; set; }
+        public int Id { get; set; }
         [DisplayName("Status name")]
         public string Name { get; set; }
         [DisplayName("Status description")]

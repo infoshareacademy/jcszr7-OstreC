@@ -32,11 +32,11 @@ namespace OstreCWEB.Repository.Repository.Characters
 
         public async Task<PlayableRace> GetByIdAsync(int id)
         {
-            return await _ostreCWebContext.PlayableCharacterRaces.SingleOrDefaultAsync(x => x.PlayableRaceId == id);
+            return await _ostreCWebContext.PlayableCharacterRaces.SingleOrDefaultAsync(x => x.Id == id);
         }
         public PlayableRace GetById(int id)
         {
-            return _ostreCWebContext.PlayableCharacterRaces.SingleOrDefault(x => x.PlayableRaceId == id);
+            return _ostreCWebContext.PlayableCharacterRaces.SingleOrDefault(x => x.Id == id);
         }
 
         public async Task UpdateAsync(PlayableRace item)

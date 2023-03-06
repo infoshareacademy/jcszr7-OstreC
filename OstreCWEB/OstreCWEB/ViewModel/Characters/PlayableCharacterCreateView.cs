@@ -4,7 +4,7 @@ namespace OstreCWEB.ViewModel.Characters
 {
     public class PlayableCharacterCreateView
     {
-        public int CharacterId { get; set; }
+        public int Id { get; set; }
         public PlayableRaceView Race { get; set; }
         public int RaceId { get; set; }
         public PlayableClassView CharacterClass { get; set; }

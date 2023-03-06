@@ -394,7 +394,7 @@ namespace OstreCWEB.Repository.InitialData
                         character.LinkedItems.Add(
                          new ItemCharacter()
                          {
-                             CharacterId = character.CharacterId,
+                             CharacterId = character.Id,
                              ItemId = item.Id,
                              IsEquipped = true
                          });
@@ -411,7 +411,7 @@ namespace OstreCWEB.Repository.InitialData
                             character.LinkedItems.Add(
                                 new ItemCharacter()
                                 {
-                                    CharacterId = character.CharacterId,
+                                    CharacterId = character.Id,
                                     ItemId = item.Id,
                                     IsEquipped = false
                                 });
@@ -435,7 +435,7 @@ namespace OstreCWEB.Repository.InitialData
                         character.LinkedItems.Add(
                          new ItemCharacter()
                          {
-                             CharacterId = character.CharacterId,
+                             CharacterId = character.Id,
                              ItemId = item.Id,
                              IsEquipped = true
                          });
@@ -450,7 +450,7 @@ namespace OstreCWEB.Repository.InitialData
                             character.LinkedItems.Add(
                               new ItemCharacter()
                               {
-                                  CharacterId = character.CharacterId,
+                                  CharacterId = character.Id,
                                   ItemId = item.Id,
                                   IsEquipped = true
                               });

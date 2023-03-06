@@ -5,7 +5,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
     public class PlayableClass
     {
         [Key]
-        public int PlayableClassId { get; set; }
+        public int Id { get; set; }
         public string ClassName { get; set; }
         public int IntelligenceBonus { get; set; }
         public int StrengthBonus { get; set; }

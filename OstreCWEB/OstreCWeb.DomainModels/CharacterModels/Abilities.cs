@@ -11,7 +11,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
     {
         //EF config
         [Key]
-        public int AbilityId { get; set; }
+        public int Id { get; set; }
         public Status? Status { get; set; }
         public int? StatusId { get; set; }
 

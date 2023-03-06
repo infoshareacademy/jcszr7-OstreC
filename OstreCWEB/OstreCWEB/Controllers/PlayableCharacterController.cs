@@ -52,7 +52,7 @@ namespace OstreCWEB.Controllers
 
             foreach (var race in modelCharacterList)
             {
-                racesDictionary.Add(race.PlayableRaceId, race.RaceName);
+                racesDictionary.Add(race.Id, race.RaceName);
             }
 
             var model = new PlayableCharacterCreateView();
@@ -80,7 +80,7 @@ namespace OstreCWEB.Controllers
 
             foreach (var charClass in modelCharacterList)
             {
-                classesDictionary.Add(charClass.PlayableClassId, charClass.ClassName);
+                classesDictionary.Add(charClass.Id, charClass.ClassName);
             }
 
             model.CharacterClasses = classesDictionary;
@@ -118,21 +118,21 @@ namespace OstreCWEB.Controllers
             var characterClasses = _playableCharacterService.GetAllClasses();
             var characterRaces = _playableCharacterService.GetAllRaces();
 
-            var bonusClassStr = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.StrengthBonus).FirstOrDefault();
-            var bonusClassDex = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.DexterityBonus).FirstOrDefault();
-            var bonusClassCon = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.ConstitutionBonus).FirstOrDefault();
-            var bonusClassInt = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.IntelligenceBonus).FirstOrDefault();
-            var bonusClassWis = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.WisdomBonus).FirstOrDefault();
-            var bonusClassCha = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.CharismaBonus).FirstOrDefault();
+            var bonusClassStr = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusClassDex = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.DexterityBonus).FirstOrDefault();
+            var bonusClassCon = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            var bonusClassInt = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var bonusClassWis = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusClassCha = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.CharismaBonus).FirstOrDefault();
 
-            var bonusRaceStr = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
-            var bonusRaceDex = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.DexterityBonus).FirstOrDefault();
-            var bonusRaceCon = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.ConstitutionBonus).FirstOrDefault();
-            var bonusRaceInt = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.IntelligenceBonus).FirstOrDefault();
-            var bonusRaceWis = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
-            var bonusRaceCha = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.CharismaBonus).FirstOrDefault();
+            var bonusRaceStr = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusRaceDex = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.DexterityBonus).FirstOrDefault();
+            var bonusRaceCon = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            var bonusRaceInt = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var bonusRaceWis = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusRaceCha = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.CharismaBonus).FirstOrDefault();
 
-            var className = characterClasses.Where(c => c.PlayableClassId == model.RaceId).Select(c => c.ClassName).FirstOrDefault();
+            var className = characterClasses.Where(c => c.Id == model.RaceId).Select(c => c.ClassName).FirstOrDefault();
 
             ViewBag.BonusClassStr = bonusClassStr;
             ViewBag.BonusClassDex = bonusClassDex;
@@ -186,19 +186,19 @@ namespace OstreCWEB.Controllers
             var characterClasses = _playableCharacterService.GetAllClasses();
             var characterRaces = _playableCharacterService.GetAllRaces();
 
-            var bonusClassStr = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.StrengthBonus).FirstOrDefault();
-            var bonusClassDex = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.DexterityBonus).FirstOrDefault();
-            var bonusClassCon = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.ConstitutionBonus).FirstOrDefault();
-            var bonusClassInt = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.IntelligenceBonus).FirstOrDefault();
-            var bonusClassWis = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.WisdomBonus).FirstOrDefault();
-            var bonusClassCha = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.CharismaBonus).FirstOrDefault();
+            var bonusClassStr = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusClassDex = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.DexterityBonus).FirstOrDefault();
+            var bonusClassCon = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            var bonusClassInt = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var bonusClassWis = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusClassCha = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.CharismaBonus).FirstOrDefault();
 
-            var bonusRaceStr = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
-            var bonusRaceDex = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.DexterityBonus).FirstOrDefault();
-            var bonusRaceCon = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.ConstitutionBonus).FirstOrDefault();
-            var bonusRaceInt = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.IntelligenceBonus).FirstOrDefault();
-            var bonusRaceWis = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
-            var bonusRaceCha = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.CharismaBonus).FirstOrDefault();
+            var bonusRaceStr = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.StrengthBonus).FirstOrDefault();
+            var bonusRaceDex = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.DexterityBonus).FirstOrDefault();
+            var bonusRaceCon = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            var bonusRaceInt = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            var bonusRaceWis = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.WisdomBonus).FirstOrDefault();
+            var bonusRaceCha = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.CharismaBonus).FirstOrDefault();
 
             var _str = model.Strenght + bonusClassStr + bonusRaceStr;
             var _dex = model.Dexterity + bonusClassDex + bonusRaceDex;
@@ -215,11 +215,11 @@ namespace OstreCWEB.Controllers
             var modCha = _playableCharacterService.CalculateModifier(_cha);
 
             ViewBag.RaceId = model.RaceId;
-            var raceName = characterRaces.Where(c => c.PlayableRaceId == model.RaceId).Select(c => c.RaceName).FirstOrDefault();
+            var raceName = characterRaces.Where(c => c.Id == model.RaceId).Select(c => c.RaceName).FirstOrDefault();
             ViewBag.RaceName = raceName;
 
             ViewBag.ClassId = model.PlayableClassId;
-            var className = characterClasses.Where(c => c.PlayableClassId == model.PlayableClassId).Select(c => c.ClassName).FirstOrDefault();
+            var className = characterClasses.Where(c => c.Id == model.PlayableClassId).Select(c => c.ClassName).FirstOrDefault();
             ViewBag.ClassName = className;
 
             ViewBag.Str = _str;
@@ -236,7 +236,7 @@ namespace OstreCWEB.Controllers
             ViewBag.ModWis = modWis;
             ViewBag.ModCha = modCha;
 
-            var currentHealth = characterClasses.Where(x => x.PlayableClassId == model.PlayableClassId).Select(c => c.BaseHP).FirstOrDefault();
+            var currentHealth = characterClasses.Where(x => x.Id == model.PlayableClassId).Select(c => c.BaseHP).FirstOrDefault();
             ViewBag.Health = currentHealth + modCon;
 
             ViewBag.Name = model.CharacterName;

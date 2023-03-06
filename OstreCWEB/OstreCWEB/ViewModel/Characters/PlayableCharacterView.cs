@@ -2,7 +2,7 @@
 {
     public class PlayableCharacterView
     {
-        public int CharacterId { get; set; }
+        public int Id { get; set; }
         public PlayableRaceView Race { get; set; }
         public PlayableClassView CharacterClass { get; set; }
         public List<ItemCharacterView> LinkedItems { get; set; }

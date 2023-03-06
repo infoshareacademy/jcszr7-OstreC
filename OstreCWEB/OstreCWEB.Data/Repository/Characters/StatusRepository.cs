@@ -34,7 +34,7 @@ namespace OstreCWEB.Repository.Repository.Characters
 
         public async Task<Status> GetByIdAsync(int id)
         {
-            return await _db.Statuses.Include(s => s.StatusId == id).SingleOrDefaultAsync(s => s.StatusId == id);
+            return await _db.Statuses.Include(s => s.Id == id).SingleOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task UpdateAsync(Status status)

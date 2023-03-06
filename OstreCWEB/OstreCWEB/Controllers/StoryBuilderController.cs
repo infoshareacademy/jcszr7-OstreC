@@ -221,7 +221,7 @@ namespace OstreCWEB.Controllers
 
             foreach (var enemy in enemiesList)
             {
-                enemyDictionary.Add(enemy.CharacterId, enemy.CharacterName);
+                enemyDictionary.Add(enemy.Id, enemy.CharacterName);
             }
 
             model.Enemies = enemyDictionary;
@@ -341,7 +341,7 @@ namespace OstreCWEB.Controllers
 
             foreach (var enemy in enemiesList)
             {
-                enemyDictionary.Add(enemy.CharacterId, enemy.CharacterName);
+                enemyDictionary.Add(enemy.Id, enemy.CharacterName);
             }
 
             model.Enemies = enemyDictionary;

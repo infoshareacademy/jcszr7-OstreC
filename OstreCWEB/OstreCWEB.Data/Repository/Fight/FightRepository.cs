@@ -25,7 +25,7 @@ namespace OstreCWEB.Repository.Repository.Fight
         {
             foreach (var fightInstanceDictionary in FightInstances)
             {
-                if (fightInstanceDictionary.Key == userId && fightInstanceDictionary.Value.ActivePlayer.CharacterId == characterId)
+                if (fightInstanceDictionary.Key == userId && fightInstanceDictionary.Value.ActivePlayer.Id == characterId)
                 {
                     return fightInstanceDictionary.Value;
                 }
@@ -46,7 +46,7 @@ namespace OstreCWEB.Repository.Repository.Fight
         {
             foreach (KeyValuePair<int, FightInstance> kvp in FightInstances)
             {
-                if (kvp.Key == userId && kvp.Value.ActivePlayer.CharacterId == characterId)
+                if (kvp.Key == userId && kvp.Value.ActivePlayer.Id == characterId)
                 {
                     FightInstances.Remove(kvp);
                     operationResult = "operation success";

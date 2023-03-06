@@ -15,14 +15,14 @@
             </div>
             <div class="p-3 bg-warning bg-opacity-75 border border-warning-subtle rounded-top" style="background: #eee; box-shadow: 0 8px 8px -4px black;">            
                 <div class="form-group">
-                    <input asp-for="RaceId" hidden="true"/>
-                    <label asp-for="PlayableClassId" class="control-label"></label>
-                    @Html.DropDownListFor(m => m.PlayableClassId, new SelectList(Model.CharacterClasses,"Key","Value"),
+                    <input asp-for="RacePlayableCharacterCreateView" hidden="true"/>
+                    <label asp-for="PlayableCharacterCreateView" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.PlayableCharacterCreateView, new SelectList(Model.CharacterClasses,"Key","Value"),
                         " Please select class ",
                         new {
                             @class = "form-control"
                         })
-                    <span asp-validation-for="PlayableClassId" class="text-danger"></span>
+                    <span asp-validation-for="PlayableCharacterCreateView" class="text-danger"></span>
                 </div>
             </div>
             <br />

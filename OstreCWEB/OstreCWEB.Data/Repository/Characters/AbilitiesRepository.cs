@@ -38,7 +38,7 @@ namespace OstreCWEB.Repository.Repository.Characters
             return await _db.CharacterActions
                 .Include(s => s.Status)
                 .Include(s => s.LinkedCharacter)
-                .SingleOrDefaultAsync(s => s.AbilityId == id);
+                .SingleOrDefaultAsync(s => s.Id == id);
         }
         private Ability GetByIdWithLinkedItemsAsync(int id)
         {
@@ -46,7 +46,7 @@ namespace OstreCWEB.Repository.Repository.Characters
                 .Include(s => s.Status)
                 .Include(s => s.LinkedCharacter)
                 .Include(x => x.LinkedItems)
-                .SingleOrDefault(s => s.AbilityId == id);
+                .SingleOrDefault(s => s.Id == id);
         }
 
         public async Task UpdateAsync(Ability characterAction)

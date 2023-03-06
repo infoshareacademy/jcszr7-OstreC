@@ -122,8 +122,8 @@
                                 @item.AmountOfChoices
                             </td>
                             <td>
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
-                                <a asp-action="EditParagraph" asp-route-id="@item.Id" type="button" class="btn btn-primary">Edit Paragraph</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.PlayableCharacterCreateView" asp-route-paragraphPlayableCharacterCreateView="@item.PlayableCharacterCreateView" type="button" class="btn btn-success">Show Details</a>
+                                <a asp-action="EditParagraph" asp-route-id="@item.PlayableCharacterCreateView" type="button" class="btn btn-primary">Edit Paragraph</a>
                             </td>
                         </tr>
                     }
@@ -140,8 +140,8 @@
                                 @item.AmountOfChoices
                             </td>
                             <td>
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@item.Id" type="button" class="btn btn-success">Show Details</a>
-                                <a asp-action="EditParagraph" asp-route-id="@item.Id" type="button" class="btn btn-primary">Edit Paragraph</a>
+                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.PlayableCharacterCreateView" asp-route-paragraphPlayableCharacterCreateView="@item.PlayableCharacterCreateView" type="button" class="btn btn-success">Show Details</a>
+                                <a asp-action="EditParagraph" asp-route-id="@item.PlayableCharacterCreateView" type="button" class="btn btn-primary">Edit Paragraph</a>
                             </td>
                         </tr>
                     }

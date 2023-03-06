@@ -38,7 +38,7 @@ namespace OstreCWEB.Repository.Repository.Characters
             return await _context.Enemies
                 .Include(e => e.LinkedItems)
                 .Include(e => e.LinkedAbilities)
-                .SingleOrDefaultAsync(e => e.CharacterId == id);
+                .SingleOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<Enemy> GetByIdNoTrackingAsync(int id)
@@ -47,7 +47,7 @@ namespace OstreCWEB.Repository.Repository.Characters
                 .Include(e => e.LinkedItems)
                 .Include(e => e.LinkedAbilities)
                 .AsNoTracking()
-                .SingleOrDefaultAsync(e => e.CharacterId == id);
+                .SingleOrDefaultAsync(e => e.Id == id);
         }
         public async Task UpdateAsync(Enemy item)
         {

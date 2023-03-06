@@ -4,8 +4,8 @@ namespace OstreCWEB.ViewModel.Characters
 {
     public class PlayableClassView
     {
-        [DisplayName(" Id")]
-        public int PlayableClassId { get; set; }
+        [DisplayName(" PlayableCharacterCreateView")]
+        public int Id { get; set; }
         [DisplayName("Class Name")]
         public string ClassName { get; set; }
         [DisplayName("Intelligence Bonus")]

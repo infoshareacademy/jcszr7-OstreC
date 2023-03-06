@@ -21,7 +21,7 @@ namespace OstreCWEB.Repository.Repository.Characters
         }
         public bool Exists(int id)
         {
-            return _db.PlayableCharacters.Any(x => x.CharacterId == id);
+            return _db.PlayableCharacters.Any(x => x.Id == id);
         }
 
         public async Task DeleteAsync(PlayableCharacter playableCharacter)
@@ -46,7 +46,7 @@ namespace OstreCWEB.Repository.Repository.Characters
 
         public async Task<PlayableCharacter> GetByIdAsync(int id)
         {
-            return await _db.PlayableCharacters.FirstAsync(c => c.CharacterId == id);
+            return await _db.PlayableCharacters.FirstAsync(c => c.Id == id);
         }
         public async Task UpdateAsync(PlayableCharacter playableCharacter)
         {
@@ -55,7 +55,7 @@ namespace OstreCWEB.Repository.Repository.Characters
         }
         public async Task UpdateAlreadyTrackedAsync(PlayableCharacter playableCharacter)
         {
-            var tracked = await _db.PlayableCharacters.FindAsync(playableCharacter.CharacterId);
+            var tracked = await _db.PlayableCharacters.FindAsync(playableCharacter.Id);
             tracked = playableCharacter;
         }
         public async Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId)
@@ -66,7 +66,7 @@ namespace OstreCWEB.Repository.Repository.Characters
                  .Include(x => x.CharacterClass)
                  .ThenInclude(y => y.ItemsGrantedByClass)
                  .AsNoTracking()
-                 .SingleOrDefaultAsync(x => x.CharacterId == characterTemplateId);
+                 .SingleOrDefaultAsync(x => x.Id == characterTemplateId);
         }
         #region
         public void CreateNew(PlayableCharacter model)

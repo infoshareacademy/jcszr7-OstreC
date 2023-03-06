@@ -205,7 +205,7 @@ namespace OstreCWEB.Services.Game
                     items.Add(
                         new ItemCharacter
                         {
-                            CharacterId = activeCharacter.CharacterId,
+                            CharacterId = activeCharacter.Id,
                             ItemId = item.ItemId,
                             IsEquipped = false
                         });

@@ -31,7 +31,7 @@
                                 <a asp-action="Create" >Add new</a>
                                 <thead>
                                     <tr>
-                                        <th scope="col" data-sortable="" class=""><label asp-for="FirstOrDefault().StatusId"></label></th>
+                                        <th scope="col" data-sortable="" class=""><label asp-for="FirstOrDefault().Id"></label></th>
                                         <th scope="col" data-sortable="" class=""><label asp-for="FirstOrDefault().Name"></label></th>
                                         <th scope="col" data-sortable="" class=""><label asp-for="FirstOrDefault().Description"></label></th>
                                     </tr>
@@ -45,12 +45,12 @@
                                         @foreach (var status in Model)
                                         {
                                             <tr>
-                                                <td>@status.StatusId</td>
+                                                <td>@status.Id</td>
                                                 <td>@status.Name</td>
                                                 <td>@status.Description</td>
                                                 <td>
-                                                    <a asp-action="Update" asp-route-id="@status.StatusId">Update</a> |
-                                                    <a asp-action="Delete" asp-route-id="@status.StatusId">Delete</a>
+                                                    <a asp-action="Update" asp-route-id="@status.Id">Update</a> |
+                                                    <a asp-action="Delete" asp-route-id="@status.Id">Delete</a>
                                                 </td>
                                             </tr>
                                            

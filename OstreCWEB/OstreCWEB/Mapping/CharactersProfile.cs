@@ -56,10 +56,10 @@ namespace OstreCWEB.Mapping
                 .ForMember(dest => dest.PlayableCharacter, opt => opt.Ignore())
                 .ForMember(dest => dest.ActionsGrantedByClass, opt => opt.Ignore())
                 .ForMember(dest => dest.ItemsGrantedByClass, opt => opt.Ignore());
-            CreateMap<Ability, CharacterActionEditView>()
+            CreateMap<Ability, AbilityEditView>()
                 .ForMember(x => x.AllStatuses, options => options.Ignore())
                 .ForMember(x => x.AllClasses, options => options.Ignore());
-            CreateMap<CharacterActionEditView, Ability>()
+            CreateMap<AbilityEditView, Ability>()
                 .ForMember(x => x.LinkedCharacter, options => options.Ignore())
                  .ForMember(x => x.LinkedItems, options => options.Ignore())
                   .ForMember(x => x.Status, options => options.Ignore())

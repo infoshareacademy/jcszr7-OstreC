@@ -4,7 +4,7 @@ namespace OstreCWEB.ViewModel.Characters
 {
     public class PlayableCharacterRow
     {
-        public int CharacterId { get; set; }
+        public int Id { get; set; }
 
         [DisplayName("Character Name")]
         public string CharacterName { get; set; }

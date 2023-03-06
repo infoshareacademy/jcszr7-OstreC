@@ -36,18 +36,18 @@ namespace OstreCWEB.Repository.Repository.Characters
         public async Task<PlayableClass> GetByIdNoIncludesAsync(int id)
         {
             return await _context.PlayableCharacterClasses
-                .SingleOrDefaultAsync(x => x.PlayableClassId == id);
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
         private async Task<PlayableClass> GetByIdAsync(int id)
         {
             return await _context.PlayableCharacterClasses
                 .Include(x => x.ItemsGrantedByClass)
                 .Include(x => x.ActionsGrantedByClass)
-                .SingleOrDefaultAsync(x => x.PlayableClassId == id);
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
         public PlayableClass GetById(int id)
         {
-            return _context.PlayableCharacterClasses.SingleOrDefault(x => x.PlayableClassId == id);
+            return _context.PlayableCharacterClasses.SingleOrDefault(x => x.Id == id);
         }
 
         public async Task UpdateAsync(PlayableClass item)
