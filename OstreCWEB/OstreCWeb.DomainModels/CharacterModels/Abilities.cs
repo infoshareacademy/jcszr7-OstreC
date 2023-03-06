@@ -7,7 +7,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
 {
 
     //"using" a spell , item  or weapon is an action. 
-    public class Ability  
+    public class Ability :IEntityBase
     {
         //EF config
         [Key]

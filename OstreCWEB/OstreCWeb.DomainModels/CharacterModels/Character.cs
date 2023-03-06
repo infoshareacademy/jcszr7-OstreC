@@ -1,11 +1,12 @@
-﻿using OstreCWEB.DomainModels.ManyToMany;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.ManyToMany;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
-    public abstract class Character
+    public abstract class Character : IEntityBase
     {
         //Ef Config
         //=============================================================//

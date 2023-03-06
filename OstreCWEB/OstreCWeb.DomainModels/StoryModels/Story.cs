@@ -1,8 +1,9 @@
-﻿using OstreCWEB.DomainModels.Identity;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.Identity;
 
 namespace OstreCWEB.DomainModels.StoryModels
 {
-    public class Story
+    public class Story : IEntityBase
     {
         // General
         public int Id { get; set; }

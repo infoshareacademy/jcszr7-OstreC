@@ -2,12 +2,13 @@
 
 namespace OstreCWEB.Repository.Repository.Characters.Interfaces
 {
-    public interface IAbilitiesRepository
+    public interface IAbilitiesRepository<T> : IEntityBaseRepo<Ability> where T : Ability
+
     {
-        public Task<Ability> GetByIdAsync(int id);
-        public Task<List<Ability>> GetAllAsync();
-        public Task UpdateAsync(Ability item);
-        public Task CreateAsync(Ability item);
-        public Task DeleteAsync(int id);
+    public Task<Ability> GetByIdAsync(int id);
+    public Task<List<Ability>> GetAllAsync();
+    public Task UpdateAsync(Ability item);
+    public Task CreateAsync(Ability item);
+    public Task DeleteAsync(int id);
     }
 }

@@ -1,8 +1,9 @@
-﻿using OstreCWEB.DomainModels.CharacterModels;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.DomainModels.StoryModels.Properties
 {
-    public class EnemyInParagraph
+    public class EnemyInParagraph : IEntityBase
     {
         // General
         public int Id { get; set; }

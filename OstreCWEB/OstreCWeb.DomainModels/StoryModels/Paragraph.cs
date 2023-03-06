@@ -1,10 +1,11 @@
-﻿using OstreCWEB.DomainModels.ManyToMany;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 
 namespace OstreCWEB.DomainModels.StoryModels
 {
-    public class Paragraph
+    public class Paragraph : IEntityBase
     {
         // General
         public int Id { get; set; }

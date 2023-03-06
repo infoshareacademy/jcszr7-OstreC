@@ -5,10 +5,10 @@ using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.Repository.Repository.Characters
 {
-    internal class AbilitiesRepository : IAbilitiesRepository
+    internal class AbilitiesRepository : EntityBaseRepo<Ability>, IAbilitiesRepository<Ability>
     {
         private OstreCWebContext _db;
-        public AbilitiesRepository(OstreCWebContext db)
+        public AbilitiesRepository(OstreCWebContext db) :base(db)
         {
             _db = db;
         }

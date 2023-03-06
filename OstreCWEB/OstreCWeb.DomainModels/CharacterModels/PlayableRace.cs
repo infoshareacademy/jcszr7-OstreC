@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OstreCWeb.DomainModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
-    public class PlayableRace
+    public class PlayableRace : IEntityBase
     {
         //Ef Config// 
         [Key]

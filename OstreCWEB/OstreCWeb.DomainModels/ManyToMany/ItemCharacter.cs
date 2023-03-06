@@ -1,9 +1,10 @@
-﻿using OstreCWEB.DomainModels.CharacterModels;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.CharacterModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.DomainModels.ManyToMany
 {
-    public class ItemCharacter
+    public class ItemCharacter : IEntityBase
     {
         [Key]
         public int Id { get; set; }
