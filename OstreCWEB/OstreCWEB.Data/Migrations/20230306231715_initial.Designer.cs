@@ -12,8 +12,8 @@ using OstreCWEB.Repository.DataBase;
 namespace OstreCWEB.Repository.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    [Migration("20230306191731_RenamedIdFieldsForDomainModels")]
-    partial class RenamedIdFieldsForDomainModels
+    [Migration("20230306231715_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -280,7 +280,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ActionToTriggerId")
+                    b.Property<int?>("AbilityId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ArmorClass")
@@ -301,7 +301,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActionToTriggerId");
+                    b.HasIndex("AbilityId");
 
                     b.HasIndex("PlayableClassId");
 
@@ -880,15 +880,15 @@ namespace OstreCWEB.Repository.Migrations
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Item", b =>
                 {
-                    b.HasOne("OstreCWEB.DomainModels.CharacterModels.Ability", "ActionToTrigger")
+                    b.HasOne("OstreCWEB.DomainModels.CharacterModels.Ability", "Ability")
                         .WithMany("LinkedItems")
-                        .HasForeignKey("ActionToTriggerId");
+                        .HasForeignKey("AbilityId");
 
                     b.HasOne("OstreCWEB.DomainModels.CharacterModels.PlayableClass", "PlayableClass")
                         .WithMany("ItemsGrantedByClass")
                         .HasForeignKey("PlayableClassId");
 
-                    b.Navigation("ActionToTrigger");
+                    b.Navigation("Ability");
 
                     b.Navigation("PlayableClass");
                 });

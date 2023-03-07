@@ -12,8 +12,8 @@ namespace OstreCWEB.DomainModels.CharacterModels
         public int Id { get; set; }
         public List<ItemCharacter> LinkedCharacters { get; set; }
         public List<ParagraphItem> ParagraphItems { get; set; }
-        public Ability? ActionToTrigger { get; set; }
-        public int? ActionToTriggerId { get; set; }
+        public Ability? Ability { get; set; }
+        public int? AbilityId { get; set; }
         public int? PlayableClassId { get; set; }
         public PlayableClass? PlayableClass { get; set; }
         // 

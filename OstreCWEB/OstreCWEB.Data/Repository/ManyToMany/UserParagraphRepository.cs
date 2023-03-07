@@ -37,27 +37,13 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
                 .ToListAsync();
             _context.UserParagraphs.RemoveRange(instances);
             await _context.SaveChangesAsync();
-        }
-        public Task<UserParagraph> Add()
-        {
-            throw new NotImplementedException();
-        }
-        public async Task Create(UserParagraph newGameSession)
-        {
-            _context.UserParagraphs.AddAsync(newGameSession);
-            await _context.SaveChangesAsync();
-        }
-        public async Task Delete(UserParagraph gameSession)
+        }  
+        public async Task DeleteAsync(UserParagraph gameSession)
         {
             _context.PlayableCharacters.Remove(gameSession.ActiveCharacter);
             _context.UserParagraphs.Remove(gameSession);
             await _context.SaveChangesAsync();
-        }  
-        public async Task UpdateAsync(UserParagraph gameSession)
-        {
-            _context.UserParagraphs.Update(gameSession);
-            await _context.SaveChangesAsync();
-        }
+        }   
 
         public async Task<UserParagraph> GetByUserParagraphIdAsync(int userParagraphId)
         {
@@ -118,10 +104,6 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
                  .SingleOrDefault(s => s.User.Id == userId && s.ActiveGame);
             var test = _context.ChangeTracker;
             return result;
-        }
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
+        } 
     }
 }

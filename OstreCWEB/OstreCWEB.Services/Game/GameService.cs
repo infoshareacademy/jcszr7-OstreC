@@ -91,7 +91,7 @@ namespace OstreCWEB.Services.Game
         public async Task DeleteGameInstanceAsync(int userParagrahId)
         {
             var userParagraph = await _userParagraphRepository.GetByUserParagraphIdAsync(userParagrahId);
-            await _userParagraphRepository.Delete(userParagraph);
+            await _userParagraphRepository.DeleteAsync(userParagraph);
         }
 
         public async Task SetActiveGameInstanceAsync(int userParagraphId, int userId)

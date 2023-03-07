@@ -7,8 +7,7 @@ using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.Repository.Repository.Fight;
 using OstreCWEB.Repository.Repository.Identity;
 using OstreCWEB.Repository.Repository.ManyToMany;
-using OstreCWEB.Repository.Repository.StoryModels;
-using OstreCWEB.Repository.Repository.SuperAdmin;
+using OstreCWEB.Repository.Repository.StoryModels; 
 
 namespace OstreCWEB.Repository.RepositoryRegistration
 {
@@ -19,9 +18,8 @@ namespace OstreCWEB.Repository.RepositoryRegistration
             services.AddTransient<IStoryRepository, StoryRepository>();
             services.AddTransient<IFightRepository, FightRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
-            services.AddTransient<IAbilitiesRepository, AbilitiesRepository>();
-            services.AddTransient<IPlayableCharacterRepository, PlayableCharacterRepository>();
-            services.AddTransient<ISuperAdminRepository, SuperAdminRepository>();
+            services.AddTransient<IAbilitiesRepository<Ability>, AbilitiesRepository>();
+            services.AddTransient<IPlayableCharacterRepository, PlayableCharacterRepository>(); 
             services.AddTransient<IIdentityRepository, IdentityRepository>();
             services.AddTransient<IUserParagraphRepository<UserParagraph>, UserParagraphRepository>();
             services.AddTransient<IItemCharacterRepository, ItemCharacterRepository>();

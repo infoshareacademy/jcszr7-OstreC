@@ -15,9 +15,9 @@ namespace OstreCWEB.Controllers
         public ICharacterClassRepository _characterClassRepository { get; }
         public IItemRepository<Item> _ItemRepository { get; }
         public IMapper _Mapper { get; }
-        public IAbilitiesRepository _CharacterActionsRepository { get; }
+        public IAbilitiesRepository<Ability> _CharacterActionsRepository { get; }
 
-        public ItemsController(ICharacterClassRepository characterClassRepository, IItemRepository<Item> itemRepository, IMapper mapper, IAbilitiesRepository characterActionsRepository)
+        public ItemsController(ICharacterClassRepository characterClassRepository, IItemRepository<Item> itemRepository, IMapper mapper, IAbilitiesRepository<Ability> characterActionsRepository)
         {
             _characterClassRepository = characterClassRepository;
             _ItemRepository = itemRepository;
@@ -101,7 +101,7 @@ namespace OstreCWEB.Controllers
             }
         }
 
-        // GET: ItemController/Delete/5
+        // GET: ItemController/DeleteAsync/5
         public async Task<ActionResult> Delete(int id)
         {
             try

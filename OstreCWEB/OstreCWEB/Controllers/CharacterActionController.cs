@@ -12,10 +12,10 @@ namespace OstreCWEB.Controllers
     {
         public ICharacterClassRepository _characterClassRepository { get; }
         public IMapper _Mapper { get; }
-        public IAbilitiesRepository _characterActionsRepository { get; }
+        public IAbilitiesRepository<Ability> _characterActionsRepository { get; }
         public IStatusRepository _statusRepository { get; }
 
-        public CharacterActionController(IMapper mapper, IAbilitiesRepository characterActionsRepository, IStatusRepository status, ICharacterClassRepository characterClassRepository)
+        public CharacterActionController(IMapper mapper, IAbilitiesRepository<Ability> characterActionsRepository, IStatusRepository status, ICharacterClassRepository characterClassRepository)
         {
             _Mapper = mapper;
             _characterActionsRepository = characterActionsRepository;
@@ -68,7 +68,7 @@ namespace OstreCWEB.Controllers
         // GET: ItemController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var model = _Mapper.Map<AbilityEditView>(await _characterActionsRepository.GetByIdAsync(id));
+            var model = _Mapper.Map<AbilityEditView>(await _characterActionsRepository.GetByIdAsync(id,x=>x.Status,x=>x.LinkedCharacter));
             model.AllStatuses = new Dictionary<int, string>();
             model.AllClasses = new Dictionary<int, string>();
             var statuses = await _statusRepository.GetAllAsync();
@@ -94,7 +94,7 @@ namespace OstreCWEB.Controllers
             }
         }
 
-        // GET: ItemController/Delete/5
+        // GET: ItemController/DeleteAsync/5
         public async Task<ActionResult> Delete(int id)
         {
             try

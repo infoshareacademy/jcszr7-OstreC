@@ -324,9 +324,9 @@ namespace OstreCWEB.Repository.InitialData
             context.Items.AddRange(items);
             context.SaveChanges();
             //adding actions to items
-            items.FirstOrDefault(i => i.Name.Contains("Two Handed Sword")).ActionToTrigger = actions.First(a => a.AbilityName.Contains("2d6 attack"));
-            items.FirstOrDefault(i => i.Name.Contains("Short Sword")).ActionToTrigger = actions.FirstOrDefault(a => a.AbilityName.Contains("1d6 attack"));
-            items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).ActionToTrigger = actions.FirstOrDefault(a => a.AbilityName.Contains("Small Heal"));
+            items.FirstOrDefault(i => i.Name.Contains("Two Handed Sword")).Ability = actions.First(a => a.AbilityName.Contains("2d6 attack"));
+            items.FirstOrDefault(i => i.Name.Contains("Short Sword")).Ability = actions.FirstOrDefault(a => a.AbilityName.Contains("1d6 attack"));
+            items.FirstOrDefault(i => i.Name.Contains("Healing Potion")).Ability = actions.FirstOrDefault(a => a.AbilityName.Contains("Small Heal"));
             //adding statuses to actions
             actions.FirstOrDefault(a => a.AbilityName.Contains("Magic Missiles")).Status = statuses.FirstOrDefault(s => s.Name.Contains("Blind"));
             actions.FirstOrDefault(a => a.AbilityName.Contains("Bless")).Status = statuses.FirstOrDefault(s => s.Name.Contains("Bless"));

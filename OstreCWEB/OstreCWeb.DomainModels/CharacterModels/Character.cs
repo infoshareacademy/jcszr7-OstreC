@@ -44,13 +44,13 @@ namespace OstreCWEB.DomainModels.CharacterModels
             get
             {
                 var allAvailableActions = new List<Ability>();
-                foreach (var item in EquippedItems) { if (item.ActionToTrigger != null) { allAvailableActions.Add(item.ActionToTrigger); } }
+                foreach (var item in EquippedItems) { if (item.Ability != null) { allAvailableActions.Add(item.Ability); } }
                 foreach (var action in InnateAbilities) { if (action != null) { allAvailableActions.Add(action); } }
                 foreach (var item in Inventory)
                 {
-                    if (item != null && item.ActionToTrigger != null)
+                    if (item != null && item.Ability != null)
                     {
-                        allAvailableActions.Add(item.ActionToTrigger);
+                        allAvailableActions.Add(item.Ability);
                     }
                 }
                 return allAvailableActions;

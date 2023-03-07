@@ -19,11 +19,13 @@ namespace OstreCWEB.Repository.Configurations
 
             builder
                 .HasOne(x => x.Item)
-                .WithMany(x => x.ParagraphItems);
+                .WithMany(x => x.ParagraphItems)
+                .HasForeignKey(x => x.ItemId);
 
             builder
                 .HasOne(x => x.Paragraph)
-                .WithMany(x => x.ParagraphItems);
+                .WithMany(x => x.ParagraphItems)
+                .HasForeignKey(x => x.ParagraphId);
         }
     }
 }

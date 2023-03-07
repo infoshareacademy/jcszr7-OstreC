@@ -14,7 +14,7 @@ namespace OstreCWEB.ViewModel.Characters
         [DisplayName("Name")]
         public string? Name { get; set; }
         [DisplayName("Linked Action")]
-        public AbilityView ActionToTrigger { get; set; }
+        public AbilityView Ability { get; set; }
         [DisplayName("Linked Class")]
         public PlayableClassView PlayableClass { get; set; }
         [DisplayName("Destroyed on use")]
@@ -23,7 +23,7 @@ namespace OstreCWEB.ViewModel.Characters
         {
             get
             {
-                if (this.ActionToTrigger != null)
+                if (this.Ability != null)
                 {
                     return true;
                 }

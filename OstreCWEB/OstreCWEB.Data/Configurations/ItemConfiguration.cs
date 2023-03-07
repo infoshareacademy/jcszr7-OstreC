@@ -12,12 +12,14 @@ namespace OstreCWEB.Repository.Configurations
     public class ItemConfiguration : IEntityTypeConfiguration<Item>
     {
         public void Configure(EntityTypeBuilder<Item> builder)
-        {
-            builder.Navigation(e => e.ActionToTrigger).AutoInclude();
+        { 
+            builder.HasKey(x => x.Id);  
+            builder.Navigation(e => e.Ability).AutoInclude();
             builder
-                .HasOne(x => x.ActionToTrigger)
+                .HasOne(x => x.Ability)
                 .WithMany(x => x.LinkedItems)
-                .HasForeignKey(x => x.ActionToTriggerId);
+                .HasForeignKey(x => x.AbilityId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             //builder.Entity<ItemCharacter>()
             // .HasKey(x => new { x.Id, x.Id }); 

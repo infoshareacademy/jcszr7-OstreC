@@ -9,6 +9,7 @@ namespace OstreCWEB.Mapping
         public IdentityProfile()
         {
             CreateMap<User, UserView>();
+
         }
     }
 }

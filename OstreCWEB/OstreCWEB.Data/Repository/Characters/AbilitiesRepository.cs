@@ -11,48 +11,6 @@ namespace OstreCWEB.Repository.Repository.Characters
         public AbilitiesRepository(OstreCWebContext db) :base(db)
         {
             _db = db;
-        }
-
-        public async Task CreateAsync(Ability characterAction)
-        {
-            _db.CharacterActions.Add(characterAction);
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            _db.CharacterActions.Remove(GetByIdWithLinkedItemsAsync(id));
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task<List<Ability>> GetAllAsync()
-        {
-            return await _db.CharacterActions
-                .Include(s => s.Status)
-                .Include(s => s.LinkedCharacter)
-                .ToListAsync();
-        }
-
-        public async Task<Ability> GetByIdAsync(int id)
-        {
-            return await _db.CharacterActions
-                .Include(s => s.Status)
-                .Include(s => s.LinkedCharacter)
-                .SingleOrDefaultAsync(s => s.Id == id);
-        }
-        private Ability GetByIdWithLinkedItemsAsync(int id)
-        {
-            return _db.CharacterActions
-                .Include(s => s.Status)
-                .Include(s => s.LinkedCharacter)
-                .Include(x => x.LinkedItems)
-                .SingleOrDefault(s => s.Id == id);
-        }
-
-        public async Task UpdateAsync(Ability characterAction)
-        {
-            _db.CharacterActions.Update(characterAction);
-            await _db.SaveChangesAsync();
-        }
+        }   
     }
 }

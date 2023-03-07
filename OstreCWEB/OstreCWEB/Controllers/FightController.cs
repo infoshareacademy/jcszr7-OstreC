@@ -148,7 +148,7 @@ namespace OstreCWEB.Controllers
                 _fightService.UpdateItemToRemove(id);
                 activeFightInstance.IsItemToDelete = true;
             }
-            _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.ActionToTrigger.Id));
+            _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.Ability.Id));
             _fightService.ResetActiveTarget();
             return RedirectToAction("FightView");
         }
