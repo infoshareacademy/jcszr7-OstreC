@@ -13,9 +13,9 @@ namespace OstreCWEB.Controllers
         public ICharacterClassRepository _characterClassRepository { get; }
         public IMapper _Mapper { get; }
         public IAbilitiesRepository<Ability> _characterActionsRepository { get; }
-        public IStatusRepository _statusRepository { get; }
+        public IStatusRepository<Status> _statusRepository { get; }
 
-        public CharacterActionController(IMapper mapper, IAbilitiesRepository<Ability> characterActionsRepository, IStatusRepository status, ICharacterClassRepository characterClassRepository)
+        public CharacterActionController(IMapper mapper, IAbilitiesRepository<Ability> characterActionsRepository, IStatusRepository<Status> status, ICharacterClassRepository characterClassRepository)
         {
             _Mapper = mapper;
             _characterActionsRepository = characterActionsRepository;

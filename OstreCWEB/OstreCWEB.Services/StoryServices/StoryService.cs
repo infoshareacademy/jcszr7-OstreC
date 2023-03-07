@@ -11,9 +11,9 @@ namespace OstreCWEB.Services.StoryServices
     internal class StoryService : IStoryService
     {
         private readonly IStoryRepository _storyRepository;
-        private readonly IEnemyRepository _enemyRepository;
+        private readonly IEnemyRepository<Enemy> _enemyRepository;
 
-        public StoryService(IStoryRepository storyRepository, IEnemyRepository enemyRepository)
+        public StoryService(IStoryRepository storyRepository, IEnemyRepository<Enemy> enemyRepository)
         {
             _storyRepository = storyRepository;
             _enemyRepository = enemyRepository;
