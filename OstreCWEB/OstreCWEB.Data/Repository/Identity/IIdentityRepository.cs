@@ -1,12 +1,10 @@
-﻿using OstreCWEB.DomainModels.Identity;
+﻿using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.Identity;
 
 namespace OstreCWEB.Repository.Repository.Identity
 {
-    public interface IIdentityRepository
-    {
-        public Task AddUser(User user);
-        public Task<User> GetUser(int id);
-        public Task<List<User>> GetAll();
-        public Task Update(User user);
+    public interface IIdentityRepository<T> : IEntityBaseRepo<User> where T : User
+    { 
+        public Task<User> GetUserGameStart(int id); 
     }
 }

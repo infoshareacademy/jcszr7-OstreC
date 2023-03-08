@@ -17,8 +17,8 @@ namespace OstreCWEB.Repository.Configurations
 
             builder
                 .HasMany(x => x.LinkedItems)
-                .WithOne(x => x.ActionToTrigger)
-                .HasForeignKey(x => x.ActionToTriggerId)
+                .WithOne(x => x.Ability)
+                .HasForeignKey(x => x.AbilityId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }

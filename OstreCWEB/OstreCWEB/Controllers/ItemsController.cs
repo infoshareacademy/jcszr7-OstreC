@@ -12,12 +12,16 @@ namespace OstreCWEB.Controllers
     [Authorize(Roles = "admin")]
     public class ItemsController : Controller
     {
-        public ICharacterClassRepository _characterClassRepository { get; }
+        public ICharacterClassRepository<PlayableClass> _characterClassRepository { get; }
         public IItemRepository<Item> _ItemRepository { get; }
         public IMapper _Mapper { get; }
-        public IAbilitiesRepository _CharacterActionsRepository { get; }
+        public IAbilitiesRepository<Ability> _CharacterActionsRepository { get; }
 
-        public ItemsController(ICharacterClassRepository characterClassRepository, IItemRepository<Item> itemRepository, IMapper mapper, IAbilitiesRepository characterActionsRepository)
+        public ItemsController(
+            ICharacterClassRepository<PlayableClass> characterClassRepository,
+            IItemRepository<Item> itemRepository,
+            IMapper mapper,
+            IAbilitiesRepository<Ability> characterActionsRepository)
         {
             _characterClassRepository = characterClassRepository;
             _ItemRepository = itemRepository;
@@ -51,8 +55,8 @@ namespace OstreCWEB.Controllers
             var allClasses = await _characterClassRepository.GetAllAsync();
             model.AllExistingActions = new Dictionary<int, string>();
             model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.AbilityId, x.AbilityName));
-            allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
+            allActions.ForEach(x => model.AllExistingActions.Add(x.Id, x.AbilityName));
+            allClasses.ForEach(x => model.AllExistingClasses.Add(x.Id, x.ClassName));
             return View(model);
         }
 
@@ -80,8 +84,8 @@ namespace OstreCWEB.Controllers
             var allClasses = await _characterClassRepository.GetAllAsync();
             model.AllExistingActions = new Dictionary<int, string>();
             model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.AbilityId, x.AbilityName));
-            allClasses.ForEach(x => model.AllExistingClasses.Add(x.PlayableClassId, x.ClassName));
+            allActions.ForEach(x => model.AllExistingActions.Add(x.Id, x.AbilityName));
+            allClasses.ForEach(x => model.AllExistingClasses.Add(x.Id, x.ClassName));
             return View(model);
         }
 
@@ -101,7 +105,7 @@ namespace OstreCWEB.Controllers
             }
         }
 
-        // GET: ItemController/Delete/5
+        // GET: ItemController/DeleteAsync/5
         public async Task<ActionResult> Delete(int id)
         {
             try

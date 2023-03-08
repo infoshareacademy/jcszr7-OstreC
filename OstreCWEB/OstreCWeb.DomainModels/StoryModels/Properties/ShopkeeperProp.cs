@@ -1,6 +1,8 @@
-﻿namespace OstreCWEB.DomainModels.StoryModels.Properties
+﻿using OstreCWeb.DomainModels;
+
+namespace OstreCWEB.DomainModels.StoryModels.Properties
 {
-    public class ShopkeeperProp
+    public class ShopkeeperProp : IEntityBase
     {
         // General
         public int Id { get; set; }

@@ -1,9 +1,10 @@
-﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 
 namespace OstreCWEB.DomainModels.StoryModels.Properties
 {
-    public class TestProp
+    public class TestProp : IEntityBase
     {
         // General
         public int Id { get; set; }

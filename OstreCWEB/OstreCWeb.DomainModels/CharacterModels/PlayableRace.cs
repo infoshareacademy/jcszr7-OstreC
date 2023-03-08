@@ -1,15 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OstreCWeb.DomainModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
-    public class PlayableRace
+    public class PlayableRace : IEntityBase
     {
         //Ef Config// 
         [Key]
-        public int PlayableRaceId { get; set; }
+        public int Id { get; set; }
         public List<PlayableCharacter> PlayableCharacter { get; set; }
         // 
         public string RaceName { get; set; }
+        public string RaceDescription { get; set; }
         public int IntelligenceBonus { get; set; }
         public int StrengthBonus { get; set; }
         public int WisdomBonus { get; set; }

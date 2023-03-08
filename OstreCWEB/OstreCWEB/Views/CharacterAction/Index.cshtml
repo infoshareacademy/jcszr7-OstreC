@@ -24,8 +24,8 @@
                         <th scope="row">@action.AbilityName</th>
                         <td>@action.AbilityDescription</td>
                         <td>@action.ActionType.ToString()</td> 
-                        <td><a asp-controller="CharacterAction" asp-action="Edit" asp-route-id="@action.AbilityId" type="button" class="btn btn-primary">Edit</a></td>
-                        <td><a asp-controller="CharacterAction" asp-action="Delete" asp-route-id="@action.AbilityId" type="button" class="btn btn-primary">Delete</a></td>
+                        <td><a asp-controller="CharacterAction" asp-action="Edit" asp-route-id="@action.Id" type="button" class="btn btn-primary">Edit</a></td>
+                        <td><a asp-controller="CharacterAction" asp-action="Delete" asp-route-id="@action.Id" type="button" class="btn btn-primary">Delete</a></td>
                     </tr>
                 }
             </tbody>

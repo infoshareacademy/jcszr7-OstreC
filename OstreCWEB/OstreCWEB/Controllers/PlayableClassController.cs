@@ -12,11 +12,14 @@ namespace OstreCWEB.Controllers
     [Authorize(Roles = "admin")]
     public class PlayableClassController : Controller
     {
-        public ICharacterClassRepository _characterClassRepository { get; } 
+        public ICharacterClassRepository<PlayableClass> _characterClassRepository { get; } 
         public IMapper _Mapper { get; }
         public IUserParagraphRepository<UserParagraph> _userParagraphRepository { get; } 
 
-        public PlayableClassController(ICharacterClassRepository characterClassRepository, IMapper mapper, IUserParagraphRepository<UserParagraph> userParagraphRepository)
+        public PlayableClassController(
+            ICharacterClassRepository<PlayableClass> characterClassRepository,
+            IMapper mapper,
+            IUserParagraphRepository<UserParagraph> userParagraphRepository)
         {
             _characterClassRepository = characterClassRepository;
             _Mapper = mapper;
@@ -62,7 +65,7 @@ namespace OstreCWEB.Controllers
         // GET: ItemController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var model = _Mapper.Map<PlayableClassView>(await _characterClassRepository.GetByIdNoIncludesAsync(id));
+            var model = _Mapper.Map<PlayableClassView>(await _characterClassRepository.GetByIdAsync(id));
             return View(model);
         }
 
@@ -82,7 +85,7 @@ namespace OstreCWEB.Controllers
             }
         }
 
-        // GET: ItemController/Delete/5
+        // GET: ItemController/DeleteAsync/5
         public async Task<ActionResult> Delete(int id)
         {
             try

@@ -1,16 +1,17 @@
-﻿using OstreCWEB.DomainModels.ManyToMany;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.ManyToMany;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
-    public abstract class Character
+    public abstract class Character : IEntityBase
     {
         //Ef Config
         //=============================================================//
         [Key]
-        public int CharacterId { get; set; }
+        public int Id { get; set; }
         //Actions granted on level 1 based on class+race+ user choices. 
         public List<AbilitiesCharacter>? LinkedAbilities { get; set; }
         //All items ( equipped+ in inventory)
@@ -43,13 +44,13 @@ namespace OstreCWEB.DomainModels.CharacterModels
             get
             {
                 var allAvailableActions = new List<Ability>();
-                foreach (var item in EquippedItems) { if (item.ActionToTrigger != null) { allAvailableActions.Add(item.ActionToTrigger); } }
+                foreach (var item in EquippedItems) { if (item.Ability != null) { allAvailableActions.Add(item.Ability); } }
                 foreach (var action in InnateAbilities) { if (action != null) { allAvailableActions.Add(action); } }
                 foreach (var item in Inventory)
                 {
-                    if (item != null && item.ActionToTrigger != null)
+                    if (item != null && item.Ability != null)
                     {
-                        allAvailableActions.Add(item.ActionToTrigger);
+                        allAvailableActions.Add(item.Ability);
                     }
                 }
                 return allAvailableActions;

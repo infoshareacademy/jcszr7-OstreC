@@ -5,42 +5,12 @@ using OstreCWEB.DomainModels.CharacterModels;
 
 namespace OstreCWEB.Repository.Repository.Characters
 {
-    internal class StatusRepository : IStatusRepository
+    internal class StatusRepository : EntityBaseRepo<Status>,IStatusRepository<Status>
     {
         private readonly OstreCWebContext _db;
-        public StatusRepository(OstreCWebContext db)
+        public StatusRepository(OstreCWebContext db):base(db)
         {
             _db = db;
-        }
-
-        public async Task CreateAsync(Status status)
-        {
-            _db.Statuses.AddAsync(status);
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(Status status)
-        {
-            _db.Statuses.Remove(status);
-
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task<List<Status>> GetAllAsync()
-        {
-
-            return await _db.Statuses.Include(p => p.CharacterActions).ToListAsync();
-        }
-
-        public async Task<Status> GetByIdAsync(int id)
-        {
-            return await _db.Statuses.Include(s => s.StatusId == id).SingleOrDefaultAsync(s => s.StatusId == id);
-        }
-
-        public async Task UpdateAsync(Status status)
-        {
-            _db.Statuses.Update(status);
-            await _db.SaveChangesAsync();
-        }
+        } 
     }
 }

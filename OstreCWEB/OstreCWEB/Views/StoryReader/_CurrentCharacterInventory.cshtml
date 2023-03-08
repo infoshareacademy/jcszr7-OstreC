@@ -31,7 +31,7 @@
         }
         @foreach (var linkedAction in Model.LinkedAbilities)
         {
-            <div class="modal fade" id="action-@linkedAction.CharacterAction.AbilityId" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div class="modal fade" id="action-@linkedAction.CharacterAction.Id" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content"> 
                         <div class="modal-body"> <partial name="_CharacterAction" model="@linkedAction.CharacterAction"></partial></div>
@@ -78,7 +78,7 @@
         @foreach (var linkedAction in @Model.LinkedAbilities)
         {
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#action-@linkedAction.CharacterAction.AbilityId"> @linkedAction.CharacterAction.AbilityName </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#action-@linkedAction.CharacterAction.Id"> @linkedAction.CharacterAction.AbilityName </button>
            
         }
         <!--Actions end-->

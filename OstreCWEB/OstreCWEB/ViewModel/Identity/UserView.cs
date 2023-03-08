@@ -14,9 +14,6 @@ namespace OstreCWEB.ViewModel.Identity
         public List<UserParagraphView> UserParagraphs { get; set; }
         //  
         public string Name { get; set; }
-        public DateTime Created { get; set; }
-        public int StoriesCompletedTotal { get; set; }
-        public int DamageDealt { get; set; }
-        public int DamageReceived { get; set; }
+        public DateTime Created { get; set; } 
     }
 }

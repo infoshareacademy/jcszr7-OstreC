@@ -27,11 +27,11 @@ namespace OstreCWEB.ViewModel.StoryReader
                 var result = new List<ItemCharacterView>();
                 foreach (var item in LinkedItems)
                 {
-                    if (item.Item.ItemType != ItemType.SpecialItem && item.IsEquipped && item.Item.ActionToTrigger != null)
+                    if (item.Item.ItemType != ItemType.SpecialItem && item.IsEquipped && item.Item.Ability != null)
                     {
                         result.Add(item);
                     }
-                    if (item.Item.ItemType == ItemType.SpecialItem && item.Item.ActionToTrigger != null)
+                    if (item.Item.ItemType == ItemType.SpecialItem && item.Item.Ability != null)
                     {
                         result.Add(item);
                     }

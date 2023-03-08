@@ -5,7 +5,7 @@ namespace OstreCWEB.ViewModel.Characters
 {
     public class AbilityView
     {
-        public int AbilityId { get; set; }
+        public int Id { get; set; }
         [DisplayName("Action name")]
         public string AbilityName { get; set; }
         [DisplayName("Action description")]

@@ -13,7 +13,7 @@ namespace OstreCWEB.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<Character> builder)
         {
-            builder.HasKey(entity => entity.CharacterId);
+            builder.HasKey(entity => entity.Id);
         }
     }
 }

@@ -1,13 +1,14 @@
-﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
+﻿using OstreCWeb.DomainModels;
+using OstreCWEB.DomainModels.CharacterModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
-    public class Status
+    public class Status : IEntityBase
     {
         //EF config
         [Key]
-        public int StatusId { get; set; }
+        public int Id { get; set; }
         public List<Ability> CharacterActions { get; set; }
         //
         public string Name { get; set; }

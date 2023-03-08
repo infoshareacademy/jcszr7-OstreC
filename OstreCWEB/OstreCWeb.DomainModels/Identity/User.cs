@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using OstreCWeb.DomainModels;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels;
 
 namespace OstreCWEB.DomainModels.Identity
 {
-    public class User : IdentityUser<int>
+    public class User : IdentityUser<int>,IEntityBase
     {
         //Ef Config
         public List<PlayableCharacter> CharactersCreated { get; set; }

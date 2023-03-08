@@ -1,6 +1,8 @@
-﻿namespace OstreCWEB.DomainModels.StoryModels.Properties
+﻿using OstreCWeb.DomainModels;
+
+namespace OstreCWEB.DomainModels.StoryModels.Properties
 {
-    public class DialogProp
+    public class DialogProp : IEntityBase
     {
         // General
         public int Id { get; set; }

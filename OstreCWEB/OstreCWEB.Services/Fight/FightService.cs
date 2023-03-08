@@ -24,8 +24,7 @@ namespace OstreCWEB.Services.Fight
         public FightService(
             IFightRepository fightRepository,
             IFightFactory fightFactory, 
-            ICharacterFactory characterFactory,
-            IPlayableCharacterRepository playableCharacterRepository,
+            ICharacterFactory characterFactory, 
             IHttpContextAccessor httpContextAccessor
             )
         {
@@ -109,7 +108,7 @@ namespace OstreCWEB.Services.Fight
             }
             if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != AbilityType.Cantrip)
             {
-                _activeFightInstance.ActivePlayer.LinkedAbilities.First(a => a.CharacterAction.AbilityId == _activeFightInstance.ActiveAction.AbilityId).UsesLeftBeforeRest--;
+                _activeFightInstance.ActivePlayer.LinkedAbilities.First(a => a.CharacterAction.Id == _activeFightInstance.ActiveAction.Id).UsesLeftBeforeRest--;
             }
 
             if (_activeFightInstance.PlayerActionCounter <= 0)
@@ -133,7 +132,7 @@ namespace OstreCWEB.Services.Fight
         {
             _activeFightInstance.ActiveTarget = character;
         }
-        public Ability ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAbilities.First(a => a.AbilityId == id);
+        public Ability ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAbilities.First(a => a.Id == id);
         public Character ChooseTarget(int id)
         {
             if (id == _activeFightInstance.ActivePlayer.CombatId)
@@ -526,7 +525,7 @@ namespace OstreCWEB.Services.Fight
         }
         public async Task DeleteFightInstanceAsync(int userId)
         {
-            _fightRepository.Delete(userId, _activeFightInstance.ActivePlayer.CharacterId, out string operationResult);
+            _fightRepository.Delete(userId, _activeFightInstance.ActivePlayer.Id, out string operationResult);
         }
 
         public bool IsBlind(Character character)

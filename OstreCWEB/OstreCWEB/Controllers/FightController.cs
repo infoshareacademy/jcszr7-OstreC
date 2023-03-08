@@ -63,10 +63,10 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> FightView()
         {
             var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.CharacterId);
+            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
             var model = new FightViewModel();
             //Each game instance character id is unique. We make sure each figh instance is unique too.Players can have multiple saves per story.
-            if (activeFightInstance != null && activeFightInstance.ActivePlayer.CharacterId == activeGameInstance.ActiveCharacter.CharacterId)
+            if (activeFightInstance != null && activeFightInstance.ActivePlayer.Id == activeGameInstance.ActiveCharacter.Id)
             {
                 model = _mapper.Map<FightViewModel>(activeFightInstance);
                 return View(model);
@@ -80,7 +80,7 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> SetActiveAction(int id)
         {
             var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.CharacterId);
+            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
             activeFightInstance.ActionGrantedByItem = false;
             _fightService.UpdateActiveAction(_fightService.ChooseAction(id));
             //We reset active target since each action can target different types of targets.
@@ -91,7 +91,7 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> SetActiveTarget(int id)
         {
             var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.CharacterId);
+            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
             var target = _fightService.ChooseTarget(id);
             _fightService.UpdateActiveTarget(target);
             return RedirectToAction(nameof(FightView));
@@ -101,9 +101,9 @@ namespace OstreCWEB.Controllers
         {
             var userId = _userService.GetUserId(User);
             var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(userId, activeGameInstance.ActiveCharacter.CharacterId);
+            var activeFightInstance = _fightService.GetActiveFightInstance(userId, activeGameInstance.ActiveCharacter.Id);
             await _fightService.CommitAction(userId);
-            var fightState = _fightService.GetFightState(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.CharacterId);
+            var fightState = _fightService.GetFightState(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
             activeFightInstance.ActionGrantedByItem = false;
             _fightService.ResetActiveTarget();
             _fightService.ResetActiveAction();
@@ -139,7 +139,7 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> SetActiveActionFromItem(int id)
         {
             var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.CharacterId);
+            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
             var chosenItem = activeFightInstance.ActivePlayer.LinkedItems.First(i => i.Id == id);
             activeFightInstance.IsItemToDelete = false;
             activeFightInstance.ActionGrantedByItem = true;
@@ -148,7 +148,7 @@ namespace OstreCWEB.Controllers
                 _fightService.UpdateItemToRemove(id);
                 activeFightInstance.IsItemToDelete = true;
             }
-            _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.ActionToTrigger.AbilityId));
+            _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.Ability.Id));
             _fightService.ResetActiveTarget();
             return RedirectToAction("FightView");
         }

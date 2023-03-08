@@ -10,11 +10,16 @@
                 <h3>Edit Class</h3>
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="PlayableClassId" />
+                    <input type="hidden" asp-for="Id" />
                     <div class="form-group">
                         <label asp-for="ClassName"></label>
                         <input asp-for="ClassName" class="form-control" />
                         <span asp-validation-for="ClassName" class="text-danger"></span>
+                    </div> 
+                    <div class="form-group">
+                        <label asp-for="ClassDescription"></label>
+                        <input asp-for="ClassDescription" class="form-control" />
+                        <span asp-validation-for="ClassDescription" class="text-danger"></span>
                     </div> 
                     <div class="form-group">
                         <label asp-for="WisdomBonus"></label>
@@ -45,6 +50,11 @@
                         <label asp-for="IntelligenceBonus"></label>
                         <input asp-for="IntelligenceBonus" type="number" min="0" max="10" step="1" class="form-control" />
                         <span asp-validation-for="IntelligenceBonus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BaseHP"></label>
+                        <input asp-for="BaseHP" type="number" min="0" max="40" step="1" class="form-control" />
+                        <span asp-validation-for="BaseHP" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-primary" />

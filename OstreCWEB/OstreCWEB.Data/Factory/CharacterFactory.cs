@@ -85,7 +85,7 @@ namespace OstreCWEB.Repository.Factory
                          new AbilitiesCharacter()
                          {
                             Character = newInstance,
-                             CharacterActionId = linkedAction.AbilityId, 
+                             CharacterActionId = linkedAction.Id, 
                              UsesLeftBeforeRest = linkedAction.UsesMaxBeforeRest
                          });
                 }
@@ -118,7 +118,7 @@ namespace OstreCWEB.Repository.Factory
                     newInstance.LinkedItems.Add(
                         new ItemCharacter()
                         {
-                            CharacterId = newInstance.CharacterId,
+                            CharacterId = newInstance.Id,
                             Character = newInstance,
                             ItemId = linkedItem.ItemId,
                             Item = linkedItem.Item,
@@ -137,7 +137,7 @@ namespace OstreCWEB.Repository.Factory
                     newInstance.LinkedAbilities.Add(
                          new AbilitiesCharacter()
                          {
-                             CharacterId = newInstance.CharacterId,
+                             CharacterId = newInstance.Id,
                              Character = newInstance,
                              CharacterActionId = linkedAction.CharacterActionId,
                              CharacterAction = linkedAction.CharacterAction,

@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OstreCWeb.DomainModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
-    public class PlayableClass
+    public class PlayableClass : IEntityBase
     {
         [Key]
-        public int PlayableClassId { get; set; }
+        public int Id { get; set; }
         public string ClassName { get; set; }
         public int IntelligenceBonus { get; set; }
         public int StrengthBonus { get; set; }
@@ -14,6 +15,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
         public int ConstitutionBonus { get; set; }
         public int CharismaBonus { get; set; }
 
+        public string ClassDescription { get; set; }
         public int BaseHP { get; set; }
 
 

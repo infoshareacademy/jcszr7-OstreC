@@ -1,4 +1,4 @@
-﻿@model OstreCWEB.ViewModel.Characters.CharacterActionEditView
+﻿@model OstreCWEB.ViewModel.Characters.AbilityEditView
 @using OstreCWEB.DomainModels.CharacterModels.Enums
 
 <div class="row align-items-top mb-3 justify-content-md-center">
@@ -11,7 +11,7 @@
 
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="AbilityId" />
+                    <input type="hidden" asp-for="Id" />
                     <div class="form-group">
                         <label asp-for="AbilityName"></label>
                         <input asp-for="AbilityName" class="form-control" />

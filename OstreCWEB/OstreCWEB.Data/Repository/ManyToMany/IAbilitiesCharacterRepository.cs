@@ -2,7 +2,8 @@
 
 namespace OstreCWEB.Repository.Repository.ManyToMany
 {
-    public interface IAbilitiesCharacterRepository
+    //Due to composite key it can't implement IEntityBaseRepo.
+    public   interface IAbilitiesCharacterRepository
     {
         public Task<AbilitiesCharacter> GetByCharacterId();
         public Task<AbilitiesCharacter> GetAll();

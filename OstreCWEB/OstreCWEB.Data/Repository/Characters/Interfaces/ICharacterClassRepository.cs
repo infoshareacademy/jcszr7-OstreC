@@ -2,13 +2,8 @@
 
 namespace OstreCWEB.Repository.Repository.Characters.Interfaces
 {
-    public interface ICharacterClassRepository
+    public interface ICharacterClassRepository<T> : IEntityBaseRepo<PlayableClass> where T : PlayableClass
     {
-        public Task<PlayableClass> GetByIdNoIncludesAsync(int id);
-        public Task<List<PlayableClass>> GetAllAsync();
-        public Task UpdateAsync(PlayableClass item);
-        public Task CreateAsync(PlayableClass item);
-        public Task DeleteAsync(int id);
-        public PlayableClass GetById(int id);
+        
     }
 }

@@ -10,12 +10,16 @@ namespace OstreCWEB.Controllers
     [Authorize(Roles = "admin")]
     public class CharacterActionController : Controller
     {
-        public ICharacterClassRepository _characterClassRepository { get; }
+        public ICharacterClassRepository<PlayableClass> _characterClassRepository { get; }
         public IMapper _Mapper { get; }
-        public IAbilitiesRepository _characterActionsRepository { get; }
-        public IStatusRepository _statusRepository { get; }
+        public IAbilitiesRepository<Ability> _characterActionsRepository { get; }
+        public IStatusRepository<Status> _statusRepository { get; }
 
-        public CharacterActionController(IMapper mapper, IAbilitiesRepository characterActionsRepository, IStatusRepository status, ICharacterClassRepository characterClassRepository)
+        public CharacterActionController(
+            IMapper mapper,
+            IAbilitiesRepository<Ability> characterActionsRepository,
+            IStatusRepository<Status> status,
+            ICharacterClassRepository<PlayableClass> characterClassRepository)
         {
             _Mapper = mapper;
             _characterActionsRepository = characterActionsRepository;
@@ -39,20 +43,20 @@ namespace OstreCWEB.Controllers
         // GET: ItemController/Create
         public async Task<ActionResult> Create()
         {
-            var model = new CharacterActionEditView();
+            var model = new AbilityEditView();
             model.AllStatuses = new Dictionary<int, string>();
             model.AllClasses = new Dictionary<int, string>();
             var statuses = await _statusRepository.GetAllAsync();
             var classes = await _characterClassRepository.GetAllAsync();
-            statuses.ForEach(x => model.AllStatuses.Add(x.StatusId, x.StatusType.ToString()));
-            classes.ForEach(x => model.AllClasses.Add(x.PlayableClassId, x.ClassName));
+            statuses.ForEach(x => model.AllStatuses.Add(x.Id, x.StatusType.ToString()));
+            classes.ForEach(x => model.AllClasses.Add(x.Id, x.ClassName));
             return View(model);
         }
 
         // POST: ItemController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CharacterActionEditView item)
+        public async Task<ActionResult> Create(AbilityEditView item)
         {
             try
             {
@@ -68,20 +72,20 @@ namespace OstreCWEB.Controllers
         // GET: ItemController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var model = _Mapper.Map<CharacterActionEditView>(await _characterActionsRepository.GetByIdAsync(id));
+            var model = _Mapper.Map<AbilityEditView>(await _characterActionsRepository.GetByIdAsync(id,x=>x.Status,x=>x.LinkedCharacter));
             model.AllStatuses = new Dictionary<int, string>();
             model.AllClasses = new Dictionary<int, string>();
             var statuses = await _statusRepository.GetAllAsync();
             var classes = await _characterClassRepository.GetAllAsync();
-            statuses.ForEach(x => model.AllStatuses.Add(x.StatusId, x.StatusType.ToString()));
-            classes.ForEach(x => model.AllClasses.Add(x.PlayableClassId, x.ClassName));
+            statuses.ForEach(x => model.AllStatuses.Add(x.Id, x.StatusType.ToString()));
+            classes.ForEach(x => model.AllClasses.Add(x.Id, x.ClassName));
             return View(model);
         }
 
         // POST: ItemController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CharacterActionEditView item)
+        public async Task<ActionResult> Edit(AbilityEditView item)
         {
             try
             {
@@ -94,7 +98,7 @@ namespace OstreCWEB.Controllers
             }
         }
 
-        // GET: ItemController/Delete/5
+        // GET: ItemController/DeleteAsync/5
         public async Task<ActionResult> Delete(int id)
         {
             try

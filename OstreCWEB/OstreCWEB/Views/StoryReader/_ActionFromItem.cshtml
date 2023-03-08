@@ -3,37 +3,37 @@
  
 <dl class="row">
     <dt class="col-sm-2 border-bottom">
-        <label asp-for="@Model.Item.ActionToTrigger.PossibleTarget"></label>
+        <label asp-for="@Model.Item.Ability.PossibleTarget"></label>
     </dt>
     <dd class="col-sm-10">
-        @(Model.Item.ActionToTrigger.PossibleTarget==TargetType.Target?"Enemy":"Yourself")
+        @(Model.Item.Ability.PossibleTarget==TargetType.Target?"Enemy":"Yourself")
     </dd>
     <dt class="col-sm-2 border-bottom">
-        <label asp-for="@Model.Item.ActionToTrigger.AbilityDescription"></label>
+        <label asp-for="@Model.Item.Ability.AbilityDescription"></label>
     </dt>
     <dd class="col-sm-10">
-        @Model.Item.ActionToTrigger.AbilityDescription
+        @Model.Item.Ability.AbilityDescription
     </dd>
-    @if (@Model.Item.ActionToTrigger.AggressiveAction)
+    @if (@Model.Item.Ability.AggressiveAction)
     {
-        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.SavingThrowPossible"></label></dt>
-        <dd class="col-sm-10">@(Model.Item.ActionToTrigger.SavingThrowPossible? "Possible":"Not Possible")</dd>
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.Ability.SavingThrowPossible"></label></dt>
+        <dd class="col-sm-10">@(Model.Item.Ability.SavingThrowPossible? "Possible":"Not Possible")</dd>
 
-        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.StatForTest"></label></dt>
-        <dd class="col-sm-10">@Model.Item.ActionToTrigger.StatForTest.ToString()</dd>
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.Ability.StatForTest"></label></dt>
+        <dd class="col-sm-10">@Model.Item.Ability.StatForTest.ToString()</dd>
     }
-    @if (@Model.Item.ActionToTrigger.ActionType != AbilityType.SpecialAction)
+    @if (@Model.Item.Ability.ActionType != AbilityType.SpecialAction)
     {
-        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.Max_Dmg"></label></dt>
-        <dd class="col-sm-10">@Model.Item.ActionToTrigger.Max_Dmg</dd>
-        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.Hit_Dice_Nr"></label> </dt>
-        <dd class="col-sm-10">@Model.Item.ActionToTrigger.Hit_Dice_Nr</dd>
-        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.ActionToTrigger.Flat_Dmg"></label> </dt>
-        <dd class="col-sm-10">@Model.Item.ActionToTrigger.Flat_Dmg </dd>
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.Ability.Max_Dmg"></label></dt>
+        <dd class="col-sm-10">@Model.Item.Ability.Max_Dmg</dd>
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.Ability.Hit_Dice_Nr"></label> </dt>
+        <dd class="col-sm-10">@Model.Item.Ability.Hit_Dice_Nr</dd>
+        <dt class="col-sm-2 border-bottom"><label asp-for="@Model.Item.Ability.Flat_Dmg"></label> </dt>
+        <dd class="col-sm-10">@Model.Item.Ability.Flat_Dmg </dd>
     }
-    @if (@Model.Item.ActionToTrigger.InflictsStatus)
+    @if (@Model.Item.Ability.InflictsStatus)
     {
-        <partial name="_Status" model="@Model.Item.ActionToTrigger.Status" />
+        <partial name="_Status" model="@Model.Item.Ability.Status" />
     }
 </dl>
  

@@ -10,11 +10,16 @@
                 <h3>Create Race</h3>
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="PlayableRaceId" />
+                    <input type="hidden" asp-for="Id" />
                     <div class="form-group">
                         <label asp-for="RaceName"></label>
                         <input asp-for="RaceName" class="form-control" />
                         <span asp-validation-for="RaceName" class="text-danger"></span>
+                    </div> 
+                    <div class="form-group">
+                        <label asp-for="RaceDescription"></label>
+                        <input asp-for="RaceDescription" class="form-control" />
+                        <span asp-validation-for="RaceDescription" class="text-danger"></span>
                     </div> 
                     <div class="form-group">
                         <label asp-for="WisdomBonus"></label>

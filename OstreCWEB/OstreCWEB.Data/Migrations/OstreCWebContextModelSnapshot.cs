@@ -161,11 +161,11 @@ namespace OstreCWEB.Repository.Migrations
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Ability", b =>
                 {
-                    b.Property<int>("AbilityId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AbilityId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AbilityDescription")
                         .IsRequired()
@@ -211,7 +211,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<int>("UsesMaxBeforeRest")
                         .HasColumnType("int");
 
-                    b.HasKey("AbilityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PlayableClassId");
 
@@ -222,11 +222,11 @@ namespace OstreCWEB.Repository.Migrations
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Character", b =>
                 {
-                    b.Property<int>("CharacterId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CharacterName")
                         .IsRequired()
@@ -263,7 +263,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<int>("Wisdom")
                         .HasColumnType("int");
 
-                    b.HasKey("CharacterId");
+                    b.HasKey("Id");
 
                     b.ToTable("Character");
 
@@ -278,7 +278,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ActionToTriggerId")
+                    b.Property<int?>("AbilityId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ArmorClass")
@@ -299,7 +299,7 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActionToTriggerId");
+                    b.HasIndex("AbilityId");
 
                     b.HasIndex("PlayableClassId");
 
@@ -308,17 +308,21 @@ namespace OstreCWEB.Repository.Migrations
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.PlayableClass", b =>
                 {
-                    b.Property<int>("PlayableClassId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayableClassId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("BaseHP")
                         .HasColumnType("int");
 
                     b.Property<int>("CharismaBonus")
                         .HasColumnType("int");
+
+                    b.Property<string>("ClassDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClassName")
                         .IsRequired()
@@ -339,18 +343,18 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<int>("WisdomBonus")
                         .HasColumnType("int");
 
-                    b.HasKey("PlayableClassId");
+                    b.HasKey("Id");
 
                     b.ToTable("PlayableCharacterClasses");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.PlayableRace", b =>
                 {
-                    b.Property<int>("PlayableRaceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayableRaceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CharismaBonus")
                         .HasColumnType("int");
@@ -364,6 +368,10 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<int>("IntelligenceBonus")
                         .HasColumnType("int");
 
+                    b.Property<string>("RaceDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RaceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -374,18 +382,18 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<int>("WisdomBonus")
                         .HasColumnType("int");
 
-                    b.HasKey("PlayableRaceId");
+                    b.HasKey("Id");
 
                     b.ToTable("PlayableCharacterRaces");
                 });
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Status", b =>
                 {
-                    b.Property<int>("StatusId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -398,7 +406,7 @@ namespace OstreCWEB.Repository.Migrations
                     b.Property<int>("StatusType")
                         .HasColumnType("int");
 
-                    b.HasKey("StatusId");
+                    b.HasKey("Id");
 
                     b.ToTable("Statuses");
                 });
@@ -878,15 +886,15 @@ namespace OstreCWEB.Repository.Migrations
 
             modelBuilder.Entity("OstreCWEB.DomainModels.CharacterModels.Item", b =>
                 {
-                    b.HasOne("OstreCWEB.DomainModels.CharacterModels.Ability", "ActionToTrigger")
+                    b.HasOne("OstreCWEB.DomainModels.CharacterModels.Ability", "Ability")
                         .WithMany("LinkedItems")
-                        .HasForeignKey("ActionToTriggerId");
+                        .HasForeignKey("AbilityId");
 
                     b.HasOne("OstreCWEB.DomainModels.CharacterModels.PlayableClass", "PlayableClass")
                         .WithMany("ItemsGrantedByClass")
                         .HasForeignKey("PlayableClassId");
 
-                    b.Navigation("ActionToTrigger");
+                    b.Navigation("Ability");
 
                     b.Navigation("PlayableClass");
                 });
