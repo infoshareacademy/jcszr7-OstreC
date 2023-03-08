@@ -11,12 +11,6 @@ namespace OstreCWEB.Repository.Repository.Characters
         public StatusRepository(OstreCWebContext db):base(db)
         {
             _db = db;
-        }
-
-        //public async Task<List<Status>> GetAllAsync()
-        //{
-
-        //    return await _db.Statuses.ToListAsync();
-        //}
+        } 
     }
 }

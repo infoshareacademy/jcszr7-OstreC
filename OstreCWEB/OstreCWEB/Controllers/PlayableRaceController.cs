@@ -12,11 +12,11 @@ namespace OstreCWEB.Controllers
     [Authorize(Roles = "admin")]
     public class PlayableRaceController : Controller
     {
-        public ICharacterRaceRepository _characterRaceRepository { get; }
+        public ICharacterRaceRepository<PlayableRace> _characterRaceRepository { get; }
         public IMapper _Mapper { get; }
         public IUserParagraphRepository<UserParagraph> _userParagraphRepository { get; }
 
-        public PlayableRaceController(ICharacterRaceRepository characterRaceRepository, IMapper mapper, IUserParagraphRepository<UserParagraph> userParagraphRepository)
+        public PlayableRaceController(ICharacterRaceRepository<PlayableRace> characterRaceRepository, IMapper mapper, IUserParagraphRepository<UserParagraph> userParagraphRepository)
         {
             _characterRaceRepository = characterRaceRepository;
             _Mapper = mapper;
@@ -44,7 +44,7 @@ namespace OstreCWEB.Controllers
         {
             try
             {
-                await _characterRaceRepository.CreateAsync(_Mapper.Map<PlayableRace>(playableRace));
+                await _characterRaceRepository.AddAsync(_Mapper.Map<PlayableRace>(playableRace));
                 return RedirectToAction(nameof(Index));
             }
             catch

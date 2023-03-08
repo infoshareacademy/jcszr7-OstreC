@@ -24,8 +24,7 @@ namespace OstreCWEB.Services.Fight
         public FightService(
             IFightRepository fightRepository,
             IFightFactory fightFactory, 
-            ICharacterFactory characterFactory,
-            IPlayableCharacterRepository playableCharacterRepository,
+            ICharacterFactory characterFactory, 
             IHttpContextAccessor httpContextAccessor
             )
         {

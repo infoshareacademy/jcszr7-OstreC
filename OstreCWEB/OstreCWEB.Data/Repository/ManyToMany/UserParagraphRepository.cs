@@ -16,8 +16,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
             _context = context; 
 
         }
-
-
+         
         public async Task DeleteInstanceBasedOnRace(int raceId)
         {
             var instances = await _context.PlayableCharacters
@@ -38,7 +37,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
             _context.UserParagraphs.RemoveRange(instances);
             await _context.SaveChangesAsync();
         }  
-        public async Task DeleteAsync(UserParagraph gameSession)
+        public override async  Task  DeleteAsync(UserParagraph gameSession)
         {
             _context.PlayableCharacters.Remove(gameSession.ActiveCharacter);
             _context.UserParagraphs.Remove(gameSession);
@@ -84,25 +83,7 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
                      .ThenInclude(y => y.ParagraphEnemies)
                      .ThenInclude(z => z.Enemy)
                  .AsNoTracking()
-                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);
-            var test = _context.ChangeTracker;
-            return result;
-        }
-        public UserParagraph GetActiveByUserIdNoTracking(int userId)
-        {
-            var result = _context.UserParagraphs
-                 .Include(x => x.Paragraph)
-                     .ThenInclude(p => p.Choices)
-                 .Include(x => x.Paragraph)
-                     .ThenInclude(x => x.TestProp)
-                 .Include(x => x.Paragraph)
-                     .ThenInclude(x => x.FightProp)
-                     .ThenInclude(y => y.ParagraphEnemies)
-                     .ThenInclude(z => z.Enemy)
-                 .Include(x => x.ActiveCharacter)
-                 .AsNoTracking()
-                 .SingleOrDefault(s => s.User.Id == userId && s.ActiveGame);
-            var test = _context.ChangeTracker;
+                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame); 
             return result;
         } 
     }

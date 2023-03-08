@@ -16,17 +16,17 @@ namespace OstreCWEB.Services.Game
         private readonly IUserParagraphRepository<UserParagraph> _userParagraphRepository;
         private readonly IIdentityRepository _identityRepository;
         private readonly IStoryRepository _storyRepository;
-        private readonly IPlayableCharacterRepository _playableCharacterRepository;
+        private readonly IPlayableCharacterRepository<PlayableCharacter> _playableCharacterRepository;
         private readonly ICharacterFactory _characterFactory;
-        private readonly IItemCharacterRepository _itemCharacterRepository;
+        private readonly IItemCharacterRepository<ItemCharacter> _itemCharacterRepository;
 
         public GameService(
             IUserParagraphRepository<UserParagraph> userParagraphRepository,
             IIdentityRepository identityRepository,
             IStoryRepository storyRepository,
-            IPlayableCharacterRepository playableCharacter,
+            IPlayableCharacterRepository<PlayableCharacter> playableCharacter,
             ICharacterFactory characterFactory,
-            IItemCharacterRepository itemCharacterRepository)
+            IItemCharacterRepository<ItemCharacter> itemCharacterRepository)
         {
             _userParagraphRepository = userParagraphRepository;
             _identityRepository = identityRepository;

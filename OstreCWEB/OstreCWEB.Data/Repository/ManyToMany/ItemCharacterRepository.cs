@@ -3,11 +3,11 @@ using OstreCWEB.DomainModels.ManyToMany;
 
 namespace OstreCWEB.Repository.Repository.ManyToMany
 {
-    internal class ItemCharacterRepository : IItemCharacterRepository
+    internal class ItemCharacterRepository : EntityBaseRepo<ItemCharacter>, IItemCharacterRepository<ItemCharacter>
     {
         public OstreCWebContext _context { get; }
 
-        public ItemCharacterRepository(OstreCWebContext context)
+        public ItemCharacterRepository(OstreCWebContext context):base(context)
         {
             _context = context;
         }
@@ -16,27 +16,6 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
         {
             _context.ItemsCharactersRelation.AddRange(itemsCharacter);
             await _context.SaveChangesAsync();
-        }
-
-        public Task<ItemCharacter> Delete()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ItemCharacter> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ItemCharacter> GetByCharacterId()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ItemCharacter> Update()
-        {
-            throw new NotImplementedException();
-        }
-
+        } 
     }
 }

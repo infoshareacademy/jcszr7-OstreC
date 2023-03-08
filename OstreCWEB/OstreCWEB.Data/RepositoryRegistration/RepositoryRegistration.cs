@@ -19,16 +19,16 @@ namespace OstreCWEB.Repository.RepositoryRegistration
             services.AddTransient<IFightRepository, FightRepository>();
             services.AddTransient<IStatusRepository<Status>, StatusRepository>();
             services.AddTransient<IAbilitiesRepository<Ability>, AbilitiesRepository>();
-            services.AddTransient<IPlayableCharacterRepository, PlayableCharacterRepository>(); 
+            services.AddTransient<IPlayableCharacterRepository<PlayableCharacter>, PlayableCharacterRepository>(); 
             services.AddTransient<IIdentityRepository, IdentityRepository>();
             services.AddTransient<IUserParagraphRepository<UserParagraph>, UserParagraphRepository>();
-            services.AddTransient<IItemCharacterRepository, ItemCharacterRepository>();
+            services.AddTransient<IItemCharacterRepository<ItemCharacter>, ItemCharacterRepository>();
             services.AddTransient<IAbilitiesCharacterRepository, AbilitiesCharacterRepository>();
             services.AddTransient<ICharacterFactory, CharacterFactory>();
             services.AddTransient<IEnemyRepository<Enemy>, EnemyRepository>();
             services.AddTransient<IItemRepository<Item>, ItemRepository>();
-            services.AddTransient<ICharacterClassRepository, CharacterClassRepository>();
-            services.AddTransient<ICharacterRaceRepository, CharacterRaceRepository>();
+            services.AddTransient<ICharacterClassRepository<PlayableClass>, CharacterClassRepository>();
+            services.AddTransient<ICharacterRaceRepository<PlayableRace>, CharacterRaceRepository>();
         }
     }
 }

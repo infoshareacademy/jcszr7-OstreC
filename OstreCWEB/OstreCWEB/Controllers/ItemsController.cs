@@ -12,12 +12,16 @@ namespace OstreCWEB.Controllers
     [Authorize(Roles = "admin")]
     public class ItemsController : Controller
     {
-        public ICharacterClassRepository _characterClassRepository { get; }
+        public ICharacterClassRepository<PlayableClass> _characterClassRepository { get; }
         public IItemRepository<Item> _ItemRepository { get; }
         public IMapper _Mapper { get; }
         public IAbilitiesRepository<Ability> _CharacterActionsRepository { get; }
 
-        public ItemsController(ICharacterClassRepository characterClassRepository, IItemRepository<Item> itemRepository, IMapper mapper, IAbilitiesRepository<Ability> characterActionsRepository)
+        public ItemsController(
+            ICharacterClassRepository<PlayableClass> characterClassRepository,
+            IItemRepository<Item> itemRepository,
+            IMapper mapper,
+            IAbilitiesRepository<Ability> characterActionsRepository)
         {
             _characterClassRepository = characterClassRepository;
             _ItemRepository = itemRepository;

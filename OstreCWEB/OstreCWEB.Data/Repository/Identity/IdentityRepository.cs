@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.Repository.DataBase;
 using OstreCWEB.Repository.Factory;
 using OstreCWEB.Repository.Repository.Characters.Interfaces;
@@ -10,9 +11,9 @@ namespace OstreCWEB.Repository.Repository.Identity
     internal class IdentityRepository : IIdentityRepository
     {
         private readonly ICharacterFactory _playableCharacterFactory;
-        private readonly IPlayableCharacterRepository _playableCharacterRepository;
+        private readonly IPlayableCharacterRepository<PlayableCharacter> _playableCharacterRepository;
         private OstreCWebContext _context { get; }
-        public IdentityRepository(OstreCWebContext context, IPlayableCharacterRepository playableCharacterRepository, ICharacterFactory playableCharacterFactory)
+        public IdentityRepository(OstreCWebContext context, IPlayableCharacterRepository<PlayableCharacter> playableCharacterRepository, ICharacterFactory playableCharacterFactory)
         {
             _playableCharacterFactory = playableCharacterFactory;
             _playableCharacterRepository = playableCharacterRepository;

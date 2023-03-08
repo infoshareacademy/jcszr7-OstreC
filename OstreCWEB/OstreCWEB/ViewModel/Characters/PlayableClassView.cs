@@ -8,10 +8,13 @@ namespace OstreCWEB.ViewModel.Characters
         public int Id { get; set; }
         [DisplayName("Class Name")]
         public string ClassName { get; set; }
-        [DisplayName("Intelligence Bonus")]
+        [DisplayName("Class Description")]
+        public string ClassDescription { get; set; }
+        [DisplayName("Base Health")]
         public int BaseHP { get; set; }
+        [DisplayName("Intelligence Bonus")]
         public int IntelligenceBonus { get; set; }
-        [DisplayName("Strenght Bonus")]
+        [DisplayName("Strength Bonus")]
         public int StrengthBonus { get; set; }
         [DisplayName("Wisdom Bonus")]
         public int WisdomBonus { get; set; }

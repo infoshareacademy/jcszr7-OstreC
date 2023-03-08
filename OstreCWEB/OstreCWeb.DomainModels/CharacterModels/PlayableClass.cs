@@ -15,6 +15,7 @@ namespace OstreCWEB.DomainModels.CharacterModels
         public int ConstitutionBonus { get; set; }
         public int CharismaBonus { get; set; }
 
+        public string ClassDescription { get; set; }
         public int BaseHP { get; set; }
 
 
