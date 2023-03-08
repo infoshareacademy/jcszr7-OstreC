@@ -119,8 +119,7 @@ namespace OstreCWEB.Repository.InitialData
                                        " Clerics are a good choice for players who enjoy playing supportive characters or who want a character that is capable of both casting spells and participating in combat." +
                                        " They are versatile and can be adapted to a wide range of play styles, from supporting their allies as healers to leading the charge as holy warriors."
                 }
-            };
-            //Property StatusName is null if none is applied.
+            }; 
             var actions = new List<Ability>
             {
                  new Ability

@@ -5,6 +5,7 @@ using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.Repository.Repository.StoryModels;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
+using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.DomainModels.StoryModels.Enums;
@@ -14,7 +15,7 @@ namespace OstreCWEB.Services.Game
     internal class GameService : IGameService
     {
         private readonly IUserParagraphRepository<UserParagraph> _userParagraphRepository;
-        private readonly IIdentityRepository _identityRepository;
+        private readonly IIdentityRepository<User> _identityRepository;
         private readonly IStoryRepository _storyRepository;
         private readonly IPlayableCharacterRepository<PlayableCharacter> _playableCharacterRepository;
         private readonly ICharacterFactory _characterFactory;
@@ -22,7 +23,7 @@ namespace OstreCWEB.Services.Game
 
         public GameService(
             IUserParagraphRepository<UserParagraph> userParagraphRepository,
-            IIdentityRepository identityRepository,
+            IIdentityRepository<User> identityRepository,
             IStoryRepository storyRepository,
             IPlayableCharacterRepository<PlayableCharacter> playableCharacter,
             ICharacterFactory characterFactory,
@@ -37,7 +38,7 @@ namespace OstreCWEB.Services.Game
         }
         public async Task<UserParagraph> CreateNewGameInstanceAsync(int userId, int characterTemplateId, int storyId)
         {
-            var user = await _identityRepository.GetUser(userId); 
+            var user = await _identityRepository.GetUserGameStart(userId); 
             if (user.UserParagraphs.Count >= 5) { throw new Exception(); }
             var newGameInstance = new UserParagraph();
 
@@ -52,7 +53,7 @@ namespace OstreCWEB.Services.Game
 
             user.UserParagraphs.ForEach(c => c.ActiveGame = false);
             user.UserParagraphs.Add(newGameInstance);
-            await _identityRepository.Update(user);
+            await _identityRepository.UpdateAsync(user);
             return newGameInstance;
         }
 
@@ -96,13 +97,13 @@ namespace OstreCWEB.Services.Game
 
         public async Task SetActiveGameInstanceAsync(int userParagraphId, int userId)
         {
-            var user = await _identityRepository.GetUser(userId);
+            var user = await _identityRepository.GetUserGameStart(userId);
             user.UserParagraphs.ForEach(s =>
             {
                 if (s.Id == userParagraphId) { s.ActiveGame = true; }
                 else { s.ActiveGame = false; }
             });
-            _identityRepository.Update(user);
+            _identityRepository.UpdateAsync(user);
         }
 
 

@@ -1,9 +1,7 @@
-﻿using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
 using OstreCWeb.DomainModels;
 using OstreCWEB.Repository.DataBase;
+using System.Linq.Expressions;
 
 namespace OstreCWEB.Repository.Repository
 {

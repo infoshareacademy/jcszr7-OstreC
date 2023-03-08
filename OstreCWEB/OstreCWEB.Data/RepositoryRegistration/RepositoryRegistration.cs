@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.Repository.Factory;
 using OstreCWEB.Repository.Repository.Characters;
@@ -16,15 +17,15 @@ namespace OstreCWEB.Repository.RepositoryRegistration
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IStoryRepository, StoryRepository>();
-            services.AddTransient<IFightRepository, FightRepository>();
+            services.AddTransient<IFightRepository, FightRepository>(); 
+            services.AddTransient<ICharacterFactory, CharacterFactory>();
+            services.AddTransient<IAbilitiesCharacterRepository, AbilitiesCharacterRepository>();
             services.AddTransient<IStatusRepository<Status>, StatusRepository>();
             services.AddTransient<IAbilitiesRepository<Ability>, AbilitiesRepository>();
             services.AddTransient<IPlayableCharacterRepository<PlayableCharacter>, PlayableCharacterRepository>(); 
-            services.AddTransient<IIdentityRepository, IdentityRepository>();
+            services.AddTransient<IIdentityRepository<User>, IdentityRepository>();
             services.AddTransient<IUserParagraphRepository<UserParagraph>, UserParagraphRepository>();
             services.AddTransient<IItemCharacterRepository<ItemCharacter>, ItemCharacterRepository>();
-            services.AddTransient<IAbilitiesCharacterRepository, AbilitiesCharacterRepository>();
-            services.AddTransient<ICharacterFactory, CharacterFactory>();
             services.AddTransient<IEnemyRepository<Enemy>, EnemyRepository>();
             services.AddTransient<IItemRepository<Item>, ItemRepository>();
             services.AddTransient<ICharacterClassRepository<PlayableClass>, CharacterClassRepository>();
