@@ -1,7 +1,8 @@
 ﻿//using Polly.Extensions.Http;
 //using Polly.Timeout;
 //using Polly;  
-namespace OstreCWeb.Services
+
+namespace OstreCWEB.Services.Api
 {
     public static class TestRestApiConfiguration
     {

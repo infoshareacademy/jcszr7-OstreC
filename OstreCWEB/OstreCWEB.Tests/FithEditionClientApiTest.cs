@@ -1,6 +1,6 @@
 using FluentAssertions;
-using Moq;
-using OstreCWEB.Services;
+using Moq; 
+using OstreCWEB.Services.Api;
 
 namespace OstreCWEB.Tests
 {
@@ -20,7 +20,7 @@ namespace OstreCWEB.Tests
             //Act
             var y = await x.GetSpells();
             //Assert
-
+            y.Count.Should().NotBe(0);
         }
         [Fact]
         public async Task Test2()
@@ -31,7 +31,7 @@ namespace OstreCWEB.Tests
             //Act
             var y = await x.GetSpells();
             //Assert
-
+            y.Count.Should().NotBe(0);
         }
         [Fact]
         public async Task Test3()

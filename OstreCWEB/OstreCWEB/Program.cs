@@ -7,9 +7,9 @@ using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.Services.ServiceRegistration;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using System.Text.Json.Serialization; 
+using System.Text.Json.Serialization;
 using OstreCWEB.Repository.InitialData;
-using OstreCWeb.Services;
+using OstreCWEB.Services.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

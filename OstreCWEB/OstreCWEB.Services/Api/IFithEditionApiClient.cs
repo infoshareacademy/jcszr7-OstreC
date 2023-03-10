@@ -1,6 +1,6 @@
 ﻿using OstreCWeb.DomainModels.ApiContracts;
 
-namespace OstreCWEB.Services
+namespace OstreCWEB.Services.Api
 {
     public interface IFithEditionApiClient
     {

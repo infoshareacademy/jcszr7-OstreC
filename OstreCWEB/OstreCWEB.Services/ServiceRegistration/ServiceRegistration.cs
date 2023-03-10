@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OstreCWEB.Services.Api;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Factory;
 using OstreCWEB.Services.Fight;
@@ -19,6 +20,7 @@ namespace OstreCWEB.Services.ServiceRegistration
             services.AddTransient<IPlayableCharacterService, PlayableCharacterService>();
             services.AddTransient<IGameService, GameService>(); 
             services.AddTransient<IFightFactory, FightFactory>();
+            services.AddTransient<IFithEditionApiClient, FithEditionApiClient>();
         }
     }
 }
