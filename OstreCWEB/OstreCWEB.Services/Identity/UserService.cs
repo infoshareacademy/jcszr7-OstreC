@@ -6,8 +6,8 @@ namespace OstreCWEB.Services.Identity
 {
     internal class UserService : IUserService
     {
-        private readonly IIdentityRepository _identityRepository;
-        public UserService(IIdentityRepository identityRepository)
+        private readonly IIdentityRepository<User> _identityRepository;
+        public UserService(IIdentityRepository<User> identityRepository)
         {
             _identityRepository = identityRepository;
         }
