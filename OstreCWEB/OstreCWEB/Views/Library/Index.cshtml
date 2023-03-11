@@ -13,13 +13,13 @@
         <label asp-for="@Model.Count">@Model.Count </label> 
         <label asp-for="@Model.TotalPagesNumber">@Model.TotalPagesNumber </label>
         
-        @if (@Model.Previous != 0)
+        @if (@Model.PreviousPage != 0)
         {
-            <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.Previous"> Previous Page </a>
+            <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.PreviousPage"> PreviousPage Page </a>
         }
-        @if(@Model.Next != 0)
+        @if(@Model.NextPage != 0)
         {
-            <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.Next"> Next page </a>
+            <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.NextPage"> NextPage page </a>
         }
            
         

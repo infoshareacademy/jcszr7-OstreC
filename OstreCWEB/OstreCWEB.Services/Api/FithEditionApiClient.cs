@@ -28,6 +28,20 @@ namespace OstreCWEB.Services.Api
 
             deserialized.TotalPagesNumber = (int)Math.Ceiling(pageCount);
             deserialized.ActivePage = page;
+            var next = deserialized.Next.Split('/');
+            if (!String.IsNullOrEmpty(next[4]))
+            {
+                var parsenext = Int32.TryParse(next[4].Substring(next[4].Length - 1), out int nextPage);
+                if (parsenext)
+                {
+                    deserialized.NextPage = nextPage;
+                }
+            }
+        
+            else
+            {
+                deserialized.NextPage = 0;
+            }
             return deserialized;
         }
 

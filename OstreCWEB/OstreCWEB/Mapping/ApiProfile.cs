@@ -11,7 +11,9 @@ namespace OstreCWEB.Mapping
         {
             CreateMap<SpellView, SpellResponseItem>();
             CreateMap<SpellResponseItem, SpellView>();
-            CreateMap<FithEditionApiResponseView, FithEditionApiResponse>();
+            CreateMap<FithEditionApiResponseView, FithEditionApiResponse>()
+                .ForMember(x => x.Next, opt => opt.Ignore())
+                .ForMember(x => x.Previous, opt => opt.Ignore()); 
             CreateMap<FithEditionApiResponse, FithEditionApiResponseView>();
             CreateMap<Filter, FilterView>();
             CreateMap<FilterView, Filter>();
