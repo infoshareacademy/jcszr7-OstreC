@@ -28,7 +28,7 @@ namespace OstreCWEB.Controllers
             _Mapper = mapper;
             _CharacterActionsRepository = characterActionsRepository;
         }
-        // GET: ItemController
+        // GET: ItemController 
         public async Task<ActionResult> Index(string sortOrder, int? pageNumber)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -48,6 +48,7 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: ItemController/Create
+        [HttpGet]
         public async Task<ActionResult> Create()
         {
             var model = new ItemEditView();
@@ -77,6 +78,7 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: ItemController/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             var model = _Mapper.Map<ItemEditView>(await _ItemRepository.GetByIdAsync(id));
