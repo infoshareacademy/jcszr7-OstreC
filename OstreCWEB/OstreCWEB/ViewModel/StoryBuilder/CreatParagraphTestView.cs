@@ -22,6 +22,11 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         [Display(Name = "Restore Rest")]
         public bool RestoreRest { get; set; }
+
         public int StoryId { get; set; }
+
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public int AmountOfItems { get; set; }
     }
 }

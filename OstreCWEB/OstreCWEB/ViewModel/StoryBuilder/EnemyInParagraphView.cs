@@ -3,8 +3,9 @@
     public class EnemyInParagraphView
     {
         public int Id { get; set; }
-        public int AmountOfEnemy { get; set; }
+
         public string EnemyName { get; set; }
+        public int AmountOfEnemy { get; set; }
 
         public int ParagraphId { get; set; }
         public int FightPropId { get; set; }

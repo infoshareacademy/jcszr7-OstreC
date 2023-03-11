@@ -37,7 +37,7 @@ namespace OstreCWEB.Controllers
                 |T|
                 |O|
                 |R|
-                |Y| 
+                |Y|
         */
 
         // GET: StoryBuilderController
@@ -137,7 +137,7 @@ namespace OstreCWEB.Controllers
                 |R|
                 |A|
                 |P|
-                |H|   
+                |H|
         */
 
         // GET: StoryBuilderController/ParagraphDetails/5/1
@@ -278,7 +278,6 @@ namespace OstreCWEB.Controllers
             }
         }
 
-
         // GET: StoryBuilderController/DeleteParagraph/5
         public async Task<ActionResult> DeleteParagraph(int id)
         {
@@ -303,7 +302,6 @@ namespace OstreCWEB.Controllers
             }
         }
 
-
         // GET: StoryBuilderController/EditParagraph/5
         public async Task<ActionResult> EditParagraph(int id)
         {
@@ -312,7 +310,7 @@ namespace OstreCWEB.Controllers
             return View(model);
         }
 
-        // POST: StoryBuilderController/AddEnemyInParagraph/5
+        // POST: StoryBuilderController/EditParagraph
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditParagraph(EditParagraphView model)
@@ -379,6 +377,57 @@ namespace OstreCWEB.Controllers
             }
         }
 
+        // GET: StoryBuilderController/AddItemInParagraph/
+        public async Task<ActionResult> AddItemInParagraph(int fightParagraphId, int paragraphId)
+        {
+            var model = new EnemyInParagraphView();
+
+            model.ParagraphId = paragraphId;
+            model.FightPropId = fightParagraphId;
+
+            var enemyDictionary = new Dictionary<int, string>();
+            var enemiesList = await _storyService.GetAllEnemies();
+
+            foreach (var enemy in enemiesList)
+            {
+                enemyDictionary.Add(enemy.Id, enemy.CharacterName);
+            }
+
+            model.Enemies = enemyDictionary;
+
+            return View(model);
+        }
+
+        // POST: StoryBuilderController/AddItemInParagraph/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddItemInParagraph(EnemyInParagraphView model)
+        {
+            try
+            {
+                //await _storyService.AddEnemyToParagraph(_mapper.Map<EnemyInParagraphService>(model));
+                return RedirectToAction(nameof(EditParagraph), _mapper.Map<EditParagraphView>(await _storyService.GetEditParagraphById(model.ParagraphId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // POST: StoryBuilderController/DeleteItemFromParagraph
+        public async Task<ActionResult> DeleteItemFromParagraph(int fightParagraphId, int paragraphId)
+        {
+            try
+            {
+                //await _storyService.DeleteEnemyInParagraph(fightParagraphId);
+                return RedirectToAction(nameof(EditParagraph), _mapper.Map<EditParagraphView>(await _storyService.GetEditParagraphById(paragraphId)));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         /*
                 |C|
                 |H|
@@ -386,7 +435,7 @@ namespace OstreCWEB.Controllers
                 |I|
                 |C|
                 |E|
-   
+
         */
 
         // GET: StoryBuilderController/ChoiceDetails/5
@@ -450,7 +499,6 @@ namespace OstreCWEB.Controllers
             return View(model);
         }
 
-
         // POST: StoryBuilderController/EditChoice/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -474,7 +522,6 @@ namespace OstreCWEB.Controllers
             ViewBag.choiceId = choiceId;
             return View(model);
         }
-
 
         // GET: StoryBuilderController/ChangeParagraph/1/2
         public async Task<ActionResult> ChangeParagraph(int id, int secondParagraphId)
