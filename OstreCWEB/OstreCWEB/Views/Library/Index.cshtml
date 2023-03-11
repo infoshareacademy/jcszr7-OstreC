@@ -12,11 +12,16 @@
         <br />
         <label asp-for="@Model.Count">@Model.Count </label> 
         <label asp-for="@Model.TotalPagesNumber">@Model.TotalPagesNumber </label>
-        <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.Next.Substring(@Model.Next.Length-1)"> Next page </a>
-        @if(@Model.Previous != null && @Model.Previous.Substring(@Model.Previous.Lenght-1) != '/')
+        
+        @if (@Model.Previous != 0)
         {
-        <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.Previous.Substring(@Model.Previous.Length-1)"> Previous Page </a>
+            <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.Previous"> Previous Page </a>
         }
+        @if(@Model.Next != 0)
+        {
+            <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.Next"> Next page </a>
+        }
+           
         
         
         <table class="table">
