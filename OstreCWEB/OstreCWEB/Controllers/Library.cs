@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWeb.DomainModels.Collections;
 using OstreCWEB.Services.Api;
-using OstreCWEB.ViewModel;
 using OstreCWEB.ViewModel.Api;
 
 namespace OstreCWEB.Controllers
@@ -12,39 +10,22 @@ namespace OstreCWEB.Controllers
     public class LibraryController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IFithEditionApiClient _client;
+        private readonly IFithEditionApiClient _fithEditionApiClient;
         private readonly IMapper _mapper;
 
-        public LibraryController(ILogger<HomeController> logger,IFithEditionApiClient client,IMapper mapper)
+        public LibraryController(ILogger<HomeController> logger,IFithEditionApiClient fithEditionApiClient,IMapper mapper)
         {
             _logger = logger;
-            _client = client;
+            _fithEditionApiClient = fithEditionApiClient;
             _mapper = mapper;
         }
-        [HttpGet]
-        
-        public ActionResult Index(string sortOrder)
-        { 
-                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-                var model = _mapper.Map<PagedListView<SpellView>>(_client.GetSpells()); 
-            switch (sortOrder)
-                {
-                    case "name_desc":
-                        students = students.OrderByDescending(s => s.LastName);
-                        break;
-                    case "Date":
-                        students = students.OrderBy(s => s.EnrollmentDate);
-                        break;
-                    case "date_desc":
-                        students = students.OrderByDescending(s => s.EnrollmentDate);
-                        break;
-                    default:
-                        students = students.OrderBy(s => s.LastName);
-                        break;
-                } 
-                
-                return View(); 
+        [HttpGet] 
+        public async Task<ActionResult>  Index([Bind("SearchByInt,SearchByName,SortByParam,Limit")] FilterView? filters , int chosenPage)
+        {
+            var x = filters;
+            var model = _mapper.Map<FithEditionApiResponseView>(await _fithEditionApiClient.GetSpells(_mapper.Map<Filter>(filters), chosenPage)); 
+            
+            return View(model); 
         }  
         
     }

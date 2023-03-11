@@ -1,0 +1,57 @@
+﻿@using OstreCWEB.DomainModels.CharacterModels
+@using OstreCWEB.DomainModels.CharacterModels.Enums 
+@using OstreCWEB.ViewModel.Characters
+@model OstreCWEB.ViewModel.Api.FithEditionApiResponseView
+@{
+}
+<div class="card">
+    <div class="card-body">
+
+        <h5 class="card-title">Library</h5> 
+        This library is based on the <a href="https://api.open5e.com">Dungeon and Dragons API</a>
+        <br />
+        <label asp-for="@Model.Count">@Model.Count </label> 
+        <label asp-for="@Model.TotalPagesNumber">@Model.TotalPagesNumber </label>
+        <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.Next.Substring(@Model.Next.Length-1)"> Next page </a>
+        @if(@Model.Previous != null && @Model.Previous.Substring(@Model.Previous.Lenght-1) != '/')
+        {
+        <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.Previous.Substring(@Model.Previous.Length-1)"> Previous Page </a>
+        }
+        
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Name"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Casting_time"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Concentration"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Desc"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Dnd_class"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Higher_level"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Level"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Page"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().Range"></Label></th> 
+                    <th scope="col"> <Label asp-for="@Model.Results.FirstOrDefault().School"></Label></th>   
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Results)
+                {
+                    <tr>
+                        <th scope="row">@item.Name</th>
+                        <td>@item.Casting_time </td>
+                        <td>@item.Concentration </td>
+                        <td>@item.Desc </td>
+                        <td>@item.Dnd_class </td>
+                        <td>@item.Higher_level </td>
+                        <td>@item.Level </td>
+                        <td>@item.Page </td>
+                        <td>@item.Page </td>
+                        <td>@item.School </td>  
+                    </tr>
+                }
+            </tbody> 
+        </table>
+        <!-- End Default Table Example -->
+    </div>
+</div>
