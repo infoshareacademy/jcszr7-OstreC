@@ -15,6 +15,7 @@ namespace OstreCWEB.Services.Mapping
                     .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
 
             CreateMap<Story, StoryParagraphsView>();
+
             CreateMap<Paragraph, ParagraphElementView>();
 
             CreateMap<ParagraphDetails, ParagraphDetailsView>();

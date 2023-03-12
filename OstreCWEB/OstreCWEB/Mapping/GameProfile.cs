@@ -24,9 +24,6 @@ namespace OstreCWEB.Mapping
             CreateMap<ParagraphItem, ParagraphItemView>();
 
             CreateMap<Paragraph, GameParagraphView>();
-            CreateMap<Story, StoryView>()
-                .ReverseMap()
-                    .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
         }
     }
 }

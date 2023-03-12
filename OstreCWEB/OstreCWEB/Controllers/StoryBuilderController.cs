@@ -73,9 +73,9 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/DeleteStory/5
-        public async Task<ActionResult> DeleteStory(int idStory)
+        public async Task<ActionResult> DeleteStory(int id)
         {
-            var model = await _storyService.GetStoryByIdAsync(idStory);
+            var model = await _storyService.GetStoryByIdAsync(id);
             return View(model);
         }
 
@@ -96,9 +96,9 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/EditStory/5
-        public async Task<ActionResult> EditStory(int idStory)
+        public async Task<ActionResult> EditStory(int id)
         {
-            var model = await _storyService.GetStoryByIdAsync(idStory);
+            var model = await _storyService.GetStoryByIdAsync(id);
             return View(model);
         }
 
@@ -119,9 +119,9 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/StoryParagraphsList
-        public async Task<ActionResult> StoryParagraphsList(int idStory)
+        public async Task<ActionResult> StoryParagraphsList(int id)
         {
-            var model = await _storyService.GetStoryWithParagraphsById(idStory);
+            var model = await _storyService.GetStoryWithParagraphsById(id);
             return View(model);
         }
 
@@ -145,10 +145,10 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/CreatNewParagraph/1
-        public async Task<ActionResult> CreatNewParagraph(int idStory)
+        public async Task<ActionResult> CreatNewParagraph(int id)
         {
             var model = new CreatNewParagraphView();
-            model.StoryId = idStory;
+            model.StoryId = id;
 
             model.Items = new Dictionary<int, string>();
             var itemsList = await _storyService.GetAllItems();
@@ -318,9 +318,9 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/EditParagraph/5
-        public async Task<ActionResult> EditParagraph(int idParagraph)
+        public async Task<ActionResult> EditParagraph(int id)
         {
-            var model = await _storyService.GetEditParagraphById(idParagraph);
+            var model = await _storyService.GetEditParagraphById(id);
 
             return View(model);
         }
@@ -391,22 +391,19 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/AddItemInParagraph/
-        //public async Task<ActionResult> AddItemInParagraph(int fightParagraphId, int paragraphId)
+        //public async Task<ActionResult> AddItemInParagraph(int paragraphId)
         //{
         //    var model = new EnemyInParagraphView();
 
         //    model.ParagraphId = paragraphId;
-        //    model.FightPropId = fightParagraphId;
 
-        //    var enemyDictionary = new Dictionary<int, string>();
-        //    var enemiesList = await _storyService.GetAllEnemies();
+        //    model.Items = new Dictionary<int, string>();
+        //    var itemsList = await _storyService.GetAllItems();
 
-        //    foreach (var enemy in enemiesList)
+        //    foreach (var item in itemsList)
         //    {
-        //        enemyDictionary.Add(enemy.Id, enemy.CharacterName);
+        //        model.Items.Add(item.Id, item.Name);
         //    }
-
-        //    model.Enemies = enemyDictionary;
 
         //    return View(model);
         //}
@@ -428,12 +425,12 @@ namespace OstreCWEB.Controllers
         }
 
         // POST: StoryBuilderController/DeleteItemFromParagraph
-        public async Task<ActionResult> DeleteItemFromParagraph(int fightParagraphId, int paragraphId)
+        public async Task<ActionResult> DeleteItemFromParagraph(int id)
         {
             try
             {
-                //await _storyService.DeleteEnemyInParagraph(fightParagraphId);
-                return RedirectToAction(nameof(EditParagraph), await _storyService.GetEditParagraphById(paragraphId));
+                //await _storyService.DeleteEnemyInParagraph(id);
+                return RedirectToAction(nameof(EditParagraph), await _storyService.GetEditParagraphById(id));
             }
             catch
             {
