@@ -2,23 +2,17 @@
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Services.StoryBuilder.Models;
-using OstreCWEB.ViewModel.Game;
 using OstreCWEB.Services.StoryBuilder.ModelsDto;
 
-namespace OstreCWEB.Mapping
+namespace OstreCWEB.Services.Mapping
 {
     public class StoryProfile : Profile
     {
         public StoryProfile()
         {
-            //Game
-            CreateMap<Paragraph, GameParagraphView>();
-
-            //StoryBuilder
-            CreateMap<Story, StoriesView>()
+            CreateMap<Story, StoryView>()
                 .ReverseMap()
-                    .ForMember(dest => dest.Paragraphs, opt => opt.Ignore())
-                    .ForMember(dest => dest.FirstParagraphId, opt => opt.Ignore());
+                    .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
 
             CreateMap<Story, StoryParagraphsView>();
             CreateMap<Paragraph, ParagraphElementView>();

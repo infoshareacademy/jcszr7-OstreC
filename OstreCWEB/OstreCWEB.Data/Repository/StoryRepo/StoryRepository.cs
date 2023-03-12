@@ -21,14 +21,14 @@ namespace OstreCWEB.Repository.Repository.StoryRepo
             return _context.Stories.Any(story => story.Id == storyId);
         }
 
-        public async Task<IReadOnlyCollection<Story>> GetAllStories()
+        public async Task<List<Story>> GetAllStories()
         {
             return _context.Stories
                 .Include(s => s.Paragraphs)
                 .ToList();
         }
 
-        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(int userId)
+        public async Task<List<Story>> GetStoriesByUserId(int userId)
         {
             return _context.Stories
                 .Where(s => s.UserId == userId)

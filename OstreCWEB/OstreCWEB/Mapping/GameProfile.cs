@@ -4,6 +4,8 @@ using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
+using OstreCWEB.Services.StoryBuilder.ModelsDto;
+using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.Identity;
 using OstreCWEB.ViewModel.StoryReader;
 
@@ -20,6 +22,11 @@ namespace OstreCWEB.Mapping
             CreateMap<PlayableCharacter, CurrentCharacterView>().
                 ForMember(dest => dest.ItemCharacterWithAction, options => options.Ignore());
             CreateMap<ParagraphItem, ParagraphItemView>();
+
+            CreateMap<Paragraph, GameParagraphView>();
+            CreateMap<Story, StoryView>()
+                .ReverseMap()
+                    .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
         }
     }
 }

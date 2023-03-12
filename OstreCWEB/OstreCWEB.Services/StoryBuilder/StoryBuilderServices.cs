@@ -1,9 +1,10 @@
-﻿using OstreCWEB.Repository.Repository.Characters.Interfaces;
-using OstreCWEB.Repository.Repository.StoryRepo;
+﻿using AutoMapper;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.StoryRepo;
 using OstreCWEB.Services.StoryBuilder.Models;
 using OstreCWEB.Services.StoryBuilder.ModelsDto;
 
@@ -14,15 +15,18 @@ namespace OstreCWEB.Services.StoryBuilder
         private readonly IStoryRepository<Story> _storyRepository;
         private readonly IEnemyRepository<Enemy> _enemyRepository;
         private readonly IItemRepository<Item> _itemRepository;
+        private readonly IMapper _mapper;
 
         public StoryBuilderServices(
             IStoryRepository<Story> storyRepository,
             IEnemyRepository<Enemy> enemyRepository,
-            IItemRepository<Item> itemRepository)
+            IItemRepository<Item> itemRepository,
+            IMapper mapper)
         {
             _storyRepository = storyRepository;
             _enemyRepository = enemyRepository;
             _itemRepository = itemRepository;
+            _mapper = mapper;
         }
 
         public bool Exists(int id)
@@ -30,19 +34,25 @@ namespace OstreCWEB.Services.StoryBuilder
             return _storyRepository.Exists(id);
         }
 
-        public async Task<IReadOnlyCollection<Story>> GetAllStories()
+        public async Task<List<Story>> GetAllStories()
         {
             return await _storyRepository.GetAllStories();
         }
 
-        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(int userId)
+        public async Task<List<StoryView>> GetStoriesByUserId(int userId)
         {
-            return await _storyRepository.GetStoriesByUserId(userId);
+            var storyByUser = await _storyRepository.GetStoriesByUserId(userId);
+            var result = _mapper.Map<List<StoryView>>(storyByUser);
+
+            return result;
         }
 
-        public async Task<Story> GetStoryByIdAsync(int idStory)
+        public async Task<StoryView> GetStoryByIdAsync(int idStory)
         {
-            return await _storyRepository.GetStoryByIdAsync(idStory);
+            var story = await _storyRepository.GetStoryByIdAsync(idStory);
+            var result = _mapper.Map<StoryView>(story);
+
+            return result;
         }
 
         public Story GetStoryById(int idStory)
@@ -50,27 +60,32 @@ namespace OstreCWEB.Services.StoryBuilder
             return _storyRepository.GetStoryById(idStory);
         }
 
-        public async Task<Story> GetStoryWithParagraphsById(int idStory)
+        public async Task<StoryParagraphsView> GetStoryWithParagraphsById(int idStory)
         {
-            return await _storyRepository.GetStoryWithParagraphsById(idStory);
+            var paragraphs = await _storyRepository.GetStoryWithParagraphsById(idStory);
+            var result = _mapper.Map<StoryParagraphsView>(paragraphs);
+
+            return result;
         }
 
         //Story
 
-        public async Task AddStory(Story story, int userId)
+        public async Task AddStory(StoryView newStory, int userId)
         {
+            var story = _mapper.Map<Story>(newStory);
+
             story.UserId = userId;
             await _storyRepository.AddStory(story);
         }
 
-        public async Task UpdateStory(int idStory, string Name, string Description, int userId)
+        public async Task UpdateStory(StoryView uStory, int userId)
         {
-            var story = await _storyRepository.GetStoryByIdAsync(idStory);
+            var story = await _storyRepository.GetStoryByIdAsync(uStory.Id);
 
             if (story.UserId == userId)
             {
-                story.Name = Name;
-                story.Description = Description;
+                story.Name = uStory.Name;
+                story.Description = uStory.Description;
 
                 await _storyRepository.UpdateStory(story);
             }
@@ -351,12 +366,12 @@ namespace OstreCWEB.Services.StoryBuilder
             await _storyRepository.DeleteEnemyInParagraph(enemyInParagraphId);
         }
 
-        public async Task<IReadOnlyCollection<Enemy>> GetAllEnemies()
+        public async Task<List<Enemy>> GetAllEnemies()
         {
             return await _enemyRepository.GetAllTemplatesAsync();
         }
 
-        public async Task<IReadOnlyCollection<Item>> GetAllItems()
+        public async Task<List<Item>> GetAllItems()
         {
             return _itemRepository.GetAll();
         }

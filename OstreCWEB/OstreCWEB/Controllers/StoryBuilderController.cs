@@ -45,31 +45,25 @@ namespace OstreCWEB.Controllers
         public async Task<ActionResult> Index()
         {
             _logger.LogWarning(this + " Index(24)", DateTime.Now);
-            var stories = await _storyService.GetStoriesByUserId(_userService.GetUserId(User));
-            var model = new List<StoriesView>();
-            foreach (var item in stories)
-            {
-                model.Add(_mapper.Map<StoriesView>(item));
-            }
-
+            var model = await _storyService.GetStoriesByUserId(_userService.GetUserId(User));
             return View(model);
         }
 
         // GET: StoryBuilderController/CreateStory
         public async Task<ActionResult> CreateStory()
         {
-            var model = new StoriesView();
+            var model = new StoryView();
             return View(model);
         }
 
         // POST: StoryBuilderController/CreateStory
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateStory(StoriesView story)
+        public async Task<ActionResult> CreateStory(StoryView newStory)
         {
             try
             {
-                await _storyService.AddStory(_mapper.Map<Story>(story), _userService.GetUserId(User));
+                await _storyService.AddStory(newStory, _userService.GetUserId(User));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -79,15 +73,16 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/DeleteStory/5
-        public async Task<ActionResult> DeleteStory(int id)
+        public async Task<ActionResult> DeleteStory(int idStory)
         {
-            return View(_mapper.Map<StoriesView>(await _storyService.GetStoryByIdAsync(id)));
+            var model = await _storyService.GetStoryByIdAsync(idStory);
+            return View(model);
         }
 
         // POST: StoryBuilderController/DeleteStory/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteStory(StoriesView story)
+        public async Task<ActionResult> DeleteStory(StoryView story)
         {
             try
             {
@@ -101,19 +96,20 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/EditStory/5
-        public async Task<ActionResult> EditStory(int id)
+        public async Task<ActionResult> EditStory(int idStory)
         {
-            return View(_mapper.Map<StoriesView>(await _storyService.GetStoryByIdAsync(id)));
+            var model = await _storyService.GetStoryByIdAsync(idStory);
+            return View(model);
         }
 
         // POST: StoryBuilderController/EditStory/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditStory(StoriesView model)
+        public async Task<ActionResult> EditStory(StoryView story)
         {
             try
             {
-                await _storyService.UpdateStory(model.Id, model.Name, model.Description, _userService.GetUserId(User));
+                await _storyService.UpdateStory(story, _userService.GetUserId(User));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -123,9 +119,9 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/StoryParagraphsList
-        public async Task<ActionResult> StoryParagraphsList(int id)
+        public async Task<ActionResult> StoryParagraphsList(int idStory)
         {
-            var model = _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(id));
+            var model = await _storyService.GetStoryWithParagraphsById(idStory);
             return View(model);
         }
 
@@ -196,7 +192,7 @@ namespace OstreCWEB.Controllers
 
                     await _storyService.AddParagraph(newParagraph, _userService.GetUserId(User));
 
-                    return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraph.StoryId)));
+                    return RedirectToAction(nameof(StoryParagraphsList), await _storyService.GetStoryWithParagraphsById(paragraph.StoryId));
                 }
             }
             catch
@@ -225,7 +221,7 @@ namespace OstreCWEB.Controllers
                     TestDifficulty = paragraphTest.TestDifficulty
                 };
                 await _storyService.AddParagraph(paragraph, _userService.GetUserId(User));
-                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraphTest.StoryId)));
+                return RedirectToAction(nameof(StoryParagraphsList), await _storyService.GetStoryWithParagraphsById(paragraphTest.StoryId));
             }
             catch
             {
@@ -290,7 +286,7 @@ namespace OstreCWEB.Controllers
                 }
 
                 await _storyService.AddParagraph(paragraph, _userService.GetUserId(User));
-                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraphFight.StoryId)));
+                return RedirectToAction(nameof(StoryParagraphsList), await _storyService.GetStoryWithParagraphsById(paragraphFight.StoryId));
             }
             catch
             {
@@ -314,7 +310,7 @@ namespace OstreCWEB.Controllers
             try
             {
                 await _storyService.DeleteParagraph(paragraph.Id, _userService.GetUserId(User));
-                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraph.StoryId)));
+                return RedirectToAction(nameof(StoryParagraphsList), await _storyService.GetStoryWithParagraphsById(paragraph.StoryId));
             }
             catch
             {
@@ -338,7 +334,7 @@ namespace OstreCWEB.Controllers
             try
             {
                 await _storyService.UpdateParagraph(_mapper.Map<EditParagraph>(model), _userService.GetUserId(User));
-                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(model.StoryId)));
+                return RedirectToAction(nameof(StoryParagraphsList), await _storyService.GetStoryWithParagraphsById(model.StoryId));
             }
             catch
             {
@@ -468,7 +464,7 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/ChooseSecondParagraph/1/2
         public async Task<ActionResult> ChooseSecondParagraph(int storyId, int firstParagraphId)
         {
-            var model = _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(storyId));
+            var model = await _storyService.GetStoryWithParagraphsById(storyId);
             ViewBag.fightParagraphId = firstParagraphId;
             return View(model);
         }
@@ -488,7 +484,7 @@ namespace OstreCWEB.Controllers
             try
             {
                 await _storyService.AddChoice(_mapper.Map<ChoiceCreator>(model));
-                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(model.StoryId)));
+                return RedirectToAction(nameof(StoryParagraphsList), await _storyService.GetStoryWithParagraphsById(model.StoryId));
             }
             catch
             {
@@ -502,7 +498,7 @@ namespace OstreCWEB.Controllers
             try
             {
                 await _storyService.DeleteChoice(choiceId);
-                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(storyId)));
+                return RedirectToAction(nameof(StoryParagraphsList), await _storyService.GetStoryWithParagraphsById(storyId));
             }
             catch
             {
@@ -525,7 +521,7 @@ namespace OstreCWEB.Controllers
             try
             {
                 await _storyService.UpdateChoice(_mapper.Map<ChoiceCreator>(model));
-                return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(model.StoryId)));
+                return RedirectToAction(nameof(StoryParagraphsList), await _storyService.GetStoryWithParagraphsById(model.StoryId));
             }
             catch
             {
@@ -536,7 +532,7 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/ChooseSecondParagraph/1/2
         public async Task<ActionResult> ChangeSecondParagraph(int storyId, int choiceId)
         {
-            var model = _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(storyId));
+            var model = await _storyService.GetStoryWithParagraphsById(storyId);
             ViewBag.choiceId = choiceId;
             return View(model);
         }

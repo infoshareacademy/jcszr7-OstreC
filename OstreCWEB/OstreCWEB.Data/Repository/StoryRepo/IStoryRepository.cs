@@ -5,9 +5,9 @@ namespace OstreCWEB.Repository.Repository.StoryRepo
 {
     public interface IStoryRepository<T> : IEntityBaseRepo<Story> where T : Story
     {
-        public Task<IReadOnlyCollection<Story>> GetAllStories();
+        public Task<List<Story>> GetAllStories();
 
-        public Task<IReadOnlyCollection<Story>> GetStoriesByUserId(int userId);
+        public Task<List<Story>> GetStoriesByUserId(int userId);
 
         public Task<Story> GetStoryByIdAsync(int idStory);
 

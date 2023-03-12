@@ -8,20 +8,20 @@ namespace OstreCWEB.Services.StoryBuilder
     public interface IStoryBuilderServices
     {
         //Tools
-        public Task<IReadOnlyCollection<Story>> GetAllStories();
+        public Task<List<Story>> GetAllStories();
 
-        public Task<IReadOnlyCollection<Story>> GetStoriesByUserId(int userId);
+        public Task<List<StoryView>> GetStoriesByUserId(int userId);
 
-        public Task<Story> GetStoryByIdAsync(int idStory);
+        public Task<StoryView> GetStoryByIdAsync(int idStory);
 
         public Story GetStoryById(int idStory);
 
-        public Task<Story> GetStoryWithParagraphsById(int idStory);
+        public Task<StoryParagraphsView> GetStoryWithParagraphsById(int idStory);
 
         //Story
-        public Task UpdateStory(int idStory, string Name, string Description, int userId);
+        public Task UpdateStory(StoryView story, int userId);
 
-        public Task AddStory(Story story, int userId);
+        public Task AddStory(StoryView newStory, int userId);
 
         public Task DeleteStory(int idStory, int userId);
 
@@ -32,9 +32,9 @@ namespace OstreCWEB.Services.StoryBuilder
 
         public Task AddParagraph(Paragraph paragraph, int userId);
 
-        public Task<IReadOnlyCollection<Enemy>> GetAllEnemies();
+        public Task<List<Enemy>> GetAllEnemies();
 
-        public Task<IReadOnlyCollection<Item>> GetAllItems();
+        public Task<List<Item>> GetAllItems();
 
         public Task DeleteParagraph(int idParagraph, int userId);
 
