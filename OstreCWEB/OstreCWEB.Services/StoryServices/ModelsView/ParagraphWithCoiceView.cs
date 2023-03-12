@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.DomainModels.StoryModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.ViewModel.StoryBuilder
+namespace OstreCWEB.Services.StoryServices.ModelsView
 {
     public class ParagraphWithCoiceView
     {

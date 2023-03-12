@@ -8,7 +8,7 @@ using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryServices;
 using OstreCWEB.Services.StoryServices.Models;
-using OstreCWEB.ViewModel.StoryBuilder;
+using OstreCWEB.Services.StoryServices.ModelsView;
 
 namespace OstreCWEB.Controllers
 {
@@ -349,7 +349,7 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/AddEnemyInParagraph/5/1
         public async Task<ActionResult> AddEnemyInParagraph(int fightParagraphId, int paragraphId)
         {
-            var model = new EnemyInParagraphView();
+            var model = new OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView();
 
             model.ParagraphId = paragraphId;
             model.FightPropId = fightParagraphId;
@@ -368,7 +368,7 @@ namespace OstreCWEB.Controllers
         // POST: StoryBuilderController/EditStory/5/1
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddEnemyInParagraph(EnemyInParagraphView model)
+        public async Task<ActionResult> AddEnemyInParagraph(OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView model)
         {
             try
             {
@@ -419,7 +419,7 @@ namespace OstreCWEB.Controllers
         // POST: StoryBuilderController/AddItemInParagraph/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddItemInParagraph(EnemyInParagraphView model)
+        public async Task<ActionResult> AddItemInParagraph(OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView model)
         {
             try
             {

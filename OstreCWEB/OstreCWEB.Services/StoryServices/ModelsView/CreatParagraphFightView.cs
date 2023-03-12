@@ -1,17 +1,24 @@
-﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
+﻿using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.ViewModel.StoryBuilder
+namespace OstreCWEB.Services.StoryServices.ModelsView
 {
-    public class CreatParagraphTestView
+    public class CreatParagraphFightView
     {
-        // ParagraphTest Properties
-        [Display(Name = "Ability Score")]
-        public AbilityScores AbilityScores { get; set; }
+        // Enemy Dictionary
+        public Dictionary<int, string> Enemies { get; set; }
 
-        [Display(Name = "Test Difficulty")]
-        public TestDifficulty TestDifficulty { get; set; }
+        // ParagraphFight Properties
+        public int FirstEnemyId { get; set; }
+
+        public int FirstAmountOfEnemy { get; set; }
+
+        public int SecondEnemyId { get; set; }
+        public int SecondAmountOfEnemy { get; set; }
+
+        public int ThirdEnemyId { get; set; }
+        public int ThirdAmountOfEnemy { get; set; }
 
         // General
         [Display(Name = "Paragraph Type")]

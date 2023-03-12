@@ -8,7 +8,7 @@ using OstreCWEB.Services.StoryServices;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.Identity;
-using OstreCWEB.ViewModel.StoryBuilder;
+using OstreCWEB.Services.StoryServices.ModelsView;
 
 namespace OstreCWEB.Controllers
 {
@@ -57,7 +57,6 @@ namespace OstreCWEB.Controllers
                     TempData["msg"] = "You didn't select both a character and a story to play!";
                     return RedirectToAction(nameof(Index));
                 }
-
             }
             catch (Exception ex)
             {
@@ -80,6 +79,7 @@ namespace OstreCWEB.Controllers
             await _gameService.SetActiveGameInstanceAsync(id, _userService.GetUserId(User));
             return RedirectToAction("Index", "StoryReader");
         }
+
         public async Task<ActionResult> Index()
         {
             var model = new StartGameView();
@@ -92,14 +92,12 @@ namespace OstreCWEB.Controllers
                 if (activeCharacterCookies.Any() && _playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)))
                 {
                     model.ActiveCharacter = _mapper.Map<PlayableCharacterView>(await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value)));
-
                 }
                 if (activeStoryCookies.Any() && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
                 {
                     model.ActiveStory = _mapper.Map<StoriesView>(await _storyService.GetStoryByIdAsync(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
                 }
             };
-
 
             var x = await _userService.GetUserById(_userService.GetUserId(User));
             model.User = _mapper.Map<UserView>(x);
@@ -113,10 +111,11 @@ namespace OstreCWEB.Controllers
             model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
             return View(model);
         }
+
         private async Task BuildUserParagraphStoriesView()
         {
-
         }
+
         [HttpGet]
         public ActionResult SetActiveStory(int id)
         {
@@ -130,6 +129,7 @@ namespace OstreCWEB.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
         [HttpGet]
         public ActionResult SetActiveCharacter(int id)
         {

@@ -3,7 +3,7 @@ using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Services.StoryServices.Models;
 using OstreCWEB.ViewModel.Game;
-using OstreCWEB.ViewModel.StoryBuilder;
+using OstreCWEB.Services.StoryServices.ModelsView;
 
 namespace OstreCWEB.Mapping
 {
@@ -14,7 +14,7 @@ namespace OstreCWEB.Mapping
             //Game
             CreateMap<Paragraph, GameParagraphView>();
 
-            //StoryBuilder          
+            //StoryBuilder
             CreateMap<Story, StoriesView>()
                 .ReverseMap()
                     .ForMember(dest => dest.Paragraphs, opt => opt.Ignore())
@@ -78,7 +78,7 @@ namespace OstreCWEB.Mapping
             CreateMap<EditParagraph, EditParagraphView>()
                 .ReverseMap();
 
-            CreateMap<EnemyInParagraphService, EnemyInParagraphView>()
+            CreateMap<EnemyInParagraphService, OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView>()
                 .ForMember(dest => dest.Enemies, opt => opt.Ignore())
                 .ReverseMap();
 
