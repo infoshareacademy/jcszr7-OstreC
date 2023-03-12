@@ -28,7 +28,7 @@ namespace OstreCWEB.Services.StoryBuilder
         //Paragraph
         public Task<Paragraph> GetParagraphById(int idParagraphId);
 
-        public Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory);
+        public Task<ParagraphDetailsView> GetParagraphDetailsById(int idParagraph, int idStory);
 
         public Task AddParagraph(Paragraph paragraph, int userId);
 
@@ -38,7 +38,7 @@ namespace OstreCWEB.Services.StoryBuilder
 
         public Task DeleteParagraph(int idParagraph, int userId);
 
-        public Task<EditParagraph> GetEditParagraphById(int paragraphId);
+        public Task<EditParagraphView> GetEditParagraphById(int paragraphId);
 
         public Task UpdateParagraph(EditParagraph editParagraph, int userId);
 
@@ -49,17 +49,17 @@ namespace OstreCWEB.Services.StoryBuilder
         //Choice
         public Task<ChoiceDetails> GetChoiceDetailsById(int idChoice);
 
-        public Task<ChoiceCreator> GetChoiceCreator(int firstParagraphId, int secondParagraphId);
+        public Task<ChoiceCreatorView> GetChoiceCreator(int firstParagraphId, int secondParagraphId);
 
-        public Task<ChoiceCreator> GetChoiceCreatorById(int choiceId);
+        public Task<ChoiceCreatorView> GetChoiceCreatorById(int choiceId);
 
-        public Task<ChoiceCreator> GetChoiceCreatorById(int choiceId, int secondParagraphId);
+        public Task<ChoiceCreatorView> GetChoiceCreatorById(int choiceId, int secondParagraphId);
 
-        public Task AddChoice(ChoiceCreator choiceCreator);
+        public Task AddChoice(ChoiceCreatorView choiceCreator);
 
         public Task DeleteChoice(int choiceId);
 
-        public Task UpdateChoice(ChoiceCreator choiceCreator);
+        public Task UpdateChoice(ChoiceCreatorView choiceCreator);
 
         public bool Exists(int storyId);
     }

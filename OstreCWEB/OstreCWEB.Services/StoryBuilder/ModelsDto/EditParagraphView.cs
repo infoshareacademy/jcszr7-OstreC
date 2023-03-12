@@ -13,7 +13,7 @@ namespace OstreCWEB.Services.StoryBuilder.ModelsDto
         public bool RestoreRest { get; set; }
 
         // Paragraph Fight properties
-        public List<OstreCWEB.Services.StoryBuilder.ModelsDto.EnemyInParagraphView> ParagraphEnemies { get; set; }
+        public List<EnemyInParagraphView> ParagraphEnemies { get; set; }
 
         // ParagraphTest Properties
         [Display(Name = "Ability Score")]

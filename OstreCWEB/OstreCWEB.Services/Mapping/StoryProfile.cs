@@ -75,9 +75,6 @@ namespace OstreCWEB.Services.Mapping
             CreateMap<EnemyInParagraphService, OstreCWEB.Services.StoryBuilder.ModelsDto.EnemyInParagraphView>()
                 .ForMember(dest => dest.Enemies, opt => opt.Ignore())
                 .ReverseMap();
-
-            CreateMap<ChoiceCreator, ChoiceCreatorView>()
-                .ReverseMap();
         }
     }
 }

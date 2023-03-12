@@ -195,7 +195,7 @@ namespace OstreCWEB.Services.StoryBuilder
             }
         }
 
-        public async Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory)
+        public async Task<ParagraphDetailsView> GetParagraphDetailsById(int idParagraph, int idStory)
         {
             var story = await _storyRepository.GetStoryByIdAsync(idStory);
 
@@ -277,10 +277,12 @@ namespace OstreCWEB.Services.StoryBuilder
                 paragraphDetails.CreatChoice = true;
             }
 
-            return paragraphDetails;
+            var result = _mapper.Map<ParagraphDetailsView>(paragraphDetails);
+
+            return result;
         }
 
-        public async Task<EditParagraph> GetEditParagraphById(int paragraphId)
+        public async Task<EditParagraphView> GetEditParagraphById(int paragraphId)
         {
             var paragraph = await _storyRepository.GetParagraphToEditById(paragraphId);
 
@@ -321,7 +323,9 @@ namespace OstreCWEB.Services.StoryBuilder
                 EditParagraph.TestDifficulty = paragraph.TestProp.TestDifficulty;
             }
 
-            return EditParagraph;
+            var result = _mapper.Map<EditParagraphView>(EditParagraph);
+
+            return result;
         }
 
         public async Task UpdateParagraph(EditParagraph editParagraph, int userId)
@@ -403,32 +407,33 @@ namespace OstreCWEB.Services.StoryBuilder
             return choiceDetails;
         }
 
-        public async Task<ChoiceCreator> GetChoiceCreator(int firstParagraphId, int secondParagraphId)
+        public async Task<ChoiceCreatorView> GetChoiceCreator(int firstParagraphId, int secondParagraphId)
         {
             var firstParagraph = await _storyRepository.GetParagraphById(firstParagraphId);
             var secondParagraph = await _storyRepository.GetParagraphById(secondParagraphId);
 
-            var choiceCreator = new ChoiceCreator
+            var choiceCreator = new ChoiceCreatorView
             {
                 ChangePlaces = false,
 
                 ParagraphId = firstParagraph.Id,
-                PreviousParagraph = firstParagraph,
+                PreviousParagraph = _mapper.Map<ParagraphElementView>(firstParagraph),
 
                 NextParagraphId = secondParagraph.Id,
-                NextParagraph = secondParagraph,
+                NextParagraph = _mapper.Map<ParagraphElementView>(secondParagraph),
 
                 StoryId = firstParagraph.StoryId
             };
+
             return choiceCreator;
         }
 
-        public async Task<ChoiceCreator> GetChoiceCreatorById(int choiceId)
+        public async Task<ChoiceCreatorView> GetChoiceCreatorById(int choiceId)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(choiceId);
             var nextParagraph = await _storyRepository.GetParagraphById(choice.NextParagraphId);
 
-            var choiceCreator = new ChoiceCreator
+            var choiceCreator = new ChoiceCreatorView
             {
                 Id = choiceId,
 
@@ -436,10 +441,10 @@ namespace OstreCWEB.Services.StoryBuilder
                 ChoiceText = choice.ChoiceText,
 
                 ParagraphId = choice.ParagraphId,
-                PreviousParagraph = choice.Paragraph,
+                PreviousParagraph = _mapper.Map<ParagraphElementView>(choice.Paragraph),
 
                 NextParagraphId = choice.NextParagraphId,
-                NextParagraph = nextParagraph,
+                NextParagraph = _mapper.Map<ParagraphElementView>(nextParagraph),
 
                 StoryId = choice.Paragraph.StoryId
             };
@@ -447,12 +452,12 @@ namespace OstreCWEB.Services.StoryBuilder
             return choiceCreator;
         }
 
-        public async Task<ChoiceCreator> GetChoiceCreatorById(int choiceId, int secondParagraphId)
+        public async Task<ChoiceCreatorView> GetChoiceCreatorById(int choiceId, int secondParagraphId)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(choiceId);
             var nextParagraph = await _storyRepository.GetParagraphById(secondParagraphId);
 
-            var choiceCreator = new ChoiceCreator
+            var choiceCreator = new ChoiceCreatorView
             {
                 Id = choiceId,
 
@@ -460,10 +465,10 @@ namespace OstreCWEB.Services.StoryBuilder
                 ChoiceText = choice.ChoiceText,
 
                 ParagraphId = choice.ParagraphId,
-                PreviousParagraph = choice.Paragraph,
+                PreviousParagraph = _mapper.Map<ParagraphElementView>(choice.Paragraph),
 
                 NextParagraphId = secondParagraphId,
-                NextParagraph = nextParagraph,
+                NextParagraph = _mapper.Map<ParagraphElementView>(nextParagraph),
 
                 StoryId = choice.Paragraph.StoryId
             };
@@ -471,7 +476,7 @@ namespace OstreCWEB.Services.StoryBuilder
             return choiceCreator;
         }
 
-        public async Task UpdateChoice(ChoiceCreator choiceCreator)
+        public async Task UpdateChoice(ChoiceCreatorView choiceCreator)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(choiceCreator.Id);
 
@@ -481,7 +486,7 @@ namespace OstreCWEB.Services.StoryBuilder
             await _storyRepository.UpdateChoice(choice);
         }
 
-        public async Task AddChoice(ChoiceCreator choiceCreator)
+        public async Task AddChoice(ChoiceCreatorView choiceCreator)
         {
             var choice = new Choice();
 
