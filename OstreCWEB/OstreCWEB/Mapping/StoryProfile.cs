@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
-using OstreCWEB.Services.StoryServices.Models;
+using OstreCWEB.Services.StoryBuilder.Models;
 using OstreCWEB.ViewModel.Game;
-using OstreCWEB.Services.StoryServices.ModelsView;
+using OstreCWEB.Services.StoryBuilder.ModelsDto;
 
 namespace OstreCWEB.Mapping
 {
@@ -78,7 +78,7 @@ namespace OstreCWEB.Mapping
             CreateMap<EditParagraph, EditParagraphView>()
                 .ReverseMap();
 
-            CreateMap<EnemyInParagraphService, OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView>()
+            CreateMap<EnemyInParagraphService, OstreCWEB.Services.StoryBuilder.ModelsDto.EnemyInParagraphView>()
                 .ForMember(dest => dest.Enemies, opt => opt.Ignore())
                 .ReverseMap();
 

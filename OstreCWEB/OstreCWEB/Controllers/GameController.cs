@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryServices;
+using OstreCWEB.Services.StoryBuilder;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.Identity;
-using OstreCWEB.Services.StoryServices.ModelsView;
+using OstreCWEB.Services.StoryBuilder.ModelsDto;
 
 namespace OstreCWEB.Controllers
 {
@@ -17,12 +17,12 @@ namespace OstreCWEB.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        private readonly IStoryService _storyService;
+        private readonly IStoryBuilderServices _storyService;
         private readonly IPlayableCharacterService _playableCharacterService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IGameService _gameService;
 
-        public GameController(IGameService gameService, IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper, IStoryService storyService, IPlayableCharacterService playableCharacterService)
+        public GameController(IGameService gameService, IHttpContextAccessor httpContextAccessor, IUserService userService, IMapper mapper, IStoryBuilderServices storyService, IPlayableCharacterService playableCharacterService)
         {
             _userService = userService;
             _mapper = mapper;

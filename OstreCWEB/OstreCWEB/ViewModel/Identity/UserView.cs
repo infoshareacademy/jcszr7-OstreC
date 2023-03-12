@@ -1,5 +1,5 @@
 ﻿using OstreCWEB.ViewModel.Characters;
-using OstreCWEB.Services.StoryServices.ModelsView;
+using OstreCWEB.Services.StoryBuilder.ModelsDto;
 using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Identity

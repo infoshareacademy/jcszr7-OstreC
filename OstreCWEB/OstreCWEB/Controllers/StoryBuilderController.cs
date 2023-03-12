@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OstreCWEB.DomainModels.ManyToMany;
+using OstreCWeb.DomainModels.StoryModels.Properties;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryServices;
-using OstreCWEB.Services.StoryServices.Models;
-using OstreCWEB.Services.StoryServices.ModelsView;
+using OstreCWEB.Services.StoryBuilder;
+using OstreCWEB.Services.StoryBuilder.Models;
+using OstreCWEB.Services.StoryBuilder.ModelsDto;
 
 namespace OstreCWEB.Controllers
 {
@@ -18,13 +18,13 @@ namespace OstreCWEB.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<StoryBuilderController> _logger;
 
-        private readonly IStoryService _storyService;
+        private readonly IStoryBuilderServices _storyService;
         private readonly IUserService _userService;
 
         public StoryBuilderController(
             IMapper mapper,
             ILogger<StoryBuilderController> logger,
-            IEnumerable<IStoryService> storyService,
+            IEnumerable<IStoryBuilderServices> storyService,
             IUserService userService)
         {
             _mapper = mapper;
@@ -349,7 +349,7 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/AddEnemyInParagraph/5/1
         public async Task<ActionResult> AddEnemyInParagraph(int fightParagraphId, int paragraphId)
         {
-            var model = new OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView();
+            var model = new EnemyInParagraphView();
 
             model.ParagraphId = paragraphId;
             model.FightPropId = fightParagraphId;
@@ -368,7 +368,7 @@ namespace OstreCWEB.Controllers
         // POST: StoryBuilderController/EditStory/5/1
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddEnemyInParagraph(OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView model)
+        public async Task<ActionResult> AddEnemyInParagraph(EnemyInParagraphView model)
         {
             try
             {
@@ -419,7 +419,7 @@ namespace OstreCWEB.Controllers
         // POST: StoryBuilderController/AddItemInParagraph/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddItemInParagraph(OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView model)
+        public async Task<ActionResult> AddItemInParagraph(EnemyInParagraphView model)
         {
             try
             {

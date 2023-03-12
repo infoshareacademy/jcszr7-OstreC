@@ -1,9 +1,9 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels;
 
-namespace OstreCWEB.DomainModels.ManyToMany
+namespace OstreCWeb.DomainModels.StoryModels.Properties
 {
-    public class ParagraphItem
+    public class ParagraphItem : IEntityBase
     {
         public int Id { get; set; }
 

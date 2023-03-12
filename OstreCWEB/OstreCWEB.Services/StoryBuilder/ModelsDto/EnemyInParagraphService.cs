@@ -1,4 +1,4 @@
-﻿namespace OstreCWEB.Services.StoryServices.Models
+﻿namespace OstreCWEB.Services.StoryBuilder.Models
 {
     public class EnemyInParagraphService
     {

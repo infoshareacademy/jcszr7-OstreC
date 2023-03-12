@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OstreCWEB.DomainModels.ManyToMany;
+using OstreCWeb.DomainModels.StoryModels.Properties;
 
 namespace OstreCWEB.Repository.Configurations
 {

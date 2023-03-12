@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Services.StoryServices.ModelsView
+namespace OstreCWEB.Services.StoryBuilder.ModelsDto
 {
-    public class StoryParagraphsView
+    public class StoriesView
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -10,9 +10,5 @@ namespace OstreCWEB.Services.StoryServices.ModelsView
 
         [Display(Name = "Amount Of Paragraphs")]
         public int AmountOfParagraphs { get; set; }
-
-        public List<ParagraphElementView> Paragraphs { get; set; }
-
-        public int FirstParagraphId { get; set; }
     }
 }

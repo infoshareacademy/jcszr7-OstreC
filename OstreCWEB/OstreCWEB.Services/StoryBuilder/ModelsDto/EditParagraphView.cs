@@ -2,7 +2,7 @@
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Services.StoryServices.ModelsView
+namespace OstreCWEB.Services.StoryBuilder.ModelsDto
 {
     public class EditParagraphView
     {
@@ -13,7 +13,7 @@ namespace OstreCWEB.Services.StoryServices.ModelsView
         public bool RestoreRest { get; set; }
 
         // Paragraph Fight properties
-        public List<OstreCWEB.Services.StoryServices.ModelsView.EnemyInParagraphView> ParagraphEnemies { get; set; }
+        public List<OstreCWEB.Services.StoryBuilder.ModelsDto.EnemyInParagraphView> ParagraphEnemies { get; set; }
 
         // ParagraphTest Properties
         [Display(Name = "Ability Score")]

@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.DomainModels.StoryModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Services.StoryServices.ModelsView
+namespace OstreCWEB.Services.StoryBuilder.ModelsDto
 {
     public class CreatNewParagraphView
     {

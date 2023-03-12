@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OstreCWeb.DomainModels.StoryModels.Properties;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels;

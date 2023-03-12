@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.DomainModels.StoryModels;
 
-namespace OstreCWEB.Services.StoryServices.Models
+namespace OstreCWEB.Services.StoryBuilder.Models
 {
     public class ParagraphDetails
     {
