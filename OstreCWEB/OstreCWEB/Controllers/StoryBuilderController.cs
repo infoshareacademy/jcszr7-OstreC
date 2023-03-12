@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
@@ -153,6 +154,15 @@ namespace OstreCWEB.Controllers
         {
             var model = new CreatNewParagraphView();
             model.StoryId = id;
+
+            model.Items = new Dictionary<int, string>();
+            var itemsList = await _storyService.GetAllItems();
+
+            foreach (var item in itemsList)
+            {
+                model.Items.Add(item.Id, item.Name);
+            }
+
             return View(model);
         }
 
@@ -173,7 +183,19 @@ namespace OstreCWEB.Controllers
                 }
                 else
                 {
-                    await _storyService.AddParagraph(_mapper.Map<Paragraph>(paragraph), _userService.GetUserId(User));
+                    var newParagraph = _mapper.Map<Paragraph>(paragraph);
+
+                    newParagraph.ParagraphItems = new List<ParagraphItem>
+                    {
+                        new ParagraphItem
+                        {
+                            ItemId = paragraph.ItemId,
+                            AmountOfItems = paragraph.AmountOfItems,
+                        }
+                    };
+
+                    await _storyService.AddParagraph(newParagraph, _userService.GetUserId(User));
+
                     return RedirectToAction(nameof(StoryParagraphsList), _mapper.Map<StoryParagraphsView>(await _storyService.GetStoryWithParagraphsById(paragraph.StoryId)));
                 }
             }
@@ -216,15 +238,13 @@ namespace OstreCWEB.Controllers
         {
             var model = _mapper.Map<CreatParagraphFightView>(paragraphFight);
 
-            var enemyDictionary = new Dictionary<int, string>();
+            model.Enemies = new Dictionary<int, string>();
             var enemiesList = await _storyService.GetAllEnemies();
 
             foreach (var enemy in enemiesList)
             {
-                enemyDictionary.Add(enemy.Id, enemy.CharacterName);
+                model.Enemies.Add(enemy.Id, enemy.CharacterName);
             }
-
-            model.Enemies = enemyDictionary;
 
             return View(model);
         }
@@ -334,15 +354,13 @@ namespace OstreCWEB.Controllers
             model.ParagraphId = paragraphId;
             model.FightPropId = fightParagraphId;
 
-            var enemyDictionary = new Dictionary<int, string>();
+            model.Enemies = new Dictionary<int, string>();
             var enemiesList = await _storyService.GetAllEnemies();
 
             foreach (var enemy in enemiesList)
             {
-                enemyDictionary.Add(enemy.Id, enemy.CharacterName);
+                model.Enemies.Add(enemy.Id, enemy.CharacterName);
             }
-
-            model.Enemies = enemyDictionary;
 
             return View(model);
         }
@@ -378,25 +396,25 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/AddItemInParagraph/
-        public async Task<ActionResult> AddItemInParagraph(int fightParagraphId, int paragraphId)
-        {
-            var model = new EnemyInParagraphView();
+        //public async Task<ActionResult> AddItemInParagraph(int fightParagraphId, int paragraphId)
+        //{
+        //    var model = new EnemyInParagraphView();
 
-            model.ParagraphId = paragraphId;
-            model.FightPropId = fightParagraphId;
+        //    model.ParagraphId = paragraphId;
+        //    model.FightPropId = fightParagraphId;
 
-            var enemyDictionary = new Dictionary<int, string>();
-            var enemiesList = await _storyService.GetAllEnemies();
+        //    var enemyDictionary = new Dictionary<int, string>();
+        //    var enemiesList = await _storyService.GetAllEnemies();
 
-            foreach (var enemy in enemiesList)
-            {
-                enemyDictionary.Add(enemy.Id, enemy.CharacterName);
-            }
+        //    foreach (var enemy in enemiesList)
+        //    {
+        //        enemyDictionary.Add(enemy.Id, enemy.CharacterName);
+        //    }
 
-            model.Enemies = enemyDictionary;
+        //    model.Enemies = enemyDictionary;
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
         // POST: StoryBuilderController/AddItemInParagraph/
         [HttpPost]

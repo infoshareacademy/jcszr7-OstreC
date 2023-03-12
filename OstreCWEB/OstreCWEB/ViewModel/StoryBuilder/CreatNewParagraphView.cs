@@ -9,6 +9,8 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public ParagraphType ParagraphType { get; set; }
 
         [Display(Name = "Stage Description")]
+        [Required(ErrorMessage = "Please provide Description")]
+        [StringLength(100)]
         public string StageDescription { get; set; }
 
         [Display(Name = "Restore Rest")]
@@ -16,6 +18,10 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         public int ItemId { get; set; }
         public string ItemName { get; set; }
+
+        [Display(Name = "Amount of items")]
+        [Required(ErrorMessage = "Please provide amount of items")]
+        [Range(0, 3, ErrorMessage = "Please provide value from 0 to 3")]
         public int AmountOfItems { get; set; }
 
         public int StoryId { get; set; }

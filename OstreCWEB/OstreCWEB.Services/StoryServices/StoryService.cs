@@ -12,16 +12,23 @@ namespace OstreCWEB.Services.StoryServices
     {
         private readonly IStoryRepository _storyRepository;
         private readonly IEnemyRepository<Enemy> _enemyRepository;
+        private readonly IItemRepository<Item> _itemRepository;
 
-        public StoryService(IStoryRepository storyRepository, IEnemyRepository<Enemy> enemyRepository)
+        public StoryService(
+            IStoryRepository storyRepository,
+            IEnemyRepository<Enemy> enemyRepository,
+            IItemRepository<Item> itemRepository)
         {
             _storyRepository = storyRepository;
             _enemyRepository = enemyRepository;
+            _itemRepository = itemRepository;
         }
+
         public bool Exists(int id)
         {
             return _storyRepository.Exists(id);
         }
+
         public async Task<IReadOnlyCollection<Story>> GetAllStories()
         {
             return await _storyRepository.GetAllStories();
@@ -36,6 +43,7 @@ namespace OstreCWEB.Services.StoryServices
         {
             return await _storyRepository.GetStoryByIdAsync(idStory);
         }
+
         public Story GetStoryById(int idStory)
         {
             return _storyRepository.GetStoryById(idStory);
@@ -90,7 +98,6 @@ namespace OstreCWEB.Services.StoryServices
         {
             return await _storyRepository.GetParagraphById(idParagraphId);
         }
-
 
         public async Task AddParagraph(Paragraph paragraph, int userId)
         {
@@ -156,9 +163,9 @@ namespace OstreCWEB.Services.StoryServices
                 throw new Exception("This is not your Story");
             }
         }
+
         public async Task DeleteParagraph(int idParagraph, int userId)
         {
-
             var paragraph = await _storyRepository.GetParagraphById(idParagraph);
             var story = await _storyRepository.GetStoryByIdAsync(paragraph.StoryId);
 
@@ -343,10 +350,14 @@ namespace OstreCWEB.Services.StoryServices
             await _storyRepository.DeleteEnemyInParagraph(enemyInParagraphId);
         }
 
-
         public async Task<IReadOnlyCollection<Enemy>> GetAllEnemies()
         {
             return await _enemyRepository.GetAllTemplatesAsync();
+        }
+
+        public async Task<IReadOnlyCollection<Item>> GetAllItems()
+        {
+            return _itemRepository.GetAll();
         }
 
         public async Task<ChoiceDetails> GetChoiceDetailsById(int idChoice)
@@ -443,7 +454,6 @@ namespace OstreCWEB.Services.StoryServices
 
             return choiceCreator;
         }
-
 
         public async Task UpdateChoice(ChoiceCreator choiceCreator)
         {
