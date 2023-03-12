@@ -66,7 +66,6 @@ namespace OstreCWEB.Services.Mapping
                 .ForMember(dest => dest.AbilityScores, opt => opt.Ignore())
                 .ForMember(dest => dest.TestDifficulty, opt => opt.Ignore());
 
-            CreateMap<ChoiceDetails, ChoiceDetailsView>();
             CreateMap<Choice, CurrentChoiceView>();
 
             CreateMap<EditParagraph, EditParagraphView>()

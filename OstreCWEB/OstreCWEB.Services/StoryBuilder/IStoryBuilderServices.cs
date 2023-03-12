@@ -47,7 +47,7 @@ namespace OstreCWEB.Services.StoryBuilder
         public Task DeleteEnemyInParagraph(int enemyInParagraphId);
 
         //Choice
-        public Task<ChoiceDetails> GetChoiceDetailsById(int idChoice);
+        public Task<ChoiceDetailsView> GetChoiceDetailsById(int idChoice);
 
         public Task<ChoiceCreatorView> GetChoiceCreator(int firstParagraphId, int secondParagraphId);
 

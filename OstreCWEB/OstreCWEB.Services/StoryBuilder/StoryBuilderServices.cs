@@ -380,19 +380,19 @@ namespace OstreCWEB.Services.StoryBuilder
             return _itemRepository.GetAll();
         }
 
-        public async Task<ChoiceDetails> GetChoiceDetailsById(int idChoice)
+        public async Task<ChoiceDetailsView> GetChoiceDetailsById(int idChoice)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(idChoice);
 
-            var choiceDetails = new ChoiceDetails
+            var choiceDetails = new ChoiceDetailsView
             {
                 StoryId = choice.Paragraph.Story.Id,
                 DescriptionOfStory = choice.Paragraph.Story.Description,
                 NameOfStory = choice.Paragraph.Story.Name,
                 AmountOfParagraphs = choice.Paragraph.Story.GetAmountOfParagraphs(),
-                PreviousParagraph = choice.Paragraph,
-                CurrentChoice = choice,
-                NextParagraph = choice.Paragraph.Story.Paragraphs.FirstOrDefault(p => p.Id == choice.NextParagraphId)
+                PreviousParagraph = _mapper.Map<ParagraphElementView>(choice.Paragraph),
+                CurrentChoice = _mapper.Map<CurrentChoiceView>(choice),
+                NextParagraph = _mapper.Map<ParagraphElementView>(choice.Paragraph.Story.Paragraphs.FirstOrDefault(p => p.Id == choice.NextParagraphId))
             };
 
             if (choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Fight || choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Test)
