@@ -16,10 +16,10 @@ namespace OstreCWEB.Services.Fight
         public Character GetActiveTarget();
         public Character ResetActiveTarget();
         public Task CommitAction(int userId);
-        public FightInstance GetFightState(int userId, int characterId);
         public FightInstance GetActiveFightInstance(int userId, int characterId);
         public Task UpdateItemToRemove(int id);
         public Ability ResetActiveAction();
         public Task DeleteFightInstanceAsync(int userId);
+        public Task<FightInstance> GetFightInstanceAsync();
     }
 }
