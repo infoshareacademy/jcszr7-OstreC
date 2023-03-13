@@ -127,9 +127,12 @@ namespace OstreCWEB.Services.Fight
                 _fightRepository.Add(userId, fightInstance, out string operationResult);
         }
 
+
+
         public async Task CommitAction(int userId)
         {
            var activeFightInstance =await GetFightInstanceAsync();
+           var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
 
             var isplayerFirst = activeFightInstance.isPlayerFirst;
 
@@ -173,23 +176,25 @@ namespace OstreCWEB.Services.Fight
             if (combatEnded)
             {
                 var fightWon = IsFightWon(activeFightInstance.ActivePlayer);
-                FinishFight(fightWon);
+                FinishFight(fightWon, activeFightInstance);
             }
 
+           await EndTurnAsync(activeFightInstance, userParagraph, userId);
+
         }
-        public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
-        public void UpdateActiveTarget(Character character)
+        public List<string> ReturnHistory(FightInstance fightInstance) => fightInstance.FightHistory;
+        public void UpdateActiveTarget(Character character, FightInstance fightInstance)
         {
-            _activeFightInstance.ActiveTarget = character;
+            fightInstance.ActiveTarget = character;
         }
-        public Ability ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAbilities.First(a => a.Id == id);
-        public Character ChooseTarget(int id)
+        public Ability ChooseAction(int id, FightInstance fightInstance) => fightInstance.ActivePlayer.AllAbilities.First(a => a.Id == id);
+        public Character ChooseTarget(int id, FightInstance fightInstance)
         {
-            if (id == _activeFightInstance.ActivePlayer.CombatId)
+            if (id == fightInstance.ActivePlayer.CombatId)
             {
-                return _activeFightInstance.ActivePlayer;
+                return fightInstance.ActivePlayer;
             }
-            return _activeFightInstance.ActiveEnemies.First(a => a.CombatId == id);
+            return fightInstance.ActiveEnemies.First(a => a.CombatId == id);
         }
         public Character ResetActiveTarget(FightInstance fightInstance)
         {
@@ -201,24 +206,24 @@ namespace OstreCWEB.Services.Fight
             fightInstance.ActiveAction = new Ability();
             return fightInstance.ActiveAction;
         }
-        private void StartAiTurn()
+        private void StartAiTurn(FightInstance fightInstance)
         {
             var random = new Random();
 
-            foreach (var enemy in _activeFightInstance.ActiveEnemies)
+            foreach (var enemy in fightInstance.ActiveEnemies)
             {
                 var result = random.Next(0, enemy.AllAbilities.Count());
                 var enemyAction = enemy.AllAbilities[result];
-                ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
+                ApplyAction(fightInstance.ActivePlayer, enemy, enemyAction);
             }
         }
-        public Character GetActiveTarget() => _activeFightInstance.ActiveTarget;
-        public Ability GetActiveActions() => _activeFightInstance.ActiveAction;
-        public void UpdateActiveAction(Ability action)
+        public Character GetActiveTarget(FightInstance fightInstance) => fightInstance.ActiveTarget;
+        public Ability GetActiveActions(FightInstance fightInstance) => fightInstance.ActiveAction;
+        public void UpdateActiveAction(Ability action, FightInstance fightInstance)
         {
-            _activeFightInstance.ActiveAction = action;
+            fightInstance.ActiveAction = action;
         }
-        private PlayableCharacter GetActivePlayer() => _activeFightInstance.ActivePlayer;
+        private PlayableCharacter GetActivePlayer(FightInstance fightInstance) => fightInstance.ActivePlayer;
         private int UpdateTurnNumber(int turnNumber) => turnNumber += 1;
 
         private List<string> UpdateFightHistory(List<string> FightHistory, string message)
@@ -227,7 +232,7 @@ namespace OstreCWEB.Services.Fight
             return FightHistory;
         }
 
-        private void ApplyAction(Character target, Character caster, Ability action)
+        private void ApplyAction(Character target, Character caster, Ability action, FightInstance fightInstance)
         {
             var IsHit = IsTargetHit(target, caster, action);
 
@@ -244,7 +249,7 @@ namespace OstreCWEB.Services.Fight
                         ApplyStatus(target, action.Status);
                     }
 
-                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                    fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName} using {action.AbilityName}" +
                            $" saving throw was {(savingThrow ? "successful" : "failed")}, " +
@@ -263,7 +268,7 @@ namespace OstreCWEB.Services.Fight
 
                         if (IsTargetAlive(target))
                         {
-                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName}  using {action.AbilityName}" +
                            GetLogCharacterIsBlind(caster) +
@@ -271,7 +276,7 @@ namespace OstreCWEB.Services.Fight
                         }
                         else
                         {
-                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName}  using {action.AbilityName} and died" +
                            GetLogCharacterIsBlind(caster) +
@@ -282,13 +287,13 @@ namespace OstreCWEB.Services.Fight
                     {
                         if (action.AbilityName == "Bless")
                         {
-                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                                                         $" {target.CharacterName} used bless on himself!");
                         }
                         else
                         {
                             var heal = ApplyHeal(target, action, savingThrow);
-                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                                 $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
                                 $" due to {caster.CharacterName}  using {action.AbilityName}");
                         }
@@ -299,7 +304,7 @@ namespace OstreCWEB.Services.Fight
             }
             else
             {
-                _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                                             $" {caster.CharacterName} tried to use {action.AbilityName} on {target.CharacterName}, but have missed");
             }
 
@@ -319,10 +324,10 @@ namespace OstreCWEB.Services.Fight
 
         }
 
-        private bool IsPlayerFirst()
+        private bool IsPlayerFirst(FightInstance fightInstance)
         {
-            var playerInitiative = InitiativeCheck(_activeFightInstance.ActivePlayer);
-            var enemyInitiaive = InitiativeCheck(_activeFightInstance.ActiveEnemies.FirstOrDefault());
+            var playerInitiative = InitiativeCheck(fightInstance.ActivePlayer);
+            var enemyInitiaive = InitiativeCheck(fightInstance.ActiveEnemies.FirstOrDefault());
             if (playerInitiative >= enemyInitiaive)
             {
                 return true;
@@ -560,19 +565,19 @@ namespace OstreCWEB.Services.Fight
             else { return false; }
         }
 
-        public async Task RemoveItem()
+        public async Task RemoveItem(FightInstance fightInstance)
         {
-            var itemToDelete = _activeFightInstance.ItemToDeleteId;
-            _fightRepository.DeleteLinkedItem(_activeFightInstance, itemToDelete);
+            var itemToDelete = fightInstance.ItemToDeleteId;
+            _fightRepository.DeleteLinkedItem(fightInstance, itemToDelete);
         }
 
-        public async Task UpdateItemToRemove(int id)
+        public async Task UpdateItemToRemove(int id, FightInstance fightInstance)
         {
-            _activeFightInstance.ItemToDeleteId = id;
+            fightInstance.ItemToDeleteId = id;
         }
-        public async Task DeleteFightInstanceAsync(int userId)
+        public async Task DeleteFightInstanceAsync(int userId, FightInstance fightInstance)
         {
-            _fightRepository.Delete(userId, _activeFightInstance.ActivePlayer.Id, out string operationResult);
+            _fightRepository.Delete(userId, fightInstance.ActivePlayer.Id, out string operationResult);
         }
 
         public bool IsBlind(Character character)
