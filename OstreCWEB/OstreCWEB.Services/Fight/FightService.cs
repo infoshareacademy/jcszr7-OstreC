@@ -140,18 +140,18 @@ namespace OstreCWEB.Services.Fight
             {
                 activeFightInstance.FightHistory = UpdateFightHistory(activeFightInstance.FightHistory,
                 "Player has lost an initiaive roll, The monsters will attack now!");
-                StartAiTurn();
+                StartAiTurn(activeFightInstance);
                 activeFightInstance.AiFirstTurnCounter--;
             }
 
             activeFightInstance.PlayerActionCounter--;
-            ApplyAction(activeFightInstance.ActiveTarget, activeFightInstance.ActivePlayer, activeFightInstance.ActiveAction);
+            ApplyAction(activeFightInstance.ActiveTarget, activeFightInstance.ActivePlayer, activeFightInstance.ActiveAction, activeFightInstance);
 
             if (activeFightInstance.ActiveTarget.CombatId != 1)
             {
                 if (activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
                 {
-                    activeFightInstance.ActiveEnemies.Remove((Enemy)GetActiveTarget());
+                    activeFightInstance.ActiveEnemies.Remove((Enemy)GetActiveTarget(activeFightInstance));
                     activeFightInstance.ActiveTarget = null;
                 }
             }
@@ -167,12 +167,12 @@ namespace OstreCWEB.Services.Fight
             if (activeFightInstance.PlayerActionCounter <= 0)
             {
                 activeFightInstance.PlayerActionCounter = 2;
-                StartAiTurn();
+                StartAiTurn(activeFightInstance);
                 activeFightInstance.ActivePlayer.ActiveStatuses.Clear();
                 activeFightInstance.ActiveEnemies.ForEach(e => e.ActiveStatuses.Clear());
                 activeFightInstance.TurnNumber = UpdateTurnNumber(activeFightInstance.TurnNumber);
             }
-            var combatEnded = IsFightFinished(activeFightInstance.ActiveEnemies, GetActivePlayer());
+            var combatEnded = IsFightFinished(activeFightInstance.ActiveEnemies, GetActivePlayer(activeFightInstance));
             if (combatEnded)
             {
                 var fightWon = IsFightWon(activeFightInstance.ActivePlayer);
@@ -214,7 +214,7 @@ namespace OstreCWEB.Services.Fight
             {
                 var result = random.Next(0, enemy.AllAbilities.Count());
                 var enemyAction = enemy.AllAbilities[result];
-                ApplyAction(fightInstance.ActivePlayer, enemy, enemyAction);
+                ApplyAction(fightInstance.ActivePlayer, enemy, enemyAction, fightInstance);
             }
         }
         public Character GetActiveTarget(FightInstance fightInstance) => fightInstance.ActiveTarget;
@@ -629,15 +629,15 @@ namespace OstreCWEB.Services.Fight
                 if (fightInstance.PlayerWon)
                 {
 
-                    await DeleteFightInstanceAsync(userId);
+                    await DeleteFightInstanceAsync(userId, fightInstance);
                     await _gameService.NextParagraphAfterFightAsync(userParagraph, 1);
                 }
                 else
                 {
-                    await DeleteFightInstanceAsync(userId);
+                    await DeleteFightInstanceAsync(userId, fightInstance);
                     await _gameService.NextParagraphAfterFightAsync(userParagraph, 0);
                 }
-                return RedirectToAction("Index", "StoryReader");
+
             }
         }
 

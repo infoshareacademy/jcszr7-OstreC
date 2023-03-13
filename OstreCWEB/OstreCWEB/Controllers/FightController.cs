@@ -84,8 +84,13 @@ namespace OstreCWEB.Controllers
             var userId = _userService.GetUserId(User);
             var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(_userService.GetUserId(User));
             var activeFightInstance = _fightService.GetActiveFightInstance(userId, activeGameInstance.ActiveCharacter.Id);
-            await _fightService.CommitAction(userId);
-     ;
+            bool isCombarFinished = await _fightService.CommitAction(userId);
+            if (isCombarFinished)
+            {
+            return RedirectToAction("Index", "StoryReader");
+            }
+            return View()
+            ;
 
             //if (fightState.CombatFinished)
             //{
