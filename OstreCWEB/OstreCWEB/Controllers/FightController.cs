@@ -127,22 +127,26 @@ namespace OstreCWEB.Controllers
             }
             return RedirectToAction("Game", "Index");
         }
-    }
-    public async Task<ActionResult> SetActiveActionFromItem(int id)
-    {
-        var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-        var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
-        var chosenItem = activeFightInstance.ActivePlayer.LinkedItems.First(i => i.Id == id);
-        activeFightInstance.IsItemToDelete = false;
-        activeFightInstance.ActionGrantedByItem = true;
-        if (chosenItem.Item.DeleteOnUse)
+        public async Task<ActionResult> SetActiveActionFromItem(int id)
         {
-            _fightService.UpdateItemToRemove(id);
-            activeFightInstance.IsItemToDelete = true;
+
+            try
+            {
+                var fightInstance = await _fightService.GetFightInstanceAsync();
+                await _fightService.SetActiveActionFromItem(fightInstance,id);
+                if (fightInstance != null)
+                {
+                    var model = _mapper.Map<FightViewModel>(fightInstance);
+                    return View(model);
+                }
+                return RedirectToAction("Game", "Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return RedirectToAction("Game", "Index");
+
         }
-        _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.Ability.Id));
-        _fightService.ResetActiveTarget();
-        return RedirectToAction("FightView");
     }
-}
 }

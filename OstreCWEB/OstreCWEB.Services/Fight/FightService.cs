@@ -129,7 +129,7 @@ namespace OstreCWEB.Services.Fight
 
 
 
-        public async Task<bool> CommitAction(int userId)
+        public async Task<bool> CommitActionAsync(int userId)
         {
             var activeFightInstance = await GetFightInstanceAsync();
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
@@ -219,6 +219,20 @@ namespace OstreCWEB.Services.Fight
         }
         public Character GetActiveTarget(FightInstance fightInstance) => fightInstance.ActiveTarget;
         public Ability GetActiveActions(FightInstance fightInstance) => fightInstance.ActiveAction;
+
+        public async Task SetActiveActionFromItem(FightInstance fightInstance,int id)
+        {
+            var chosenItem = fightInstance.ActivePlayer.LinkedItems.First(i => i.Id == id);
+            fightInstance.IsItemToDelete = false;
+            fightInstance.ActionGrantedByItem = true;
+            if (chosenItem.Item.DeleteOnUse)
+            {
+                fightInstance.ItemToDeleteId = id;
+                fightInstance.IsItemToDelete = true;
+            }
+            await UpdateActiveActionAsync(chosenItem.Item.Ability.Id, fightInstance);
+            ResetActiveTarget(fightInstance);
+        }
         public async Task UpdateActiveActionAsync(int id, FightInstance fightInstance)
         {
 
@@ -575,10 +589,7 @@ namespace OstreCWEB.Services.Fight
             _fightRepository.DeleteLinkedItem(fightInstance, itemToDelete);
         }
 
-        public async Task UpdateItemToRemove(int id, FightInstance fightInstance)
-        {
-            fightInstance.ItemToDeleteId = id;
-        }
+
         public async Task DeleteFightInstanceAsync(int userId, FightInstance fightInstance)
         {
             _fightRepository.Delete(userId, fightInstance.ActivePlayer.Id, out string operationResult);
