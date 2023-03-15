@@ -1,0 +1,39 @@
+﻿@model OstreCWEB.ViewModel.Api.FilterView
+
+
+<div class="row align-items-top mb-3 justify-content-md-center">
+                <form asp-action="Index" asp-route-ParamToOrder="Name">
+
+    <div class="row align-items-top mb-3 justify-content-md-center">
+
+        <label asp-for="Limit"></label>
+        <input type="number " class="form-control" asp-for="Limit"min="0" max="100"/>
+
+        <label asp-for="SearchByInt"></label>
+        <input type="number " class="form-control" asp-for="SearchByInt" min="0" max="4"/>
+
+        <label asp-for="SearchByName"></label>
+        <input type="text"asp-for="SearchByName"/>
+
+        <div class="col-lg-3 ">
+
+            <label asp-for="ParamToOrder"></label>
+            <input type="Radio " asp-for="ParamToOrder"/>
+
+        </div>
+    </div>
+    <input type="submit" value="Filter" class="btn btn-primary"/>
+</form>   
+
+    <div class="col-lg-3 ">
+        <div class="card shadow-sm">
+        </div>
+    </div>
+    <div class="col-lg-3 offset-md-1 ">
+
+    </div>
+    <div class="col-lg-3 offset-md-1  bg-white  ">
+    </div>
+</div>
+
+

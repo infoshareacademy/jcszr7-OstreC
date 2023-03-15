@@ -11,8 +11,11 @@ namespace OstreCWEB.ViewModel.Api
         public int TotalPagesNumber { get; set; } 
         public int NextPage { get; set; }
         public int PreviousPage { get; set; }
+        public string Next { get; set; }
+        public string Previous { get; set; }
         [DisplayName("Results")]
         public List<SpellView> Results { get; set; } 
         public int ActivePage { get; set; }
+        public FilterView Filters { get; set; }
     }
 }

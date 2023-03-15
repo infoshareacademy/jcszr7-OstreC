@@ -4,9 +4,9 @@
     {
         public string SearchByInt { get; set; }
 
-        public string SearchByName { get; set; }
+        public string ParamToOrder { get; set; }
 
-        public string SortByParam { get; set; }
+        public string SearchByName { get; set; }
 
         public int Limit { get; set; }
     }
