@@ -65,7 +65,7 @@ namespace OstreCWEB.Services.Fight
 
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(httpUserIdInt);
 
-            var fightInstance =  _fightRepository.GetById(httpUserIdInt, (int)userParagraph.ActiveCharacterId);
+            var fightInstance = _fightRepository.GetById(httpUserIdInt, (int)userParagraph.ActiveCharacterId);
             if (fightInstance != null && fightInstance.ActivePlayer.Id == userParagraph.ActiveCharacter.Id)
             {
                 return fightInstance;
@@ -113,26 +113,26 @@ namespace OstreCWEB.Services.Fight
         public async Task InitializeFightAsync(int userId, UserParagraph gameInstance)
         {
 
-                var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
-                fightInstance.FightHistory.Add("Fight initialized");
+            var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
+            fightInstance.FightHistory.Add("Fight initialized");
 
-                var playerInitiative = InitiativeCheck(fightInstance.ActivePlayer);
-                var enemiesInitiative = InitiativeCheck(fightInstance.ActiveEnemies.FirstOrDefault());
-                if (playerInitiative >= enemiesInitiative)
-                {
-                    fightInstance.isPlayerFirst = true;
-                }
-                else fightInstance.isPlayerFirst = false;
+            var playerInitiative = InitiativeCheck(fightInstance.ActivePlayer);
+            var enemiesInitiative = InitiativeCheck(fightInstance.ActiveEnemies.FirstOrDefault());
+            if (playerInitiative >= enemiesInitiative)
+            {
+                fightInstance.isPlayerFirst = true;
+            }
+            else fightInstance.isPlayerFirst = false;
 
-                _fightRepository.Add(userId, fightInstance, out string operationResult);
+            _fightRepository.Add(userId, fightInstance, out string operationResult);
         }
 
 
 
-        public async Task CommitAction(int userId)
+        public async Task<bool> CommitAction(int userId)
         {
-           var activeFightInstance =await GetFightInstanceAsync();
-           var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
+            var activeFightInstance = await GetFightInstanceAsync();
+            var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
 
             var isplayerFirst = activeFightInstance.isPlayerFirst;
 
@@ -179,23 +179,23 @@ namespace OstreCWEB.Services.Fight
                 FinishFight(fightWon, activeFightInstance);
             }
 
-           await EndTurnAsync(activeFightInstance, userParagraph, userId);
+            await EndTurnAsync(activeFightInstance, userParagraph, userId);
+            return activeFightInstance.CombatFinished;
 
         }
         public List<string> ReturnHistory(FightInstance fightInstance) => fightInstance.FightHistory;
-        public void UpdateActiveTarget(Character character, FightInstance fightInstance)
-        {
-            fightInstance.ActiveTarget = character;
-        }
-        public Ability ChooseAction(int id, FightInstance fightInstance) => fightInstance.ActivePlayer.AllAbilities.First(a => a.Id == id);
-        public Character ChooseTarget(int id, FightInstance fightInstance)
+        public async Task UpdateActiveTargetAsync(int id, FightInstance fightInstance)
         {
             if (id == fightInstance.ActivePlayer.CombatId)
             {
-                return fightInstance.ActivePlayer;
+                fightInstance.ActiveTarget = fightInstance.ActivePlayer;
             }
-            return fightInstance.ActiveEnemies.First(a => a.CombatId == id);
+            else
+            {
+           fightInstance.ActiveTarget = fightInstance.ActiveEnemies.First(a => a.CombatId == id);
+            }
         }
+
         public Character ResetActiveTarget(FightInstance fightInstance)
         {
             fightInstance.ActiveTarget = new PlayableCharacter();
@@ -219,9 +219,13 @@ namespace OstreCWEB.Services.Fight
         }
         public Character GetActiveTarget(FightInstance fightInstance) => fightInstance.ActiveTarget;
         public Ability GetActiveActions(FightInstance fightInstance) => fightInstance.ActiveAction;
-        public void UpdateActiveAction(Ability action, FightInstance fightInstance)
+        public async Task UpdateActiveActionAsync(int id, FightInstance fightInstance)
         {
-            fightInstance.ActiveAction = action;
+
+            var chosenAction = fightInstance.ActivePlayer.AllAbilities.First(a => a.Id == id);
+            fightInstance.ActionGrantedByItem = false;
+            fightInstance.ActiveAction = chosenAction;
+            ResetActiveTarget(fightInstance);
         }
         private PlayableCharacter GetActivePlayer(FightInstance fightInstance) => fightInstance.ActivePlayer;
         private int UpdateTurnNumber(int turnNumber) => turnNumber += 1;
@@ -548,7 +552,7 @@ namespace OstreCWEB.Services.Fight
             var diceThrowResult = rand.Next(1, maxValue + 1);
             return diceThrowResult;
         }
-        private void FinishFight(bool playerWon,FightInstance fightInstance)
+        private void FinishFight(bool playerWon, FightInstance fightInstance)
         {
             fightInstance.CombatFinished = true;
             if (playerWon) { fightInstance.PlayerWon = true; return; }
