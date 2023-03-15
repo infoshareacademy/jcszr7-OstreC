@@ -6,7 +6,7 @@ namespace OstreCWEB.Services.Fight
 {
     public interface IFightService
     {
-        public Task InitializeFightAsync(int userId, UserParagraph gameInstance);
+        public Task<FightInstance> InitializeFightAsync(int userId, UserParagraph gameInstance);
         public Task UpdateActiveActionAsync(int id, FightInstance fightInstance);
         public Task UpdateActiveTargetAsync(int id, FightInstance fightInstance);
         public Task SetActiveActionFromItem(FightInstance fightInstance, int id);

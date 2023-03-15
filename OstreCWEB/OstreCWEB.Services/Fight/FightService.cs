@@ -55,7 +55,7 @@ namespace OstreCWEB.Services.Fight
         {
             var httpUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-
+            
             var result = int.TryParse(httpUserId, out var httpUserIdInt);
 
             if (!result)
@@ -64,8 +64,8 @@ namespace OstreCWEB.Services.Fight
             }
 
             var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(httpUserIdInt);
-
-            var fightInstance = _fightRepository.GetById(httpUserIdInt, (int)userParagraph.ActiveCharacterId);
+            var fightInstance = _fightRepository.GetById(httpUserIdInt, userParagraph.ActiveCharacter.Id); 
+            
             if (fightInstance != null && fightInstance.ActivePlayer.Id == userParagraph.ActiveCharacter.Id)
             {
                 return fightInstance;
@@ -76,8 +76,8 @@ namespace OstreCWEB.Services.Fight
                 {
                     if (userParagraph != null && userParagraph.Paragraph.FightProp != null)
                     {
-                        await InitializeFightAsync(httpUserIdInt, userParagraph);
-                        return _fightRepository.GetById(httpUserIdInt, (int)userParagraph.ActiveCharacterId);
+                        fightInstance = await InitializeFightAsync(httpUserIdInt, userParagraph);
+                        return fightInstance;
                     }
                     else
                     {
@@ -110,7 +110,7 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        public async Task InitializeFightAsync(int userId, UserParagraph gameInstance)
+        public async Task<FightInstance> InitializeFightAsync(int userId, UserParagraph gameInstance)
         {
 
             var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
@@ -125,6 +125,7 @@ namespace OstreCWEB.Services.Fight
             else fightInstance.isPlayerFirst = false;
 
             _fightRepository.Add(userId, fightInstance, out string operationResult);
+            return fightInstance;
         }
 
 
@@ -230,7 +231,8 @@ namespace OstreCWEB.Services.Fight
                 fightInstance.ItemToDeleteId = id;
                 fightInstance.IsItemToDelete = true;
             }
-            await UpdateActiveActionAsync(chosenItem.Item.Ability.Id, fightInstance);
+            var chosenAction = fightInstance.ActivePlayer.AllAbilities.First(a => a.Id == chosenItem.Item.Ability.Id);
+            fightInstance.ActiveAction = chosenAction; 
             ResetActiveTarget(fightInstance);
         }
         public async Task UpdateActiveActionAsync(int id, FightInstance fightInstance)

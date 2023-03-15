@@ -42,20 +42,20 @@ namespace OstreCWEB.Controllers
 
         public async Task<ActionResult> FightView()
         {
-            try
-            {
+            //try
+            //{
                 var fightInstance = await _fightService.GetFightInstanceAsync();
                 if (fightInstance != null)
                 {
                     var model = _mapper.Map<FightViewModel>(fightInstance);
-                    return View(model);
-                }
+                return View("FightView", model);
+            }
                 return RedirectToAction("Game", "Index");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex.Message);
+            //}
             return RedirectToAction("Game", "Index");
         }
         [HttpGet]
@@ -68,7 +68,7 @@ namespace OstreCWEB.Controllers
                 if (fightInstance != null)
                 {
                     var model = _mapper.Map<FightViewModel>(fightInstance);
-                    return View(model);
+                    return View("FightView", model);
                 }
 
                 return RedirectToAction("Game", "Index");
@@ -89,7 +89,7 @@ namespace OstreCWEB.Controllers
                 if (fightInstance != null)
                 {
                     var model = _mapper.Map<FightViewModel>(fightInstance);
-                    return View(model);
+                    return View("FightView", model);
                 }
 
                 return RedirectToAction("Game", "Index");
@@ -116,7 +116,7 @@ namespace OstreCWEB.Controllers
                     if (!isCombatFinished)
                     {
                         var model = _mapper.Map<FightViewModel>(fightInstance);
-                        return View(model);
+                        return View("FightView", model);
                     }
                     return RedirectToAction("Index", "StoryReader");
                 }
@@ -137,7 +137,7 @@ namespace OstreCWEB.Controllers
                 if (fightInstance != null)
                 {
                     var model = _mapper.Map<FightViewModel>(fightInstance);
-                    return View(model);
+                    return View("FightView",model);
                 }
                 return RedirectToAction("Game", "Index");
             }
