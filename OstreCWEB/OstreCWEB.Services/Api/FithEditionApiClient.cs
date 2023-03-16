@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OstreCWeb.DomainModels.ApiContracts;
 using OstreCWEB.ViewModel.Api;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace OstreCWEB.Services.Api
@@ -39,15 +41,25 @@ namespace OstreCWEB.Services.Api
                 deserialized.NextPage = await GetPageInt(deserialized.Next);
                 deserialized.PreviousPage = destinationPage != 2 ? await GetPageInt(deserialized.Previous) : 1;
                 deserialized.Filters = filter != null ? filter : new Filter();
+                if(deserialized.Results.Count > 0)
+                {
+                    deserialized.Filters.ParamList = GetParamList();
+
+                }
             }
             catch
             {
                 throw new Exception("Failed to fetch API data");
-            } 
-           
-
+            }  
             return deserialized;
 
+        }
+        private  IEnumerable<string> GetParamList()
+        { 
+            List<PropertyInfo> properties = typeof(SpellResponseItem).GetProperties().ToList();
+            var result = new List<string>();
+            properties.ForEach(x => result.Add(x.Name));
+            return result;
         }
 
         private async Task<string> GenerateQuery( Filter? filter, int destinationPage)
@@ -89,18 +101,13 @@ namespace OstreCWEB.Services.Api
                 }   
             }
             return result;
-        }
-
-        public async Task<string> GetSearchString(IEnumerable<string> list)
-        {
-            return list.ToString();
-        }
+        } 
 
         private async Task<string> GetQueryFromFilters(Filter? filter)
         {
             var query = "";
             query += filter.Limit == 0 ?  "": $"limit={filter.Limit}&";//Limits and pagination
-            query += String.IsNullOrEmpty(filter.ParamToOrder)  ?  "": $"ordering={filter.ParamToOrder}&"; //Ordering alphabetically for given parameter
+            query += String.IsNullOrEmpty(filter.ParamToOrder) && String.IsNullOrWhiteSpace(filter.ParamToOrder) ?  "": $"ordering={filter.ParamToOrder}&"; //Ordering alphabetically for given parameter
             query += String.IsNullOrEmpty(filter.SearchByName) ? "" : $"search={filter.SearchByName}&";//Ressource search
             query += String.IsNullOrEmpty(filter.SearchByInt) ? "" : $"level_int={filter.SearchByInt}"; //Filter by int level
             return query;

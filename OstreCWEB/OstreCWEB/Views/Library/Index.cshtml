@@ -16,11 +16,11 @@
          
    
        <partial name="_Filters" model="@Model.Filters"/>
-        <label asp-for="@Model.TotalPagesNumber">@Model.TotalPagesNumber </label>
+       
         <label asp-for="@Model.ActivePage">
             @if (Model.ActivePage == 0)
             {
-                <div>1</div>
+                <div> page 1</div>
             }
             else
             {
@@ -28,7 +28,8 @@
             } 
         </label>
         out of
-        <label asp-for="@Model.Count">@Model.Count </label>
+        <label asp-for="@Model.TotalPagesNumber">@Model.TotalPagesNumber </label>
+        <label asp-for="@Model.Count"> || Total Results : @Model.Count </label>
         @if (@Model.PreviousPage != 0)
         {
             <form method="post" asp-action="Index" asp-route-chosenPage="@Model.PreviousPage">
