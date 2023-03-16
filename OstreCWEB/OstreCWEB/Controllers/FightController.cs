@@ -55,7 +55,7 @@ namespace OstreCWEB.Controllers
                 }
             }
             catch (Exception ex)
-            {
+            { 
                 _logger.LogDebug($"{ex.Message} // Initialize fight was called but a fight instance already exists for this user.");
             }
             return RedirectToAction(nameof(FightView));

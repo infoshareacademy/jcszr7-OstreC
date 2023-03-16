@@ -15,29 +15,50 @@ namespace OstreCWEB.Controllers
         public ICharacterRaceRepository<PlayableRace> _characterRaceRepository { get; }
         public IMapper _Mapper { get; }
         public IUserParagraphRepository<UserParagraph> _userParagraphRepository { get; }
+        private readonly ILogger _logger;
 
-        public PlayableRaceController(ICharacterRaceRepository<PlayableRace> characterRaceRepository, IMapper mapper, IUserParagraphRepository<UserParagraph> userParagraphRepository)
+        public PlayableRaceController(
+            ICharacterRaceRepository<PlayableRace> characterRaceRepository,
+            IMapper mapper,
+            IUserParagraphRepository<UserParagraph> userParagraphRepository,
+            ILogger logger
+            
+            )
         {
             _characterRaceRepository = characterRaceRepository;
             _Mapper = mapper;
             _userParagraphRepository = userParagraphRepository;
-        }
-        // GET: ItemController
+            _logger = logger;
+        } 
         public async Task<ActionResult> Index()
         {
-            var classes = await _characterRaceRepository.GetAllAsync();
-            var model = _Mapper.Map<IEnumerable<PlayableRaceView>>(classes);
-            return View(model);
-        }
-
-        // GET: ItemController/Create
+            try
+            {
+                var classes = await _characterRaceRepository.GetAllAsync();
+                var model = _Mapper.Map<IEnumerable<PlayableRaceView>>(classes);
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction(nameof(Index));
+            }
+            
+        } 
         public async Task<ActionResult> Create()
         {
-            var model = new PlayableRaceView();
-            return View(model);
+            try
+            {
+                var model = new PlayableRaceView();
+                return View(model);
+            } 
+             catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction(nameof(Index));
+            }
         }
-
-        // POST: ItemController/Create
+         
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(PlayableRaceView playableRace)
@@ -47,17 +68,26 @@ namespace OstreCWEB.Controllers
                 await _characterRaceRepository.AddAsync(_Mapper.Map<PlayableRace>(playableRace));
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return RedirectToAction(nameof(Index));
             }
-        }
+        } 
 
         // GET: ItemController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var model = _Mapper.Map<PlayableRaceView>(await _characterRaceRepository.GetByIdAsync(id));
-            return View(model);
+            try
+            {
+                var model = _Mapper.Map<PlayableRaceView>(await _characterRaceRepository.GetByIdAsync(id));
+                return View(model);
+            } 
+              catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: ItemController/Edit/5
@@ -70,13 +100,14 @@ namespace OstreCWEB.Controllers
                 await _characterRaceRepository.UpdateAsync(_Mapper.Map<PlayableRace>(item));
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return RedirectToAction(nameof(Index));
             }
         }
-
-        // GET: ItemController/DeleteAsync/5
+         
+        [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
             try
@@ -84,10 +115,11 @@ namespace OstreCWEB.Controllers
                 await _userParagraphRepository.DeleteInstanceBasedOnRace(id);
                 await _characterRaceRepository.DeleteAsync(id);
             }
-            catch
+            catch (Exception ex)
             {
-                //log error
+                _logger.LogError(ex.Message); 
             }
+
             return RedirectToAction(nameof(Index));
         }
     }

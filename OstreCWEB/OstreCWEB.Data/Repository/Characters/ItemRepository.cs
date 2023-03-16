@@ -18,5 +18,11 @@ namespace OstreCWEB.Repository.Repository.Characters
                 .Include(x=>x.PlayableClass)
                 .AsNoTracking();
         }
+        public override async Task DeleteAsync(int id)
+        {
+            var entity = await base.GetByIdAsync(id, x => x.PlayableClass, x=>x.Ability);
+            _context.Items.Remove(entity);
+            await _context.SaveChangesAsync();
+        }
     }
 }
