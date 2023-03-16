@@ -21,18 +21,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var playableClass in Model)
+                @foreach (var playableRace in Model)
                 {
                     <tr>
-                        <th scope="row">@playableClass.RaceName</th>
-                        <td>@playableClass.ConstitutionBonus</td>
-                        <td>@playableClass.CharismaBonus</td>
-                        <td>@playableClass.DexterityBonus</td>
-                        <td>@playableClass.IntelligenceBonus</td>
-                        <td>@playableClass.StrengthBonus</td>
-                        <td>@playableClass.WisdomBonus</td>
-                        <td><a asp-controller="PlayableRace" asp-action="Edit" asp-route-id="@playableClass.Id" type="button" class="btn btn-primary">Edit</a></td>
-                        <td><a asp-controller="PlayableRace" asp-action="Delete" asp-route-id="@playableClass.Id" type="button" class="btn btn-primary">Delete</a></td>
+                        <th scope="row">@playableRace.RaceName</th>
+                        <td>@playableRace.ConstitutionBonus</td>
+                        <td>@playableRace.CharismaBonus</td>
+                        <td>@playableRace.DexterityBonus</td>
+                        <td>@playableRace.IntelligenceBonus</td>
+                        <td>@playableRace.StrengthBonus</td>
+                        <td>@playableRace.WisdomBonus</td>
+                        <td><a asp-controller="PlayableRace" asp-action="Edit" asp-route-id="@playableRace.Id" type="button" class="btn btn-primary">Edit</a></td>
+                        <td>
+                        <td>
+                            <form method="Post" asp-controller="PlayableRace" asp-action="Delete" asp-route-id="@playableRace.Id">
+                                <input type="submit" class="btn btn-primary" value="Delete" />
+                            </form>
+                        </td></td>
                     </tr>
                 }
             </tbody>

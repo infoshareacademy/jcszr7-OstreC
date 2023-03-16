@@ -16,49 +16,65 @@ namespace OstreCWEB.Controllers
         public IItemRepository<Item> _ItemRepository { get; }
         public IMapper _Mapper { get; }
         public IAbilitiesRepository<Ability> _CharacterActionsRepository { get; }
+        public ILogger<ItemsController> _logger { get; }
 
         public ItemsController(
             ICharacterClassRepository<PlayableClass> characterClassRepository,
             IItemRepository<Item> itemRepository,
             IMapper mapper,
-            IAbilitiesRepository<Ability> characterActionsRepository)
+            IAbilitiesRepository<Ability> characterActionsRepository,
+            ILogger<ItemsController> logger
+            )
         {
             _characterClassRepository = characterClassRepository;
             _ItemRepository = itemRepository;
             _Mapper = mapper;
             _CharacterActionsRepository = characterActionsRepository;
+            _logger = logger;
         }
         // GET: ItemController 
+        [HttpGet]
         public async Task<ActionResult> Index(string sortOrder, int? pageNumber)
         {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["CurrentSort"] = sortOrder;
+            try
+            {
+                ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                ViewData["CurrentSort"] = sortOrder;
 
-            int pageSize = 5;
-            var items = await _ItemRepository.GetPaginatedListAsync();
-            return View(
-                  await PaginatedList<Item>.CreateAsync(items, pageNumber ?? 1, pageSize)
-                );
-        }
-       
-        // GET: ItemController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+                int pageSize = 5;
+                var items = await _ItemRepository.GetPaginatedListAsync();
+                return View(
+                      await PaginatedList<Item>.CreateAsync(items, pageNumber ?? 1, pageSize)
+                    );
+            }
+            catch(Exception ex)
+            { 
+                _logger.LogError(ex.Message); 
+                return RedirectToAction(nameof(Index));
+            }
+          
         }
 
         // GET: ItemController/Create
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            var model = new ItemEditView();
-            var allActions = await _CharacterActionsRepository.GetAllAsync();
-            var allClasses = await _characterClassRepository.GetAllAsync();
-            model.AllExistingActions = new Dictionary<int, string>();
-            model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.Id, x.AbilityName));
-            allClasses.ForEach(x => model.AllExistingClasses.Add(x.Id, x.ClassName));
-            return View(model);
+            try
+            {
+                var model = new ItemEditView();
+                var allActions = await _CharacterActionsRepository.GetAllAsync();
+                var allClasses = await _characterClassRepository.GetAllAsync();
+                model.AllExistingActions = new Dictionary<int, string>();
+                model.AllExistingClasses = new Dictionary<int, string>();
+                allActions.ForEach(x => model.AllExistingActions.Add(x.Id, x.AbilityName));
+                allClasses.ForEach(x => model.AllExistingClasses.Add(x.Id, x.ClassName));
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: ItemController/Create
@@ -71,8 +87,9 @@ namespace OstreCWEB.Controllers
                 await _ItemRepository.UpdateAsync(_Mapper.Map<Item>(item));
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -81,14 +98,23 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var model = _Mapper.Map<ItemEditView>(await _ItemRepository.GetByIdAsync(id));
-            var allActions = await _CharacterActionsRepository.GetAllAsync();
-            var allClasses = await _characterClassRepository.GetAllAsync();
-            model.AllExistingActions = new Dictionary<int, string>();
-            model.AllExistingClasses = new Dictionary<int, string>();
-            allActions.ForEach(x => model.AllExistingActions.Add(x.Id, x.AbilityName));
-            allClasses.ForEach(x => model.AllExistingClasses.Add(x.Id, x.ClassName));
-            return View(model);
+            try
+            {
+                var model = _Mapper.Map<ItemEditView>(await _ItemRepository.GetByIdAsync(id));
+                var allActions = await _CharacterActionsRepository.GetAllAsync();
+                var allClasses = await _characterClassRepository.GetAllAsync();
+                model.AllExistingActions = new Dictionary<int, string>();
+                model.AllExistingClasses = new Dictionary<int, string>();
+                allActions.ForEach(x => model.AllExistingActions.Add(x.Id, x.AbilityName));
+                allClasses.ForEach(x => model.AllExistingClasses.Add(x.Id, x.ClassName));
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction(nameof(Index));
+            }
+           
         }
 
         // POST: ItemController/Edit/5
@@ -101,13 +127,15 @@ namespace OstreCWEB.Controllers
                 await _ItemRepository.UpdateAsync(_Mapper.Map<Item>(item));
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return RedirectToAction(nameof(Index));
             }
         }
 
         // GET: ItemController/DeleteAsync/5
+        [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
             try
@@ -115,9 +143,9 @@ namespace OstreCWEB.Controllers
                 await _ItemRepository.DeleteAsync(id);
 
             }
-            catch
+            catch(Exception ex)
             {
-                //log error
+                _logger.LogError(ex.Message);
             }
             return RedirectToAction(nameof(Index));
         }

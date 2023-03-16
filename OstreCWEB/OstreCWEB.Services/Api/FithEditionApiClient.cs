@@ -1,6 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OstreCWeb.DomainModels.ApiContracts;
 using OstreCWEB.ViewModel.Api;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace OstreCWEB.Services.Api
 {
@@ -12,52 +16,101 @@ namespace OstreCWEB.Services.Api
         {
             _clientFactory = client;
         }
-
-        public async Task<FithEditionApiResponse> GetSpells(Filter? filter, int page)
+        public async Task<FithEditionApiResponse> GetSpells(int destinationPage)
         {
-            var query = "spells/?";
-            query += page != 0 ? $"page={page}" : "";
-            var filters = await GetQueryFromFilters(filter);
-            query += filters;
-            
-            var response = await _clientFactory.CreateClient(TestRestApiConfiguration.TestRestApiClientName).GetAsync($"{query}");
-            string responseBody = await response.Content.ReadAsStringAsync();
-            var deserialized = JsonConvert.DeserializeObject<FithEditionApiResponse>(responseBody);
-            //100 is default page size for D&D API
-            var pageCount = filter != null && filter.Limit != 0 ? (double)deserialized.Count / filter.Limit : deserialized.Count / 100;
+            return await MakeCall(null,null,destinationPage);
+        }
+        public async Task<FithEditionApiResponse> GetSpells(Filter? filter,int destinationPage)
+        {
+            return await MakeCall(null,filter, destinationPage);
+        }
+        private async Task<FithEditionApiResponse> MakeCall(string? query,Filter? filter, int destinationPage)
+        {
+            FithEditionApiResponse deserialized;
+            query ??= await GenerateQuery(filter, destinationPage); 
 
-            deserialized.TotalPagesNumber = (int)Math.Ceiling(pageCount);
-            deserialized.ActivePage = page;
-            var next = deserialized.Next.Split('/');
-            if (!String.IsNullOrEmpty(next[4]))
+            try
             {
-                var parsenext = Int32.TryParse(next[4].Substring(next[4].Length - 1), out int nextPage);
-                if (parsenext)
+                var response = await _clientFactory.CreateClient(TestRestApiConfiguration.TestRestApiClientName).GetAsync($"{query}");
+                string responseBody = await response.Content.ReadAsStringAsync();
+                deserialized = JsonConvert.DeserializeObject<FithEditionApiResponse>(responseBody);
+                deserialized.ActivePage = destinationPage;
+                //100 is default page size for D&D API
+                double pageCount = filter != null && filter.Limit != 0 ? (double)deserialized.Count / filter.Limit : (double)deserialized.Count / 100; 
+                deserialized.TotalPagesNumber = (int)Math.Ceiling(pageCount);
+                deserialized.NextPage = await GetPageInt(deserialized.Next);
+                deserialized.PreviousPage = destinationPage != 2 ? await GetPageInt(deserialized.Previous) : 1;
+                deserialized.Filters = filter != null ? filter : new Filter();
+                if(deserialized.Results.Count > 0)
                 {
-                    deserialized.NextPage = nextPage;
+                    deserialized.Filters.ParamList = GetParamList();
+
                 }
             }
-        
-            else
+            catch
             {
-                deserialized.NextPage = 0;
-            }
+                throw new Exception("Failed to fetch API data");
+            }  
             return deserialized;
+
+        }
+        private  IEnumerable<string> GetParamList()
+        { 
+            List<PropertyInfo> properties = typeof(SpellResponseItem).GetProperties().ToList();
+            var result = new List<string>();
+            properties.ForEach(x => result.Add(x.Name));
+            return result;
         }
 
-        public async Task<string> GetSearchString(IEnumerable<string> list)
+        private async Task<string> GenerateQuery( Filter? filter, int destinationPage)
         {
-            return list.ToString();
+            //Default API query for 1st page is an empty link 
+            var query = "spells/?";
+            query += destinationPage != 0 && destinationPage != 1 ? $"page={destinationPage}&" : "";
+            var filters = filter != null ? await GetQueryFromFilters(filter) : "";
+            query += filters;
+            return query;
         }
+        public async Task<int> GetPageInt(string pageLink )
+        {
+            var result = 0; 
+
+            if(pageLink != null)
+            {
+                var linkArray = pageLink.Split('/');
+                if (!String.IsNullOrEmpty(linkArray[4]))
+                {
+                    if (!linkArray[4].Contains("&"))
+                    {
+                        var parsenext = Int32.TryParse(linkArray[4].Substring(linkArray[4].Length - 1), out result);
+                    }
+                    else
+                    {
+                        var subLinkArray = pageLink.Split('&');
+                        foreach (var filters in subLinkArray)
+                        {
+                            if (filters.Contains("page"))
+                            {
+                                var parsenext = Int32.TryParse(filters.Substring(filters.Length - 1), out result);
+                            }
+                        }
+                        
+                    }
+
+
+                }   
+            }
+            return result;
+        } 
 
         private async Task<string> GetQueryFromFilters(Filter? filter)
         {
             var query = "";
-            query += filter.Limit == 0 ?  "": $"limit={filter.Limit}&";
-            query += String.IsNullOrEmpty(filter.SearchByName)  ?  "": $"ordering={filter.SearchByName}&";
-            query += String.IsNullOrEmpty(filter.SortByParam) ? "" : $"search={filter.SortByParam}&";
-            query += String.IsNullOrEmpty(filter.SearchByInt) ? "" : $"filter={filter.SearchByInt}&"; 
+            query += filter.Limit == 0 ?  "": $"limit={filter.Limit}&";//Limits and pagination
+            query += String.IsNullOrEmpty(filter.ParamToOrder) && String.IsNullOrWhiteSpace(filter.ParamToOrder) ?  "": $"ordering={filter.ParamToOrder}&"; //Ordering alphabetically for given parameter
+            query += String.IsNullOrEmpty(filter.SearchByName) ? "" : $"search={filter.SearchByName}&";//Ressource search
+            query += String.IsNullOrEmpty(filter.SearchByInt) ? "" : $"level_int={filter.SearchByInt}"; //Filter by int level
             return query;
-        }
+        } 
     }
 }

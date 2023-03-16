@@ -1,0 +1,52 @@
+﻿@model OstreCWEB.ViewModel.Api.FilterView
+<section>
+
+
+    <div class="row align-items-top mb-3 justify-content-md-left">
+
+        <!--Playable character info( left column)-->
+        <div class="col-lg-4 ">
+            <div class="card shadow-sm">
+                <form asp-action="Index">
+
+                    <div class="row mb-3">
+                        <label asp-for="Limit"for=" inputText" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="number " class="form-control" asp-for="Limit" min="0" max="100" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label asp-for="SearchByInt" for="SearchByInt" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                           <input type="number " class="form-control" asp-for="SearchByInt" min="0" max="4" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label asp-for ="SearchByName" for="inputText" class="col-sm-2 col-form-label"></label>
+                  <div class="col-sm-10">
+                            <input type="text" asp-for="SearchByName" />
+                  </div>
+                </div>
+
+                    <div class="row mb-3">
+                        <label asp-for="ParamToOrder" for="inputText" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="ParamToOrder"
+                                    asp-items="@(new SelectList(Model.ParamList))">
+                                <option>Please select one</option>
+                            </select>
+                        </div>
+                    </div> 
+
+                    <input type="submit" value="Filter" class="btn btn-primary" />
+
+                </form>
+                
+                    </div>
+                    </div>
+                    </div>
+</section>
+
+
