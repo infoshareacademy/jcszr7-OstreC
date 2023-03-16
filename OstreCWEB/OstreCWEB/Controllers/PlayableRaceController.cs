@@ -21,7 +21,7 @@ namespace OstreCWEB.Controllers
             ICharacterRaceRepository<PlayableRace> characterRaceRepository,
             IMapper mapper,
             IUserParagraphRepository<UserParagraph> userParagraphRepository,
-            ILogger logger
+            ILogger<PlayableRaceController> logger
             
             )
         {
