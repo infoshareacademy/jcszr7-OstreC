@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OstreCWEB.Repository.DataBase;
@@ -44,9 +45,10 @@ builder.Services
 
 builder.Services
     .AddRepositories();
+builder.Logging.AddApplicationInsights();
+builder.Services.AddApplicationInsightsTelemetry();
 
-builder.Services
-    .AddServices();
+builder.Services.AddServices();
 
 builder.Services.AddHttpClient(TestRestApiConfiguration.TestRestApiClientName,
                 client => { client.BaseAddress = new Uri("https://api.open5e.com"); });

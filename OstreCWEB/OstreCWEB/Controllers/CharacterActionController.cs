@@ -75,10 +75,14 @@ namespace OstreCWEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AbilityEditView item)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                await _characterActionsRepository.UpdateAsync(_Mapper.Map<Ability>(item));
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
+            }
+            try
+            { 
+                    await _characterActionsRepository.UpdateAsync(_Mapper.Map<Ability>(item));
+                    return RedirectToAction(nameof(Index)); 
             }
             catch(Exception ex)
             {
@@ -90,6 +94,10 @@ namespace OstreCWEB.Controllers
         // GET: ItemController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Create));
+            }
             try
             {
                 var model = _Mapper.Map<AbilityEditView>(await _characterActionsRepository.GetByIdAsync(id, x => x.Status, x => x.LinkedCharacter));
