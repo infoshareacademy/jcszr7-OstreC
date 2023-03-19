@@ -18,7 +18,8 @@ namespace OstreCWEB.Repository.Configurations
             builder
                 .HasMany(x => x.ActionsGrantedByClass)
                 .WithOne(x => x.PlayableClass)
-                .HasForeignKey(x => x.PlayableClassId);
+                .HasForeignKey(x => x.PlayableClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder
                 .HasMany(x => x.ItemsGrantedByClass)
