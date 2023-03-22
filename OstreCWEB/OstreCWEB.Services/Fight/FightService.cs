@@ -116,9 +116,7 @@ namespace OstreCWEB.Services.Fight
             var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
             fightInstance.FightHistory.Add("Fight initialized");
 
-            var turnOrder = IsPlayerFirst(fightInstance);
-
-            if(turnOrder)
+            if(IsPlayerFirst(fightInstance))
             {
                 fightInstance.isPlayerFirst = true;
             }
