@@ -6,9 +6,9 @@ using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryBuilder;
-using OstreCWEB.Services.StoryBuilder.Models;
-using OstreCWEB.Services.StoryBuilder.ModelsDto;
+using OstreCWEB.Services.StoryService;
+using OstreCWEB.Services.StoryService.Models;
+using OstreCWEB.Services.StoryService.ModelsDto;
 
 namespace OstreCWEB.Controllers
 {
@@ -18,13 +18,13 @@ namespace OstreCWEB.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<StoryBuilderController> _logger;
 
-        private readonly IStoryBuilderServices _storyService;
+        private readonly IStoryServices _storyService;
         private readonly IUserService _userService;
 
         public StoryBuilderController(
             IMapper mapper,
             ILogger<StoryBuilderController> logger,
-            IEnumerable<IStoryBuilderServices> storyService,
+            IEnumerable<IStoryServices> storyService,
             IUserService userService)
         {
             _mapper = mapper;
@@ -180,14 +180,17 @@ namespace OstreCWEB.Controllers
                 {
                     var newParagraph = _mapper.Map<Paragraph>(paragraph);
 
-                    newParagraph.ParagraphItems = new List<ParagraphItem>
+                    if (paragraph.AmountOfItems != 0)
                     {
-                        new ParagraphItem
+                        newParagraph.ParagraphItems = new List<ParagraphItem>
                         {
-                            ItemId = paragraph.ItemId,
-                            AmountOfItems = paragraph.AmountOfItems,
-                        }
-                    };
+                            new ParagraphItem
+                            {
+                                ItemId = paragraph.ItemId,
+                                AmountOfItems = paragraph.AmountOfItems,
+                            }
+                        };
+                    }
 
                     await _storyService.AddParagraph(newParagraph, _userService.GetUserId(User));
 

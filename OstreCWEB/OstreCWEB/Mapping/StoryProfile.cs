@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
-using OstreCWEB.Services.StoryBuilder.Models;
-using OstreCWEB.Services.StoryBuilder.ModelsDto;
+using OstreCWEB.Services.StoryService.Models;
+using OstreCWEB.Services.StoryService.ModelsDto;
 
 namespace OstreCWEB.Services.Mapping
 {
@@ -72,7 +72,7 @@ namespace OstreCWEB.Services.Mapping
             CreateMap<EditParagraph, EditParagraphView>()
                 .ReverseMap();
 
-            CreateMap<EnemyInParagraphService, OstreCWEB.Services.StoryBuilder.ModelsDto.EnemyInParagraphView>()
+            CreateMap<EnemyInParagraphService, OstreCWEB.Services.StoryService.ModelsDto.EnemyInParagraphView>()
                 .ForMember(dest => dest.Enemies, opt => opt.Ignore())
                 .ReverseMap();
         }

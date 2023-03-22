@@ -1,7 +1,7 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 
-namespace OstreCWEB.Services.StoryBuilder.Models
+namespace OstreCWEB.Services.StoryService.Models
 {
     public class EditParagraph
     {

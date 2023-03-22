@@ -5,7 +5,7 @@ using OstreCWEB.Services.Factory;
 using OstreCWEB.Services.Fight;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryBuilder;
+using OstreCWEB.Services.StoryService;
 
 namespace OstreCWEB.Services.ServiceRegistration
 {
@@ -13,7 +13,7 @@ namespace OstreCWEB.Services.ServiceRegistration
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IStoryBuilderServices, StoryBuilderServices>();
+            services.AddTransient<IStoryServices, StoryServices>();
             services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IFightService, FightService>();

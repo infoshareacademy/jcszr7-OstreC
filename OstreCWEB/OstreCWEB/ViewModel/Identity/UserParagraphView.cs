@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Game;
-using OstreCWEB.Services.StoryBuilder.ModelsDto;
+using OstreCWEB.Services.StoryService.ModelsDto;
 
 namespace OstreCWEB.ViewModel.Identity
 {

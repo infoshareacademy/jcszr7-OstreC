@@ -2,7 +2,7 @@
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Services.StoryBuilder.ModelsDto
+namespace OstreCWEB.Services.StoryService.ModelsDto
 {
     public class CreatParagraphFightView
     {

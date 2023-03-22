@@ -1,9 +1,9 @@
 ﻿using OstreCWEB.DomainModels.StoryModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.Services.StoryBuilder.ModelsDto
+namespace OstreCWEB.Services.StoryService.ModelsDto
 {
-    public class ParagraphElementView
+    public class ParagraphWithCoiceView
     {
         public int Id { get; set; }
 
@@ -16,6 +16,7 @@ namespace OstreCWEB.Services.StoryBuilder.ModelsDto
         [Display(Name = "Amount Of Choices")]
         public int AmountOfChoices { get; set; }
 
-        public int StoryId { get; set; }
+        public int ChoiceId { get; set; }
+        public string DescriptionOfChoice { get; set; }
     }
 }

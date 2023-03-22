@@ -1,11 +1,11 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels;
-using OstreCWEB.Services.StoryBuilder.Models;
-using OstreCWEB.Services.StoryBuilder.ModelsDto;
+using OstreCWEB.Services.StoryService.Models;
+using OstreCWEB.Services.StoryService.ModelsDto;
 
-namespace OstreCWEB.Services.StoryBuilder
+namespace OstreCWEB.Services.StoryService
 {
-    public interface IStoryBuilderServices
+    public interface IStoryServices
     {
         //Tools
         public Task<List<Story>> GetAllStories();

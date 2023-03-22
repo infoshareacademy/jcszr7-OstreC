@@ -5,19 +5,19 @@ using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.Repository.Repository.StoryRepo;
-using OstreCWEB.Services.StoryBuilder.Models;
-using OstreCWEB.Services.StoryBuilder.ModelsDto;
+using OstreCWEB.Services.StoryService.Models;
+using OstreCWEB.Services.StoryService.ModelsDto;
 
-namespace OstreCWEB.Services.StoryBuilder
+namespace OstreCWEB.Services.StoryService
 {
-    internal class StoryBuilderServices : IStoryBuilderServices
+    internal class StoryServices : IStoryServices
     {
         private readonly IStoryRepository<Story> _storyRepository;
         private readonly IEnemyRepository<Enemy> _enemyRepository;
         private readonly IItemRepository<Item> _itemRepository;
         private readonly IMapper _mapper;
 
-        public StoryBuilderServices(
+        public StoryServices(
             IStoryRepository<Story> storyRepository,
             IEnemyRepository<Enemy> enemyRepository,
             IItemRepository<Item> itemRepository,
