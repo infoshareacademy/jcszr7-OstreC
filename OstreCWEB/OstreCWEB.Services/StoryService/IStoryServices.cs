@@ -8,15 +8,15 @@ namespace OstreCWEB.Services.StoryService
     public interface IStoryServices
     {
         //Tools
-        public Task<List<Story>> GetAllStories();
+        public Task<List<StoryView>> GetAllStories();
 
         public Task<List<StoryView>> GetStoriesByUserId(int userId);
 
         public Task<StoryView> GetStoryByIdAsync(int idStory);
 
-        public Story GetStoryById(int idStory);
+        public Task<StoryView> GetStoryWithParagraphsByIdAsync(int idStory);
 
-        public Task<StoryParagraphsView> GetStoryWithParagraphsById(int idStory);
+        public Task<StoryParagraphsView> GetParagraphsByIdStoryAsync(int idStory);
 
         //Story
         public Task UpdateStory(StoryView story, int userId);

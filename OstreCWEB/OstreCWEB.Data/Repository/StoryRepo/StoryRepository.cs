@@ -57,28 +57,7 @@ namespace OstreCWEB.Repository.Repository.StoryRepo
                 .SingleOrDefault(s => s.Id == idStory);
         }
 
-        public Story GetStoryById(int idStory)
-        {
-            return _context.Stories
-                .Include(s => s.Paragraphs)
-                    .ThenInclude(p => p.Choices)
-                .Include(s => s.Paragraphs)
-                    .ThenInclude(p => p.FightProp)
-                        .ThenInclude(f => f.ParagraphEnemies)
-                .Include(s => s.Paragraphs)
-                    .ThenInclude(p => p.DialogProp)
-                .Include(s => s.Paragraphs)
-                    .ThenInclude(p => p.TestProp)
-                .Include(s => s.Paragraphs)
-                    .ThenInclude(p => p.ShopkeeperProp)
-                .Include(s => s.Paragraphs)
-                    .ThenInclude(p => p.ParagraphItems)
-                .Include(s => s.Paragraphs)
-                    .ThenInclude(p => p.UserParagraphs)
-                .SingleOrDefault(s => s.Id == idStory);
-        }
-
-        public async Task<Story> GetStoryWithParagraphsById(int idStory)
+        public async Task<Story> GetStoryWithParagraphsByIdAsync(int idStory)
         {
             return _context.Stories
                 .Include(s => s.Paragraphs)

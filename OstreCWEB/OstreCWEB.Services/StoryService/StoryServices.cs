@@ -7,10 +7,11 @@ using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.Repository.Repository.StoryRepo;
 using OstreCWEB.Services.StoryService.Models;
 using OstreCWEB.Services.StoryService.ModelsDto;
+using System.Collections.Generic;
 
 namespace OstreCWEB.Services.StoryService
 {
-    internal class StoryServices : IStoryServices
+    public class StoryServices : IStoryServices
     {
         private readonly IStoryRepository<Story> _storyRepository;
         private readonly IEnemyRepository<Enemy> _enemyRepository;
@@ -34,9 +35,10 @@ namespace OstreCWEB.Services.StoryService
             return _storyRepository.Exists(id);
         }
 
-        public async Task<List<Story>> GetAllStories()
+        public async Task<List<StoryView>> GetAllStories()
         {
-            return await _storyRepository.GetAllStories();
+            var result = _mapper.Map<List<StoryView>>(await _storyRepository.GetAllStories());
+            return result;
         }
 
         public async Task<List<StoryView>> GetStoriesByUserId(int userId)
@@ -55,14 +57,17 @@ namespace OstreCWEB.Services.StoryService
             return result;
         }
 
-        public Story GetStoryById(int idStory)
+        public async Task<StoryView> GetStoryWithParagraphsByIdAsync(int idStory)
         {
-            return _storyRepository.GetStoryById(idStory);
+            var story = await _storyRepository.GetStoryWithParagraphsByIdAsync(idStory);
+            var result = _mapper.Map<StoryView>(story);
+
+            return result;
         }
 
-        public async Task<StoryParagraphsView> GetStoryWithParagraphsById(int idStory)
+        public async Task<StoryParagraphsView> GetParagraphsByIdStoryAsync(int idStory)
         {
-            var paragraphs = await _storyRepository.GetStoryWithParagraphsById(idStory);
+            var paragraphs = await _storyRepository.GetStoryWithParagraphsByIdAsync(idStory);
             var result = _mapper.Map<StoryParagraphsView>(paragraphs);
 
             return result;
@@ -80,6 +85,10 @@ namespace OstreCWEB.Services.StoryService
 
         public async Task UpdateStory(StoryView uStory, int userId)
         {
+            if (!Exists(uStory.Id))
+            {
+                throw new Exception("Story doesn't exist");
+            }
             var story = await _storyRepository.GetStoryByIdAsync(uStory.Id);
 
             if (story.UserId == userId)

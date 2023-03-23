@@ -103,11 +103,10 @@ namespace OstreCWEB.Controllers
             model.User = _mapper.Map<UserView>(x);
             foreach (var gameSessionView in model.User.UserParagraphs)
             {
-                var getStoryTask = _storyService.GetStoryById(gameSessionView.Paragraph.StoryId);
-                gameSessionView.Story = _mapper.Map<StoryView>(getStoryTask);
+                gameSessionView.Story = await _storyService.GetStoryWithParagraphsByIdAsync(gameSessionView.Paragraph.StoryId);
             }
             Console.WriteLine();
-            model.OtherUsersStories = _mapper.Map<List<StoryView>>(await _storyService.GetAllStories());
+            model.OtherUsersStories = await _storyService.GetAllStories();
             model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
             return View(model);
         }

@@ -11,9 +11,7 @@ namespace OstreCWEB.Repository.Repository.StoryRepo
 
         public Task<Story> GetStoryByIdAsync(int idStory);
 
-        public Story GetStoryById(int idStory);
-
-        public Task<Story> GetStoryWithParagraphsById(int idStory);
+        public Task<Story> GetStoryWithParagraphsByIdAsync(int idStory);
 
         public Task<Paragraph> GetParagraphById(int idParagraph);
 
