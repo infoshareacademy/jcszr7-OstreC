@@ -1,7 +1,9 @@
 using FluentAssertions;
 using Moq; 
 using OstreCWEB.Services.Api;
+using OstreCWEB.Services.Fight;
 using OstreCWEB.ViewModel.Api;
+using Xunit;
 
 namespace OstreCWEB.Tests
 {

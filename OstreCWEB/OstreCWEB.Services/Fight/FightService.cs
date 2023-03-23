@@ -16,7 +16,7 @@ using System.Security.Claims;
 
 namespace OstreCWEB.Services.Fight
 {
-    internal class FightService : IFightService
+    public class FightService : IFightService
     {
         private IFightRepository _fightRepository;
         //private FightInstance _activeFightInstance;
@@ -570,7 +570,7 @@ namespace OstreCWEB.Services.Fight
         {
             return DiceThrow(20);
         }
-        private int DiceThrow(int maxValue)
+        public int DiceThrow(int maxValue)
         {
             Random rand = new Random();
             var diceThrowResult = rand.Next(1, maxValue + 1);
