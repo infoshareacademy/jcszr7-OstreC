@@ -46,15 +46,20 @@ namespace OstreCWEB.Tests.OstreCWEB.Services.Tests.FightServiceTests
             );
         }
 
-        [Fact]
-        public void DiceThrow_For1000Throws_ReturnsRandomValues()
+        [Theory]
+        [InlineData(4)]
+        [InlineData(6)]
+        [InlineData(8)]
+        [InlineData(10)]
+        [InlineData(20)]
+        [InlineData(100)]
+        public void DiceThrow_For1000Throws_ReturnsValuesInRange(int maxValue)
         {
-            int maxValue = 20;
             int numberOfTests = 1000;
 
             for (int i = 0; i < numberOfTests; i++)
             {
-                var result = _service.DiceThrow(20);
+                var result = _service.DiceThrow(maxValue);
 
                 Assert.InRange(result, 1, maxValue);
             }

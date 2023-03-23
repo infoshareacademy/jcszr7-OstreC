@@ -534,7 +534,7 @@ namespace OstreCWEB.Services.Fight
 
             }
         }
-        private int SpellCastingModifier(Character caster, Statistics statsForTest)
+        public int SpellCastingModifier(Character caster, Statistics statsForTest)
         {
             switch (statsForTest)
             {
@@ -556,7 +556,7 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        private int CalculateModifier(int value)
+        public int CalculateModifier(int value)
         {
             List<int> numbers = new List<int>() {
                    -5,-4,-4,-3,-3,-2,-2,-1,-1, 0,
