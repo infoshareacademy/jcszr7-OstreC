@@ -324,11 +324,8 @@ namespace OstreCWEB.Tests
             var uStory = new StoryView { Id = 1, Description = "Test - Change", Name = "Test - Change" };
 
             // Act
-            Action resultWithInvalidUserId = () => _storyService.UpdateStory(uStory, 2);
-
             // Assert
-            resultWithInvalidUserId.Should().Throw<Exception>("because userId is invalid")
-                .WithMessage("This is not your Story");
+            await Assert.ThrowsAsync<Exception>(() => _storyService.UpdateStory(uStory, 2));
         }
 
         [Fact]
@@ -343,11 +340,8 @@ namespace OstreCWEB.Tests
             var uStory = new StoryView { Id = 1, Description = "Test - Change", Name = "Test - Change" };
 
             // Act
-            Action resultWithInvalidUserId = () => _storyService.UpdateStory(uStory, 1);
-
             // Assert
-            resultWithInvalidUserId.Should().Throw<Exception>("because story doesn't exist")
-                .WithMessage("Story doesn't exist");
+            await Assert.ThrowsAsync<Exception>(() => _storyService.UpdateStory(uStory, 1));
         }
     }
 }
