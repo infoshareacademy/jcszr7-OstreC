@@ -169,7 +169,7 @@ namespace OstreCWEB.Tests
         }
 
         [Fact]
-        public async Task GetStoryWithParagraphsByIdAsync_ResturnsListStoryView()
+        public async Task GetStoryWithParagraphsByIdAsync_ResturnsStoryView()
         {
             // Arrange
             var story = new Story { Id = 2, Description = "Test2", Name = "Test2", UserId = 1 };
@@ -189,6 +189,63 @@ namespace OstreCWEB.Tests
 
             // Assert
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetParagraphsByIdStoryAsync_CallsRepositoryGetStoryWithParagraphsByIdAsync()
+        {
+            // Arrange
+            _storyRepositoryMock
+                .Setup(x => x.GetStoryWithParagraphsByIdAsync(1))
+                .ReturnsAsync(new Story());
+
+            // Act
+            var result = await _storyService.GetParagraphsByIdStoryAsync(1);
+
+            // Assert
+            _storyRepositoryMock.Verify(x => x.GetStoryWithParagraphsByIdAsync(1), Times.Once());
+        }
+
+        [Fact]
+        public async Task GetParagraphsByIdStoryAsync_ResturnsStoryView()
+        {
+            // Arrange
+            var story = new Story { Id = 2, Description = "Test2", Name = "Test2", UserId = 1 };
+
+            _storyRepositoryMock
+                .Setup(x => x.GetStoryWithParagraphsByIdAsync(1))
+                .ReturnsAsync(story);
+
+            var expected = new StoryParagraphsView { Id = 1, Description = "Test", Name = "Test" };
+
+            _mapperMock
+                .Setup(x => x.Map<StoryParagraphsView>(story))
+                .Returns(expected);
+
+            // Act
+            var result = await _storyService.GetParagraphsByIdStoryAsync(1);
+
+            // Assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task AddStory_CallsRepositoryAddStory()
+        {
+            // Arrange
+            var story = new StoryView { Description = "Test2", Name = "Test2" };
+
+            var expected = new Story { Description = "Test2", Name = "Test2" };
+
+            _mapperMock
+                .Setup(x => x.Map<Story>(story))
+                .Returns(expected);
+
+            // Act
+            await _storyService.AddStory(story, 1);
+
+            // Assert
+            _storyRepositoryMock.Verify(x => x.AddStory(expected), Times.Once());
         }
 
         [Fact]
