@@ -126,22 +126,20 @@ namespace OstreCWEB.Controllers
         }
 
         // GET: StoryBuilderController/StoryParagraphsList
-        public async Task<ActionResult> StoryParagraphsList(int id)
+        public async Task<ActionResult> StoryParagraphsList(int id, int? pageNumber, string? sortOrder)
         {
             try
             {
-                string sortOrder = "";
                 ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewData["CurrentSort"] = sortOrder;
 
                 int pageSize = 5;
-                int pageNumber = 1;
 
                 var model = await _storyService.GetParagraphsByIdStoryAsync(id);
 
                 var paragraphs = _mapper.ProjectTo<ParagraphElementView>(await _paragraphRepository.GetPaginatedListAsync(id));
 
-                model.Paragraphs = await PaginatedList<ParagraphElementView>.CreateAsync(paragraphs, pageNumber, pageSize);
+                model.Paragraphs = await PaginatedList<ParagraphElementView>.CreateAsync(paragraphs, pageNumber ?? 1, pageSize);
 
                 return View(model);
             }

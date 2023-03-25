@@ -158,7 +158,7 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
-                    <a asp-action="Index"
+                    <a asp-route-name="StoryBuilder" asp-action="StoryParagraphsList" asp-route-id="@Model.Id"
                        asp-route-sortOrder="@ViewData["CurrentSort"]"
                        asp-route-pageNumber="@(Model.Paragraphs.PageIndex - 1)"
                        asp-route-currentFilter="@ViewData["CurrentFilter"]"
@@ -169,7 +169,8 @@
                 @for (var i = 1; i <= Model.Paragraphs.TotalPages; i++)
                 {
                     <li class="page-item">
-                        <a class="page-link"
+                       <a class="page-link"
+                       asp-route-name="StoryBuilder" asp-action="StoryParagraphsList" asp-route-id="@Model.Id"
                        asp-route-sortOrder="@ViewData["CurrentSort"]"
                        asp-route-pageNumber="@(i)"
                        asp-route-currentFilter="@ViewData["CurrentFilter"]">@i</a>
@@ -178,7 +179,7 @@
 
                 <li class="page-item">
 
-                    <a asp-action="Index"
+                    <a asp-route-name="StoryBuilder" asp-action="StoryParagraphsList" asp-route-id="@Model.Id"
                        asp-route-sortOrder="@ViewData["CurrentSort"]"
                        asp-route-pageNumber="@(Model.Paragraphs.PageIndex + 1)"
                        asp-route-currentFilter="@ViewData["CurrentFilter"]"
