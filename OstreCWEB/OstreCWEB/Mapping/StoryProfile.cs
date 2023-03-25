@@ -14,7 +14,8 @@ namespace OstreCWEB.Services.Mapping
                 .ReverseMap()
                     .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
 
-            CreateMap<Story, StoryParagraphsView>();
+            CreateMap<Story, StoryParagraphsView>()
+                .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
 
             CreateMap<Paragraph, ParagraphElementView>();
 

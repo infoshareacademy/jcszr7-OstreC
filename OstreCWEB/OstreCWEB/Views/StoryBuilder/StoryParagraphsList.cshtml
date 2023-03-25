@@ -22,7 +22,7 @@
         Amount of Paragraphs: @Model.AmountOfParagraphs
     </div>
     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-        <a asp-action="EditStory" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>      
+        <a asp-action="EditStory" asp-route-id="@Model.Id" type="button" class="btn btn-warning">Edit</a>
         @if (Model.AmountOfParagraphs != 0)
         {
             <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.Id" asp-route-paragraphId="@Model.FirstParagraphId" type="button" class="btn btn-primary">Show Details</a>
@@ -71,7 +71,7 @@
                             </td>
                         </tr>
                     }
-                    @if (item.ParagraphType ==  ParagraphType.Fight)
+                    @if (item.ParagraphType == ParagraphType.Fight)
                     {
                         <tr class="table-danger">
                             <td>
@@ -89,7 +89,7 @@
                             </td>
                         </tr>
                     }
-                    @if (item.ParagraphType ==  ParagraphType.Test)
+                    @if (item.ParagraphType == ParagraphType.Test)
                     {
                         <tr class="table-warning">
                             <td>
@@ -109,46 +109,86 @@
                     }
                     @*
 
-                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Dialog)
-                    {
-                        <tr class="table-Primary">
-                            <td>
-                                @item.ParagraphType
-                            </td>
-                            <td>
-                                @item.StageDescription
-                            </td>
-                            <td>
-                                @item.AmountOfChoices
-                            </td>
-                            <td>
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.PlayableCharacterCreateView" asp-route-paragraphPlayableCharacterCreateView="@item.PlayableCharacterCreateView" type="button" class="btn btn-success">Show Details</a>
-                                <a asp-action="EditParagraph" asp-route-id="@item.PlayableCharacterCreateView" type="button" class="btn btn-primary">Edit Paragraph</a>
-                            </td>
-                        </tr>
-                    }
-                    @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Shopkeeper)
-                    {
-                        <tr class="table-success">
-                            <td>
-                                @item.ParagraphType
-                            </td>
-                            <td>
-                                @item.StageDescription
-                            </td>
-                            <td>
-                                @item.AmountOfChoices
-                            </td>
-                            <td>
-                                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.PlayableCharacterCreateView" asp-route-paragraphPlayableCharacterCreateView="@item.PlayableCharacterCreateView" type="button" class="btn btn-success">Show Details</a>
-                                <a asp-action="EditParagraph" asp-route-id="@item.PlayableCharacterCreateView" type="button" class="btn btn-primary">Edit Paragraph</a>
-                            </td>
-                        </tr>
-                    }
-                    *@
-                }                       
+                @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Dialog)
+                {
+                <tr class="table-Primary">
+                <td>
+                @item.ParagraphType
+                </td>
+                <td>
+                @item.StageDescription
+                </td>
+                <td>
+                @item.AmountOfChoices
+                </td>
+                <td>
+                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.PlayableCharacterCreateView" asp-route-paragraphPlayableCharacterCreateView="@item.PlayableCharacterCreateView" type="button" class="btn btn-success">Show Details</a>
+                <a asp-action="EditParagraph" asp-route-id="@item.PlayableCharacterCreateView" type="button" class="btn btn-primary">Edit Paragraph</a>
+                </td>
+                </tr>
+                }
+                @if (item.ParagraphType == OstreCWEB.Data.Repository.StoryModels.Enums.ParagraphType.Shopkeeper)
+                {
+                <tr class="table-success">
+                <td>
+                @item.ParagraphType
+                </td>
+                <td>
+                @item.StageDescription
+                </td>
+                <td>
+                @item.AmountOfChoices
+                </td>
+                <td>
+                <a asp-route-name="StoryBuilder" asp-action="ParagraphDetails" asp-route-id="@Model.PlayableCharacterCreateView" asp-route-paragraphPlayableCharacterCreateView="@item.PlayableCharacterCreateView" type="button" class="btn btn-success">Show Details</a>
+                <a asp-action="EditParagraph" asp-route-id="@item.PlayableCharacterCreateView" type="button" class="btn btn-primary">Edit Paragraph</a>
+                </td>
+                </tr>
+                }
+                *@
+                }
             </tbody>
+
+            @{
+                var prevDisabled = !Model.Paragraphs.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.Paragraphs.HasNextPage ? "disabled" : "";
+            }
         </table>
+        
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-pageNumber="@(Model.Paragraphs.PageIndex - 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       class=" page-link @prevDisabled">
+                        Previous
+                    </a>
+                </li>
+                @for (var i = 1; i <= Model.Paragraphs.TotalPages; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-pageNumber="@(i)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]">@i</a>
+                    </li>
+                }
+
+                <li class="page-item">
+
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-pageNumber="@(Model.Paragraphs.PageIndex + 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       class="page-link @nextDisabled">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
         <a asp-action="CreatNewParagraph" asp-route-id="@Model.Id" type="button" class="btn btn-success">Create new Paragraph</a>
     </div>
 </div>

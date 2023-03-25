@@ -68,6 +68,7 @@ namespace OstreCWEB.Services.StoryService
         public async Task<StoryParagraphsView> GetParagraphsByIdStoryAsync(int idStory)
         {
             var paragraphs = await _storyRepository.GetStoryWithParagraphsByIdAsync(idStory);
+
             var result = _mapper.Map<StoryParagraphsView>(paragraphs);
 
             return result;

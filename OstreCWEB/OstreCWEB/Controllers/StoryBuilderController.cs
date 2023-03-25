@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWeb.DomainModels.Collections;
 using OstreCWeb.DomainModels.StoryModels.Properties;
+using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
+using OstreCWEB.Repository.Repository.StoryRepo;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryService;
 using OstreCWEB.Services.StoryService.Models;
 using OstreCWEB.Services.StoryService.ModelsDto;
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Controllers
 {
@@ -20,17 +24,20 @@ namespace OstreCWEB.Controllers
 
         private readonly IStoryServices _storyService;
         private readonly IUserService _userService;
+        private readonly IParagraphRepository<Paragraph> _paragraphRepository;
 
         public StoryBuilderController(
             IMapper mapper,
             ILogger<StoryBuilderController> logger,
             IStoryServices storyService,
-            IUserService userService)
+            IUserService userService,
+            IParagraphRepository<Paragraph> paragraphRepository)
         {
             _mapper = mapper;
             _logger = logger;
             _storyService = storyService;
             _userService = userService;
+            _paragraphRepository = paragraphRepository;
         }
 
         /*
@@ -121,8 +128,27 @@ namespace OstreCWEB.Controllers
         // GET: StoryBuilderController/StoryParagraphsList
         public async Task<ActionResult> StoryParagraphsList(int id)
         {
-            var model = await _storyService.GetParagraphsByIdStoryAsync(id);
-            return View(model);
+            try
+            {
+                string sortOrder = "";
+                ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                ViewData["CurrentSort"] = sortOrder;
+
+                int pageSize = 5;
+                int pageNumber = 1;
+
+                var model = await _storyService.GetParagraphsByIdStoryAsync(id);
+
+                var paragraphs = _mapper.ProjectTo<ParagraphElementView>(await _paragraphRepository.GetPaginatedListAsync(id));
+
+                model.Paragraphs = await PaginatedList<ParagraphElementView>.CreateAsync(paragraphs, pageNumber, pageSize);
+
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         /*

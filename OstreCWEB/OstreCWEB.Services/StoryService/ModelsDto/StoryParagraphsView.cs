@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OstreCWeb.DomainModels.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Services.StoryService.ModelsDto
 {
@@ -11,7 +12,7 @@ namespace OstreCWEB.Services.StoryService.ModelsDto
         [Display(Name = "Amount Of Paragraphs")]
         public int AmountOfParagraphs { get; set; }
 
-        public List<ParagraphElementView> Paragraphs { get; set; }
+        public PaginatedList<ParagraphElementView> Paragraphs { get; set; }
 
         public int FirstParagraphId { get; set; }
     }
