@@ -1,4 +1,5 @@
 ﻿using OstreCWeb.DomainModels;
+using OstreCWeb.DomainModels.StoryModels.Properties;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
@@ -16,6 +17,7 @@ namespace OstreCWEB.DomainModels.StoryModels
 
         // Paragraph type properties
         public FightProp? FightProp { get; set; }
+
         public DialogProp? DialogProp { get; set; }
         public TestProp? TestProp { get; set; }
         public ShopkeeperProp? ShopkeeperProp { get; set; }
@@ -25,6 +27,7 @@ namespace OstreCWEB.DomainModels.StoryModels
 
         // Db relations properties
         public List<UserParagraph> UserParagraphs { get; set; }
+
         public List<ParagraphItem> ParagraphItems { get; set; }
         public int StoryId { get; set; }
         public Story Story { get; set; }

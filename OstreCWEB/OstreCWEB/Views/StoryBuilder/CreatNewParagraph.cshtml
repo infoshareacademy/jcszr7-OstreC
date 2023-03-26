@@ -1,5 +1,5 @@
 ﻿@using OstreCWEB.DomainModels.StoryModels.Enums
-@model OstreCWEB.ViewModel.StoryBuilder.CreatNewParagraphView
+@model OstreCWEB.Services.StoryService.ModelsDto.CreatNewParagraphView
 
 @{
     ViewData["Title"] = "Create Paragraph";
@@ -45,6 +45,21 @@
                             <span asp-validation-for="RestoreRest" class="text-danger"></span>
                         </div>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ItemId" class="control-label"></label>
+                    @Html.DropDownListFor(m => m.ItemId, new SelectList(Model.Items,"Key","Value"),
+                    new {
+                    @class = "form-control"
+                    })
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AmountOfItems" class="control-label"></label>
+                    <input asp-for="AmountOfItems" class="form-control" />
+                    <span asp-validation-for="AmountOfItems" class="text-danger"></span>
                 </div>
 
                 <input asp-for="StoryId" hidden="true" />

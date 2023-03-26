@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OstreCWeb.DomainModels.Collections;
+using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.ViewModel.StoryBuilder
+namespace OstreCWEB.Services.StoryService.ModelsDto
 {
     public class StoryParagraphsView
     {
@@ -10,7 +11,8 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         [Display(Name = "Amount Of Paragraphs")]
         public int AmountOfParagraphs { get; set; }
-        public List<ParagraphElementView> Paragraphs { get; set; }
+
+        public PaginatedList<ParagraphElementView> Paragraphs { get; set; }
 
         public int FirstParagraphId { get; set; }
     }

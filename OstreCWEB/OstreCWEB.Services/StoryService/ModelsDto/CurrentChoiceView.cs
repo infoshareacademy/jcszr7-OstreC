@@ -1,4 +1,4 @@
-﻿namespace OstreCWEB.ViewModel.StoryBuilder
+﻿namespace OstreCWEB.Services.StoryService.ModelsDto
 {
     public class CurrentChoiceView
     {
