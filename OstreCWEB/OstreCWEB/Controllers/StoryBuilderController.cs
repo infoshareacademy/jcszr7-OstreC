@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OstreCWeb.DomainModels.Collections;
 using OstreCWeb.DomainModels.StoryModels.Properties;
-using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
@@ -12,7 +11,6 @@ using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryService;
 using OstreCWEB.Services.StoryService.Models;
 using OstreCWEB.Services.StoryService.ModelsDto;
-using System.ComponentModel.DataAnnotations;
 
 namespace OstreCWEB.Controllers
 {

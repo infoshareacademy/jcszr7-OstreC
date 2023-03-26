@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.Identity;
+using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.Repository.Repository.Identity;
-using OstreCWEB.Repository.Repository.StoryModels;
+using OstreCWEB.Repository.Repository.StoryRepo;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
 using OstreCWEB.Services.StoryService;
+using OstreCWEB.Services.StoryService.ModelsDto;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.Identity;
-using OstreCWEB.Services.StoryService.ModelsDto;
 
 namespace OstreCWEB.Controllers
 {
@@ -28,16 +28,17 @@ namespace OstreCWEB.Controllers
         private readonly IPlayableCharacterRepository<PlayableCharacter> _playableCharacterRepo;
         private readonly IIdentityRepository<User> _identityRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IGameService _gameService;  
+        private readonly IGameService _gameService;
+        private readonly IStoryRepository<Story> _storyRepository;
 
         public GameController(IGameService gameService,
-            IHttpContextAccessor httpContextAccessor, 
-            IUserService userService, IMapper mapper, 
-            IStoryRepository storyRepository, 
+            IHttpContextAccessor httpContextAccessor,
+            IUserService userService, IMapper mapper,
+            IStoryRepository<Story> storyRepository,
             IPlayableCharacterService playableCharacterService,
             IPlayableCharacterRepository<PlayableCharacter> playableCharacterRepo,
             IIdentityRepository<User> identityRepository,
-            IStoryService storyService
+            IStoryServices storyService
             )
         {
             _userService = userService;
@@ -109,38 +110,41 @@ namespace OstreCWEB.Controllers
 
                 if (activeCharacterCookies.Any() && _playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)))
                 {
-                    model.ActiveCharacter = _mapper.Map<PlayableCharacterView>(await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value))); 
-
-                if (activeStoryCookies.Any() && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
-
-                    model.ActiveStory = await _storyService.GetStoryByIdAsync(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value));
+                    var character = await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value));
+                    model.ActiveCharacterName = character.CharacterName;
                 }
-                if (activeStoryCookies.Any() && _storyRepository.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
+                if (activeStoryCookies.Any() && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
                 {
-
+                    var story = await _storyService.GetStoryByIdAsync(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value));
+                    model.ActiveStoryName = story.Name;
+                }
+            } 
             var user = await _identityRepository.GetUserByIdForLobbyAsync(_userService.GetUserId(User));
             var allCharacter = await _playableCharacterRepo.GetAllTemplatesForLobby(user.Id);
             var stories = await _storyRepository.GetAllStoriesAsyncNoTrackingAsync();
 
             model.UserParagraphs = _mapper.Map<List<UserParagraphView>>(user.UserParagraphs);
-            var gr1 = allCharacter.GroupBy(x => x.UserId == user.Id).ToList(); 
+
+            var gr1 = allCharacter.GroupBy(x => x.UserId == user.Id).ToList();
             foreach (var list in gr1)
             {
                 if (list.Key) { model.UserCharacters = _mapper.Map<List<PlayableCharacterRow>>(list); }
                 if (!list.Key) { model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(list); }
             }
+
             var gr2 = stories.GroupBy(x => x.UserId == user.Id).ToList();
             foreach (var list in gr2)
-
-                if (list.Key) { model.UserStories = _mapper.Map<List<StoriesView>>(list); }
-                if (!list.Key) { model.OtherUsersStories = _mapper.Map<List<StoriesView>>(list); }
-            foreach (var gameSessionView in model.User.UserParagraphs)
             {
-                var getStoryTask = _storyService.GetStoryById(gameSessionView.Paragraph.StoryId);
-                gameSessionView.Story = _mapper.Map<StoriesView>(getStoryTask);
+                if (list.Key) { model.UserStories = _mapper.Map<List<StoryView>>(list); }
+                if (!list.Key) { model.OtherUsersStories = _mapper.Map<List<StoryView>>(list); }
             }
+            //foreach (var gameSessionView in model.User.UserParagraphs)
+            //{
+            //    var getStoryTask = await _storyService.GetStoryByIdAsync(gameSessionView.Paragraph.StoryId);
+            //    gameSessionView.Story = _mapper.Map<StoryView>(getStoryTask);
+            //}
             Console.WriteLine();
-            model.OtherUsersStories = _mapper.Map<List<StoriesView>>(await _storyService.GetAllStories());
+            model.OtherUsersStories = await _storyService.GetAllStories();
             model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
             return View(model);
         }
@@ -150,7 +154,7 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public ActionResult SetActiveStory(int id)
         {
-            TempData["activeStory"] = $"{id}";
+
             CookieOptions options = new CookieOptions();
             //This cookie will expire on session end.
             options.Expires = default(DateTime?);
@@ -164,14 +168,12 @@ namespace OstreCWEB.Controllers
         [HttpGet]
         public ActionResult SetActiveCharacter(int id)
         {
-            TempData["activeCharacter"] = $"{id}";
             CookieOptions options = new CookieOptions();
             //This cookie will expire on session end.
             options.Expires = default(DateTime?);
             options.Path = "/";
             //Bypasses consent policy checks.
             options.IsEssential = true;
-}
             return RedirectToAction(nameof(Index));
         }
     }

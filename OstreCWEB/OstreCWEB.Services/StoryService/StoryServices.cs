@@ -37,7 +37,7 @@ namespace OstreCWEB.Services.StoryService
 
         public async Task<List<StoryView>> GetAllStories()
         {
-            var result = _mapper.Map<List<StoryView>>(await _storyRepository.GetAllStories());
+            var result = _mapper.Map<List<StoryView>>(await _storyRepository.GetAllStoriesAsync());
             return result;
         }
 

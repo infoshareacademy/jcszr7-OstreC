@@ -20,13 +20,13 @@ namespace OstreCWEB.Repository.Repository.StoryRepo
         {
             return _context.Stories.Any(story => story.Id == storyId);
         } 
-        public async Task<IReadOnlyCollection<Story>> GetAllStoriesAsyncNoTrackingAsync()
+        public async Task<List<Story>> GetAllStoriesAsyncNoTrackingAsync()
         {
-            return _context.Stories.AsNoTracking().ToList();
+            return await _context.Stories.AsNoTracking().ToListAsync();
         }
         public async Task<List<Story>> GetAllStoriesAsync()
         {
-            return _ostreCWebContext.Stories
+            return await _context.Stories
                 .Include(s => s.Paragraphs)
                 .ToListAsync();
         }

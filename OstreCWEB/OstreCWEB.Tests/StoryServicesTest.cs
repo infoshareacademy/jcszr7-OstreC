@@ -66,14 +66,14 @@ namespace OstreCWEB.Tests
         {
             // Arrange
             _storyRepositoryMock
-                .Setup(x => x.GetAllStories())
+                .Setup(x => x.GetAllStoriesAsync())
                 .ReturnsAsync(new List<Story>());
 
             // Act
             var result = await _storyService.GetAllStories();
 
             // Assert
-            _storyRepositoryMock.Verify(x => x.GetAllStories(), Times.Once());
+            _storyRepositoryMock.Verify(x => x.GetAllStoriesAsync(), Times.Once());
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace OstreCWEB.Tests
                 };
 
             _storyRepositoryMock
-                .Setup(x => x.GetAllStories())
+                .Setup(x => x.GetAllStoriesAsync())
                 .ReturnsAsync(stories);
 
             var expected = new List<StoryView>

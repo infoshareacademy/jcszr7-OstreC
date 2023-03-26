@@ -4,11 +4,12 @@ using OstreCWEB.DomainModels.StoryModels.Properties;
 namespace OstreCWEB.Repository.Repository.StoryRepo
 {
     public interface IStoryRepository<T> : IEntityBaseRepo<Story> where T : Story
-    {
-        public Task<List<Story>> GetAllStories();
+    { 
+        public Task<List<Story>> GetAllStoriesAsync();
 
         public Task<List<Story>> GetStoriesByUserId(int userId);
 
+        public Task<List<Story>> GetAllStoriesAsyncNoTrackingAsync();
         public Task<Story> GetStoryByIdAsync(int idStory);
 
         public Task<Story> GetStoryWithParagraphsByIdAsync(int idStory);
