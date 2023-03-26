@@ -1,8 +1,6 @@
-﻿using OstreCWEB.DomainModels.StoryModels;
-
-namespace OstreCWEB.Services.StoryServices.Models
+﻿namespace OstreCWEB.Services.StoryService.ModelsDto
 {
-    public class ChoiceCreator
+    public class ChoiceCreatorView
     {
         public int Id { get; set; }
 
@@ -10,10 +8,10 @@ namespace OstreCWEB.Services.StoryServices.Models
         public bool ChangePlaces { get; set; }
 
         public int ParagraphId { get; set; }
-        public Paragraph PreviousParagraph { get; set; }
+        public ParagraphElementView PreviousParagraph { get; set; }
 
         public int NextParagraphId { get; set; }
-        public Paragraph NextParagraph { get; set; }
+        public ParagraphElementView NextParagraph { get; set; }
 
         public int StoryId { get; set; }
     }

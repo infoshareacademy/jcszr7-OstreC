@@ -1,10 +1,9 @@
 ﻿using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Enums;
-using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.ViewModel.StoryBuilder
+namespace OstreCWEB.Services.StoryService.Models
 {
-    public class EditParagraphView
+    public class EditParagraph
     {
         public int Id { get; set; }
 
@@ -13,12 +12,10 @@ namespace OstreCWEB.ViewModel.StoryBuilder
         public bool RestoreRest { get; set; }
 
         // Paragraph Fight properties
-        public List<EnemyInParagraphView> ParagraphEnemies { get; set; }
+        public List<EnemyInParagraphService> ParagraphEnemies { get; set; }
 
         // ParagraphTest Properties
-        [Display(Name = "Ability Score")]
         public AbilityScores AbilityScores { get; set; }
-        [Display(Name = "Test Difficulty")]
         public TestDifficulty TestDifficulty { get; set; }
 
         // Db relations properties

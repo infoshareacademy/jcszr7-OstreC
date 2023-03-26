@@ -1,67 +1,101 @@
-﻿using OstreCWEB.Repository.Repository.Characters.Interfaces;
-using OstreCWEB.Repository.Repository.StoryModels;
+﻿using AutoMapper;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.DomainModels.StoryModels.Properties;
-using OstreCWEB.Services.StoryServices.Models;
+using OstreCWEB.Repository.Repository.Characters.Interfaces;
+using OstreCWEB.Repository.Repository.StoryRepo;
+using OstreCWEB.Services.StoryService.Models;
+using OstreCWEB.Services.StoryService.ModelsDto;
+using System.Collections.Generic;
 
-namespace OstreCWEB.Services.StoryServices
+namespace OstreCWEB.Services.StoryService
 {
-    internal class StoryService : IStoryService
+    public class StoryServices : IStoryServices
     {
-        private readonly IStoryRepository _storyRepository;
+        private readonly IStoryRepository<Story> _storyRepository;
         private readonly IEnemyRepository<Enemy> _enemyRepository;
+        private readonly IItemRepository<Item> _itemRepository;
+        private readonly IMapper _mapper;
 
-        public StoryService(IStoryRepository storyRepository, IEnemyRepository<Enemy> enemyRepository)
+        public StoryServices(
+            IStoryRepository<Story> storyRepository,
+            IEnemyRepository<Enemy> enemyRepository,
+            IItemRepository<Item> itemRepository,
+            IMapper mapper)
         {
             _storyRepository = storyRepository;
             _enemyRepository = enemyRepository;
+            _itemRepository = itemRepository;
+            _mapper = mapper;
         }
+
         public bool Exists(int id)
         {
             return _storyRepository.Exists(id);
         }
-        public async Task<IReadOnlyCollection<Story>> GetAllStories()
+
+        public async Task<List<StoryView>> GetAllStories()
         {
-            return await _storyRepository.GetAllStoriesAsync();
+            var result = _mapper.Map<List<StoryView>>(await _storyRepository.GetAllStories());
+            return result;
         }
 
-        public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(int userId)
+        public async Task<List<StoryView>> GetStoriesByUserId(int userId)
         {
-            return await _storyRepository.GetStoriesByUserId(userId);
+            var storyByUser = await _storyRepository.GetStoriesByUserId(userId);
+            var result = _mapper.Map<List<StoryView>>(storyByUser);
+
+            return result;
         }
 
-        public async Task<Story> GetStoryByIdAsync(int idStory)
+        public async Task<StoryView> GetStoryByIdAsync(int idStory)
         {
-            return await _storyRepository.GetStoryByIdAsync(idStory);
-        }
-        public Story GetStoryById(int idStory)
-        {
-            return _storyRepository.GetStoryById(idStory);
+            var story = await _storyRepository.GetStoryByIdAsync(idStory);
+            var result = _mapper.Map<StoryView>(story);
+
+            return result;
         }
 
-        public async Task<Story> GetStoryWithParagraphsById(int idStory)
+        public async Task<StoryView> GetStoryWithParagraphsByIdAsync(int idStory)
         {
-            return await _storyRepository.GetStoryWithParagraphsById(idStory);
+            var story = await _storyRepository.GetStoryWithParagraphsByIdAsync(idStory);
+            var result = _mapper.Map<StoryView>(story);
+
+            return result;
+        }
+
+        public async Task<StoryParagraphsView> GetParagraphsByIdStoryAsync(int idStory)
+        {
+            var paragraphs = await _storyRepository.GetStoryWithParagraphsByIdAsync(idStory);
+
+            var result = _mapper.Map<StoryParagraphsView>(paragraphs);
+
+            return result;
         }
 
         //Story
 
-        public async Task AddStory(Story story, int userId)
+        public async Task AddStory(StoryView newStory, int userId)
         {
+            var story = _mapper.Map<Story>(newStory);
+
             story.UserId = userId;
             await _storyRepository.AddStory(story);
         }
 
-        public async Task UpdateStory(int idStory, string Name, string Description, int userId)
+        public async Task UpdateStory(StoryView uStory, int userId)
         {
-            var story = await _storyRepository.GetStoryByIdAsync(idStory);
+            if (!Exists(uStory.Id))
+            {
+                throw new Exception("Story doesn't exist");
+            }
+            var story = await _storyRepository.GetStoryByIdAsync(uStory.Id);
 
             if (story.UserId == userId)
             {
-                story.Name = Name;
-                story.Description = Description;
+                story.Name = uStory.Name;
+                story.Description = uStory.Description;
 
                 await _storyRepository.UpdateStory(story);
             }
@@ -90,7 +124,6 @@ namespace OstreCWEB.Services.StoryServices
         {
             return await _storyRepository.GetParagraphById(idParagraphId);
         }
-
 
         public async Task AddParagraph(Paragraph paragraph, int userId)
         {
@@ -156,9 +189,9 @@ namespace OstreCWEB.Services.StoryServices
                 throw new Exception("This is not your Story");
             }
         }
+
         public async Task DeleteParagraph(int idParagraph, int userId)
         {
-
             var paragraph = await _storyRepository.GetParagraphById(idParagraph);
             var story = await _storyRepository.GetStoryByIdAsync(paragraph.StoryId);
 
@@ -172,7 +205,7 @@ namespace OstreCWEB.Services.StoryServices
             }
         }
 
-        public async Task<ParagraphDetails> GetParagraphDetailsById(int idParagraph, int idStory)
+        public async Task<ParagraphDetailsView> GetParagraphDetailsById(int idParagraph, int idStory)
         {
             var story = await _storyRepository.GetStoryByIdAsync(idStory);
 
@@ -254,10 +287,12 @@ namespace OstreCWEB.Services.StoryServices
                 paragraphDetails.CreatChoice = true;
             }
 
-            return paragraphDetails;
+            var result = _mapper.Map<ParagraphDetailsView>(paragraphDetails);
+
+            return result;
         }
 
-        public async Task<EditParagraph> GetEditParagraphById(int paragraphId)
+        public async Task<EditParagraphView> GetEditParagraphById(int paragraphId)
         {
             var paragraph = await _storyRepository.GetParagraphToEditById(paragraphId);
 
@@ -298,7 +333,9 @@ namespace OstreCWEB.Services.StoryServices
                 EditParagraph.TestDifficulty = paragraph.TestProp.TestDifficulty;
             }
 
-            return EditParagraph;
+            var result = _mapper.Map<EditParagraphView>(EditParagraph);
+
+            return result;
         }
 
         public async Task UpdateParagraph(EditParagraph editParagraph, int userId)
@@ -343,25 +380,29 @@ namespace OstreCWEB.Services.StoryServices
             await _storyRepository.DeleteEnemyInParagraph(enemyInParagraphId);
         }
 
-
-        public async Task<IReadOnlyCollection<Enemy>> GetAllEnemies()
+        public async Task<List<Enemy>> GetAllEnemies()
         {
             return await _enemyRepository.GetAllTemplatesAsync();
         }
 
-        public async Task<ChoiceDetails> GetChoiceDetailsById(int idChoice)
+        public async Task<List<Item>> GetAllItems()
+        {
+            return _itemRepository.GetAll();
+        }
+
+        public async Task<ChoiceDetailsView> GetChoiceDetailsById(int idChoice)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(idChoice);
 
-            var choiceDetails = new ChoiceDetails
+            var choiceDetails = new ChoiceDetailsView
             {
                 StoryId = choice.Paragraph.Story.Id,
                 DescriptionOfStory = choice.Paragraph.Story.Description,
                 NameOfStory = choice.Paragraph.Story.Name,
                 AmountOfParagraphs = choice.Paragraph.Story.GetAmountOfParagraphs(),
-                PreviousParagraph = choice.Paragraph,
-                CurrentChoice = choice,
-                NextParagraph = choice.Paragraph.Story.Paragraphs.FirstOrDefault(p => p.Id == choice.NextParagraphId)
+                PreviousParagraph = _mapper.Map<ParagraphElementView>(choice.Paragraph),
+                CurrentChoice = _mapper.Map<CurrentChoiceView>(choice),
+                NextParagraph = _mapper.Map<ParagraphElementView>(choice.Paragraph.Story.Paragraphs.FirstOrDefault(p => p.Id == choice.NextParagraphId))
             };
 
             if (choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Fight || choiceDetails.PreviousParagraph.ParagraphType == ParagraphType.Test)
@@ -376,32 +417,33 @@ namespace OstreCWEB.Services.StoryServices
             return choiceDetails;
         }
 
-        public async Task<ChoiceCreator> GetChoiceCreator(int firstParagraphId, int secondParagraphId)
+        public async Task<ChoiceCreatorView> GetChoiceCreator(int firstParagraphId, int secondParagraphId)
         {
             var firstParagraph = await _storyRepository.GetParagraphById(firstParagraphId);
             var secondParagraph = await _storyRepository.GetParagraphById(secondParagraphId);
 
-            var choiceCreator = new ChoiceCreator
+            var choiceCreator = new ChoiceCreatorView
             {
                 ChangePlaces = false,
 
                 ParagraphId = firstParagraph.Id,
-                PreviousParagraph = firstParagraph,
+                PreviousParagraph = _mapper.Map<ParagraphElementView>(firstParagraph),
 
                 NextParagraphId = secondParagraph.Id,
-                NextParagraph = secondParagraph,
+                NextParagraph = _mapper.Map<ParagraphElementView>(secondParagraph),
 
                 StoryId = firstParagraph.StoryId
             };
+
             return choiceCreator;
         }
 
-        public async Task<ChoiceCreator> GetChoiceCreatorById(int choiceId)
+        public async Task<ChoiceCreatorView> GetChoiceCreatorById(int choiceId)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(choiceId);
             var nextParagraph = await _storyRepository.GetParagraphById(choice.NextParagraphId);
 
-            var choiceCreator = new ChoiceCreator
+            var choiceCreator = new ChoiceCreatorView
             {
                 Id = choiceId,
 
@@ -409,10 +451,10 @@ namespace OstreCWEB.Services.StoryServices
                 ChoiceText = choice.ChoiceText,
 
                 ParagraphId = choice.ParagraphId,
-                PreviousParagraph = choice.Paragraph,
+                PreviousParagraph = _mapper.Map<ParagraphElementView>(choice.Paragraph),
 
                 NextParagraphId = choice.NextParagraphId,
-                NextParagraph = nextParagraph,
+                NextParagraph = _mapper.Map<ParagraphElementView>(nextParagraph),
 
                 StoryId = choice.Paragraph.StoryId
             };
@@ -420,12 +462,12 @@ namespace OstreCWEB.Services.StoryServices
             return choiceCreator;
         }
 
-        public async Task<ChoiceCreator> GetChoiceCreatorById(int choiceId, int secondParagraphId)
+        public async Task<ChoiceCreatorView> GetChoiceCreatorById(int choiceId, int secondParagraphId)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(choiceId);
             var nextParagraph = await _storyRepository.GetParagraphById(secondParagraphId);
 
-            var choiceCreator = new ChoiceCreator
+            var choiceCreator = new ChoiceCreatorView
             {
                 Id = choiceId,
 
@@ -433,10 +475,10 @@ namespace OstreCWEB.Services.StoryServices
                 ChoiceText = choice.ChoiceText,
 
                 ParagraphId = choice.ParagraphId,
-                PreviousParagraph = choice.Paragraph,
+                PreviousParagraph = _mapper.Map<ParagraphElementView>(choice.Paragraph),
 
                 NextParagraphId = secondParagraphId,
-                NextParagraph = nextParagraph,
+                NextParagraph = _mapper.Map<ParagraphElementView>(nextParagraph),
 
                 StoryId = choice.Paragraph.StoryId
             };
@@ -444,8 +486,7 @@ namespace OstreCWEB.Services.StoryServices
             return choiceCreator;
         }
 
-
-        public async Task UpdateChoice(ChoiceCreator choiceCreator)
+        public async Task UpdateChoice(ChoiceCreatorView choiceCreator)
         {
             var choice = await _storyRepository.GetChoiceDetailsById(choiceCreator.Id);
 
@@ -455,7 +496,7 @@ namespace OstreCWEB.Services.StoryServices
             await _storyRepository.UpdateChoice(choice);
         }
 
-        public async Task AddChoice(ChoiceCreator choiceCreator)
+        public async Task AddChoice(ChoiceCreatorView choiceCreator)
         {
             var choice = new Choice();
 

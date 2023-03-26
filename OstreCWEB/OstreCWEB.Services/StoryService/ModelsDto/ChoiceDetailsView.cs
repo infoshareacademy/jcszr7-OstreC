@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OstreCWEB.ViewModel.StoryBuilder
+namespace OstreCWEB.Services.StoryService.ModelsDto
 {
     public class ChoiceDetailsView
     {
         //Story
         public int StoryId { get; set; }
+
         public string NameOfStory { get; set; }
         public string DescriptionOfStory { get; set; }
 
@@ -14,6 +15,7 @@ namespace OstreCWEB.ViewModel.StoryBuilder
 
         // Choice
         public ParagraphElementView PreviousParagraph { get; set; }
+
         public CurrentChoiceView CurrentChoice { get; set; }
         public ParagraphElementView NextParagraph { get; set; }
 

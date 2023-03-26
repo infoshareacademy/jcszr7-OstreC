@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OstreCWEB.Repository.DataBase;
 
@@ -11,9 +12,10 @@ using OstreCWEB.Repository.DataBase;
 namespace OstreCWEB.Repository.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    partial class OstreCWebContextModelSnapshot : ModelSnapshot
+    [Migration("20230311092327_Add_Id_in_ParagraphItem")]
+    partial class Add_Id_in_ParagraphItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -581,22 +583,6 @@ namespace OstreCWEB.Repository.Migrations
 
                     b.Property<int>("ParagraphId")
                         .HasColumnType("int");
-
-                    b.Property<string>("RelatedCharacterClass")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RelatedCharacterName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RelatedCharacterRace")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RelatedStoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Rest")
                         .HasColumnType("bit");

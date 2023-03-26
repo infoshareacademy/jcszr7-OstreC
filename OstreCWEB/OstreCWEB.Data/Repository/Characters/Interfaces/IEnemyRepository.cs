@@ -3,7 +3,7 @@
 namespace OstreCWEB.Repository.Repository.Characters.Interfaces
 {
     public interface IEnemyRepository<T> : IEntityBaseRepo<Enemy> where T : Enemy
-    { 
-        public Task<IReadOnlyCollection<Enemy>> GetAllTemplatesAsync(); 
+    {
+        public Task<List<Enemy>> GetAllTemplatesAsync();
     }
 }

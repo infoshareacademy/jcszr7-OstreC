@@ -1,26 +1,22 @@
 ﻿using AutoMapper;
 using OstreCWEB.DomainModels.StoryModels;
 using OstreCWEB.DomainModels.StoryModels.Properties;
-using OstreCWEB.Services.StoryServices.Models;
-using OstreCWEB.ViewModel.Game;
-using OstreCWEB.ViewModel.StoryBuilder;
+using OstreCWEB.Services.StoryService.Models;
+using OstreCWEB.Services.StoryService.ModelsDto;
 
-namespace OstreCWEB.Mapping
+namespace OstreCWEB.Services.Mapping
 {
     public class StoryProfile : Profile
     {
         public StoryProfile()
         {
-            //Game
-            CreateMap<Paragraph, GameParagraphView>();
-
-            //StoryBuilder          
-            CreateMap<Story, StoriesView>()
+            CreateMap<Story, StoryView>()
                 .ReverseMap()
-                    .ForMember(dest => dest.Paragraphs, opt => opt.Ignore())
-                    .ForMember(dest => dest.FirstParagraphId, opt => opt.Ignore());
+                    .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
 
-            CreateMap<Story, StoryParagraphsView>();
+            CreateMap<Story, StoryParagraphsView>()
+                .ForMember(dest => dest.Paragraphs, opt => opt.Ignore());
+
             CreateMap<Paragraph, ParagraphElementView>();
 
             CreateMap<ParagraphDetails, ParagraphDetailsView>();
@@ -72,17 +68,13 @@ namespace OstreCWEB.Mapping
                 .ForMember(dest => dest.AbilityScores, opt => opt.Ignore())
                 .ForMember(dest => dest.TestDifficulty, opt => opt.Ignore());
 
-            CreateMap<ChoiceDetails, ChoiceDetailsView>();
             CreateMap<Choice, CurrentChoiceView>();
 
             CreateMap<EditParagraph, EditParagraphView>()
                 .ReverseMap();
 
-            CreateMap<EnemyInParagraphService, EnemyInParagraphView>()
+            CreateMap<EnemyInParagraphService, OstreCWEB.Services.StoryService.ModelsDto.EnemyInParagraphView>()
                 .ForMember(dest => dest.Enemies, opt => opt.Ignore())
-                .ReverseMap();
-
-            CreateMap<ChoiceCreator, ChoiceCreatorView>()
                 .ReverseMap();
         }
     }

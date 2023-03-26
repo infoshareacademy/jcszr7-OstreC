@@ -10,11 +10,11 @@ using OstreCWEB.Repository.Repository.StoryModels;
 using OstreCWEB.Services.Characters;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryServices;
+using OstreCWEB.Services.StoryService;
 using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Game;
 using OstreCWEB.ViewModel.Identity;
-using OstreCWEB.ViewModel.StoryBuilder;
+using OstreCWEB.Services.StoryService.ModelsDto;
 
 namespace OstreCWEB.Controllers
 {
@@ -23,12 +23,12 @@ namespace OstreCWEB.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        private readonly IStoryRepository _storyRepository;
+        private readonly IStoryServices _storyService;
         private readonly IPlayableCharacterService _playableCharacterService;
         private readonly IPlayableCharacterRepository<PlayableCharacter> _playableCharacterRepo;
         private readonly IIdentityRepository<User> _identityRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IGameService _gameService; 
+        private readonly IGameService _gameService;  
 
         public GameController(IGameService gameService,
             IHttpContextAccessor httpContextAccessor, 
@@ -36,7 +36,8 @@ namespace OstreCWEB.Controllers
             IStoryRepository storyRepository, 
             IPlayableCharacterService playableCharacterService,
             IPlayableCharacterRepository<PlayableCharacter> playableCharacterRepo,
-            IIdentityRepository<User> identityRepository
+            IIdentityRepository<User> identityRepository,
+            IStoryService storyService
             )
         {
             _userService = userService;
@@ -47,6 +48,7 @@ namespace OstreCWEB.Controllers
             _identityRepository = identityRepository;
             _httpContextAccessor = httpContextAccessor;
             _gameService = gameService;
+            _storyService = storyService;
         }
 
         // GET: GameController
@@ -59,7 +61,7 @@ namespace OstreCWEB.Controllers
                 var activeStoryCookies = _httpContextAccessor.HttpContext.Request.Cookies.Where(c => c.Key == "ActiveStory");
                 if (activeCharacterCookies != null && activeCharacterCookies.FirstOrDefault().Key != null && activeStoryCookies != null && activeStoryCookies.FirstOrDefault().Key != null)
                 {
-                    if (_playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)) && _storyRepository.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
+                    if (_playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)) && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
                     {
                         var gameInstance = await _gameService.CreateNewGameInstanceAsync(
                             _userService.GetUserId(User),
@@ -74,7 +76,6 @@ namespace OstreCWEB.Controllers
                     TempData["msg"] = "You didn't select both a character and a story to play!";
                     return RedirectToAction(nameof(Index));
                 }
-
             }
             catch (Exception ex)
             {
@@ -97,6 +98,7 @@ namespace OstreCWEB.Controllers
             await _gameService.SetActiveGameInstanceAsync(id, _userService.GetUserId(User));
             return RedirectToAction("Index", "StoryReader");
         }
+
         public async Task<ActionResult> Index()
         {
             var model = new StartGameView();
@@ -108,13 +110,13 @@ namespace OstreCWEB.Controllers
                 if (activeCharacterCookies.Any() && _playableCharacterService.Exists(Convert.ToInt32(activeCharacterCookies.FirstOrDefault().Value)))
                 {
                     model.ActiveCharacter = _mapper.Map<PlayableCharacterView>(await _playableCharacterService.GetById(Convert.ToInt32(activeCharacterCookies.ToList().FirstOrDefault().Value))); 
+
+                if (activeStoryCookies.Any() && _storyService.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
+
+                    model.ActiveStory = await _storyService.GetStoryByIdAsync(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value));
                 }
                 if (activeStoryCookies.Any() && _storyRepository.Exists(Convert.ToInt32(activeStoryCookies.FirstOrDefault().Value)))
                 {
-                    model.ActiveStory = _mapper.Map<StoriesView>(await _storyRepository.GetStoryByIdAsync(Convert.ToInt32(activeStoryCookies.ToList().FirstOrDefault().Value)));
-                }
-            };
-
 
             var user = await _identityRepository.GetUserByIdForLobbyAsync(_userService.GetUserId(User));
             var allCharacter = await _playableCharacterRepo.GetAllTemplatesForLobby(user.Id);
@@ -129,30 +131,21 @@ namespace OstreCWEB.Controllers
             }
             var gr2 = stories.GroupBy(x => x.UserId == user.Id).ToList();
             foreach (var list in gr2)
-            {
+
                 if (list.Key) { model.UserStories = _mapper.Map<List<StoriesView>>(list); }
                 if (!list.Key) { model.OtherUsersStories = _mapper.Map<List<StoriesView>>(list); }
+            foreach (var gameSessionView in model.User.UserParagraphs)
+            {
+                var getStoryTask = _storyService.GetStoryById(gameSessionView.Paragraph.StoryId);
+                gameSessionView.Story = _mapper.Map<StoriesView>(getStoryTask);
             }
-             return View(model);
-        } 
-            /*
-             * Get all users 
-             * Get all playable character templates names
-             * 
-             */
-            //model.User = _mapper.Map<UserView>(x);
-            //foreach (var gameSessionView in model.User.UserParagraphs)
-            //{
-            //    var getStoryTask = _storyService.GetStoryById(gameSessionView.Paragraph.StoryId);
-            //    gameSessionView.Story = _mapper.Map<StoriesView>(getStoryTask);
-            //}
-            //Console.WriteLine();
-            //model.OtherUsersStories = _mapper.Map<List<StoriesView>>(await _storyService.GetAllStories());
-            //model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
-         
+            Console.WriteLine();
+            model.OtherUsersStories = _mapper.Map<List<StoriesView>>(await _storyService.GetAllStories());
+            model.OtherUsersCharacters = _mapper.Map<List<PlayableCharacterRow>>(await _playableCharacterService.GetAllTemplates(_userService.GetUserId(User)));
+            return View(model);
+        }
         private async Task BuildUserParagraphStoriesView()
         {
-
         }
         [HttpGet]
         public ActionResult SetActiveStory(int id)
@@ -178,7 +171,7 @@ namespace OstreCWEB.Controllers
             options.Path = "/";
             //Bypasses consent policy checks.
             options.IsEssential = true;
-            _httpContextAccessor.HttpContext.Response.Cookies.Append("ActiveCharacter", $"{id}", options);
+}
             return RedirectToAction(nameof(Index));
         }
     }

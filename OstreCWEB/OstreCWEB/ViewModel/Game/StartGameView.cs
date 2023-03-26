@@ -1,6 +1,6 @@
 ﻿using OstreCWEB.ViewModel.Characters;
 using OstreCWEB.ViewModel.Identity;
-using OstreCWEB.ViewModel.StoryBuilder;
+using OstreCWEB.Services.StoryService.ModelsDto;
 using System.ComponentModel;
 
 namespace OstreCWEB.ViewModel.Game
@@ -10,10 +10,12 @@ namespace OstreCWEB.ViewModel.Game
         //This class will be merged with story reader next week.  
         [DisplayName("Other characters")]
         public List<PlayableCharacterRow> UserCharacters { get; set; }
-        public List<StoriesView> UserStories { get; set; }
+        public List<StoryView> UserStories { get; set; }
         public List<PlayableCharacterRow> OtherUsersCharacters { get; set; }
+
         [DisplayName("Other Stories")]
-        public List<StoriesView> OtherUsersStories { get; set; }
+        public List<StoryView> OtherUsersStories { get; set; }
+
         [DisplayName("Saved Game")]
         public List<UserParagraphView> UserParagraphs { get; set; }
         [DisplayName("Chosen Character")]
@@ -23,9 +25,9 @@ namespace OstreCWEB.ViewModel.Game
         public StartGameView()
         { 
             OtherUsersCharacters = new List<PlayableCharacterRow>();
-            OtherUsersStories = new List<StoriesView>();
+            OtherUsersStories = new List<StoryView>();
             UserCharacters = new List<PlayableCharacterRow>();
-            UserStories = new List<StoriesView>();
+            UserStories = new List<StoryView>();
         }
     }
 }

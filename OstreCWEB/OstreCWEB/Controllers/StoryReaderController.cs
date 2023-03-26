@@ -6,7 +6,7 @@ using OstreCWEB.DomainModels.StoryModels.Enums;
 using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.Services.Game;
 using OstreCWEB.Services.Identity;
-using OstreCWEB.Services.StoryServices;
+using OstreCWEB.Services.StoryService;
 using OstreCWEB.ViewModel.StoryReader;
 
 namespace OstreCWEB.Controllers
@@ -18,7 +18,7 @@ namespace OstreCWEB.Controllers
         private readonly ILogger<StoryReaderController> _logger;
         private readonly IGameService _gameService;
         private readonly IUserParagraphRepository<UserParagraph> _userParagraphRepository;
-        private readonly IStoryService _storyService;
+        private readonly IStoryServices _storyService;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -27,7 +27,7 @@ namespace OstreCWEB.Controllers
             ILogger<StoryReaderController> logger,
             IGameService gameService,
             IUserParagraphRepository<UserParagraph> userParagraphRepository,
-            IStoryService storyService,
+            IStoryServices storyService,
             IUserService userService,
             IHttpContextAccessor httpContextAccessor
             )
