@@ -24,7 +24,7 @@ namespace OstreCWEB.Services.StoryServices
         }
         public async Task<IReadOnlyCollection<Story>> GetAllStories()
         {
-            return await _storyRepository.GetAllStories();
+            return await _storyRepository.GetAllStoriesAsync();
         }
 
         public async Task<IReadOnlyCollection<Story>> GetStoriesByUserId(int userId)
@@ -143,7 +143,7 @@ namespace OstreCWEB.Services.StoryServices
                     throw new NotImplementedException();
                 }
 
-                var stories = await _storyRepository.GetAllStories();
+                var stories = await _storyRepository.GetAllStoriesAsync();
                 var story = stories.FirstOrDefault(x => x.Id == paragraph.StoryId);
                 if (story.GetAmountOfParagraphs() == 1)
                 {

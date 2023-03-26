@@ -9,8 +9,8 @@
             <thead>
                 <tr> 
                     <th scope="col"> <Label asp-for="FirstOrDefault().CharacterName"></Label></th>
-                    <th scope="col"> <Label asp-for="FirstOrDefault().CharacterClass.ClassName"></Label></th>
-                    <th scope="col"> <Label asp-for="FirstOrDefault().Race.RaceName"></Label></th>
+                    <th scope="col"> <Label asp-for="FirstOrDefault().CharacterClassName"></Label></th>
+                    <th scope="col"> <Label asp-for="FirstOrDefault().RaceName"></Label></th>
                 </tr>
             </thead>
             <tbody>
@@ -19,8 +19,8 @@
                      { 
                          <tr> 
                            <th scope="row">@character.CharacterName</th>
-                           <td>@character.CharacterClass.ClassName</td>
-                           <td>@character.Race.RaceName</td>
+                           <td>@character.CharacterClassName</td>
+                           <td>@character.RaceName</td>
                            <td><a asp-controller="Game" asp-action="SetActiveCharacter" asp-route-id="@character.Id" type="button" class="btn btn-primary">Choose this character</a></td>
                        </tr> 
 

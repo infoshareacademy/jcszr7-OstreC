@@ -9,9 +9,9 @@ namespace OstreCWEB.ViewModel.Characters
         [DisplayName("Character Name")]
         public string CharacterName { get; set; }
         [DisplayName("Character Race")]
-        public PlayableRaceView Race { get; set; }
+        public string RaceName { get; set; }
         [DisplayName("Character Class")]
-        public PlayableClassView CharacterClass { get; set; }
+        public string CharacterClassName { get; set; }
         public bool IsTemplate { get; set; }
     }
 }

@@ -13,10 +13,10 @@ namespace OstreCWEB.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<PlayableCharacter> builder)
         {
-            builder.Navigation(e => e.CharacterClass).AutoInclude();
-            builder.Navigation(e => e.Race).AutoInclude();
-            builder.Navigation(e => e.LinkedAbilities).AutoInclude();
-            builder.Navigation(e => e.LinkedItems).AutoInclude();
+            //    builder.Navigation(e => e.CharacterClass).AutoInclude();
+            //    builder.Navigation(e => e.Race).AutoInclude();
+            //    builder.Navigation(e => e.LinkedAbilities).AutoInclude();
+            //    builder.Navigation(e => e.LinkedItems).AutoInclude();
 
             builder
                .HasOne(r => r.Race)

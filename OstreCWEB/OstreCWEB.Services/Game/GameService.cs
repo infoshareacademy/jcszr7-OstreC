@@ -42,7 +42,7 @@ namespace OstreCWEB.Services.Game
             if (user.UserParagraphs.Count >= 5) { throw new Exception(); }
             var newGameInstance = new UserParagraph();
 
-            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId); 
+            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId);
             newGameInstance.Paragraph = await _storyRepository.GetParagraphById(story.FirstParagraphId);
 
             var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId);
@@ -50,6 +50,12 @@ namespace OstreCWEB.Services.Game
             newCharacterInstance.UserId = userId;
             newGameInstance.ActiveCharacter = newCharacterInstance;
             newGameInstance.ActiveGame = true;
+
+
+            newGameInstance.RelatedStoryName = story.Name;
+            newGameInstance.RelatedCharacterName = notTrackedCharacter.CharacterName;
+            newGameInstance.RelatedCharacterRace = notTrackedCharacter.Race.RaceName;
+            newGameInstance.RelatedCharacterClass = notTrackedCharacter.CharacterClass.ClassName;
 
             user.UserParagraphs.ForEach(c => c.ActiveGame = false);
             user.UserParagraphs.Add(newGameInstance);

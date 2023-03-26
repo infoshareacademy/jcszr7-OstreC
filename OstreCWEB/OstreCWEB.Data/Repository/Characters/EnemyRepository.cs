@@ -18,9 +18,9 @@ namespace OstreCWEB.Repository.Repository.Characters
 
         public async Task<IReadOnlyCollection<Enemy>> GetAllTemplatesAsync()
         {
-            return _context.Enemies
+            return await _context.Enemies
                 .Where(e => e.IsTemplate)
-                .ToList();
+                .ToListAsync();
         }  
     }
 }

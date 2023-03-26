@@ -13,8 +13,8 @@ namespace OstreCWEB.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<AbilitiesCharacter> builder)
         {
-            builder.Navigation(e => e.CharacterAction).AutoInclude();
-            builder.Navigation(e => e.Character).AutoInclude();
+            //builder.Navigation(e => e.CharacterAction).AutoInclude();
+            //builder.Navigation(e => e.Character).AutoInclude();
 
             builder
                .HasKey(x => new { x.CharacterId, x.CharacterActionId });

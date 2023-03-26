@@ -18,7 +18,15 @@ namespace OstreCWEB.Repository.Repository.Characters
         {
             return await _db.PlayableCharacters.Where(x => x.IsTemplate).ToListAsync();
         }
-
+        public async Task<List<PlayableCharacter>> GetAllTemplatesForLobby(int id)
+        {
+            return await _db.PlayableCharacters
+                .Where(x => x.IsTemplate) 
+                .Include(x => x.Race)
+                .Include(x => x.CharacterClass)
+                .AsNoTracking()
+                .ToListAsync();
+        } 
         /// <summary>
         /// Gets all playable characters except those belonging to a given user.
         /// </summary>
@@ -36,6 +44,7 @@ namespace OstreCWEB.Repository.Repository.Characters
                  .ThenInclude(y => y.ActionsGrantedByClass)
                  .Include(x => x.CharacterClass)
                  .ThenInclude(y => y.ItemsGrantedByClass)
+                 .Include(x => x.Race) 
                  .AsNoTracking()
                  .SingleOrDefaultAsync(x => x.Id == characterTemplateId);
         }

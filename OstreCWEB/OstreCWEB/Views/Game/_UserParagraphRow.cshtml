@@ -8,23 +8,21 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Name"></Label></th>
-                        <th scope="col"> <Label asp-for=" FirstOrDefault().Story.AmountOfParagraphs"></Label></th>
-                        <th scope="col"> <Label asp-for=" FirstOrDefault().Story.Description"></Label></th>
-                        <th scope="col"> <Label asp-for=" FirstOrDefault().ActiveCharacter.CharacterName"></Label></th>
-                        <th scope="col"> <Label asp-for=" FirstOrDefault().ActiveCharacter.CharacterClass.ClassName"></Label></th>
-                        <th scope="col"> <Label asp-for=" FirstOrDefault().Paragraph.StageDescription"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().RelatedStoryName"></Label></th> 
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().RelatedCharacterName"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().RelatedCharacterRace"></Label></th>
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().RelatedCharacterClass"></Label></th> 
+                    <th scope="col"> <Label asp-for=" FirstOrDefault().Paragraph.StageDescription"></Label></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var gameSession in Model)
                     {
                         <tr>
-                            <th scope="row">@gameSession.Story.Name</th>
-                            <td>@gameSession.Story.AmountOfParagraphs</td>
-                            <td>@gameSession.Story.Description</td>
-                            <td>@gameSession.ActiveCharacter.CharacterName</td>
-                            <td>@gameSession.ActiveCharacter.CharacterClass.ClassName</td>
+                            <th scope="row">@gameSession.RelatedStoryName</th>
+                            <td>@gameSession.RelatedCharacterName</td>
+                            <td>@gameSession.RelatedCharacterRace</td>
+                            <td>@gameSession.RelatedCharacterClass</td> 
                             <td>@gameSession.Paragraph.StageDescription</td>
                             <td>
                                 <a asp-controller="Game" asp-action="LoadGame" asp-route-id="@gameSession.Id" type="button" class="btn btn-primary">Load Save</a>

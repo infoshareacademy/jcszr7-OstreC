@@ -69,7 +69,8 @@ namespace OstreCWEB.Repository.Repository.ManyToMany
                         .ThenInclude(pi => pi.Item)
                 .Include(x => x.ActiveCharacter)
                 .SingleOrDefaultAsync(s => s.User.Id == userId && s.ActiveGame);
-        }
+        } 
+
         public async Task<UserParagraph> GetActiveByUserIdNoTrackingAsync(int userId)
         {
             var result = await _context.UserParagraphs

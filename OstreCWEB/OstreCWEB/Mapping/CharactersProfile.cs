@@ -11,7 +11,9 @@ namespace OstreCWEB.Mapping
         {
             CreateMap<PlayableCharacter, CharacterView>();
             CreateMap<PlayableCharacter, PlayableCharacterView>();
-            CreateMap<PlayableCharacter, PlayableCharacterRow>();
+            CreateMap<PlayableCharacter, PlayableCharacterRow>()
+                .ForMember(x => x.RaceName, member => member.MapFrom(source => source.Race.RaceName))
+                 .ForMember(x => x.CharacterClassName, member => member.MapFrom(source => source.CharacterClass.ClassName));
             CreateMap<Enemy, CharacterView>();
             CreateMap<Ability, AbilityView>();
             CreateMap<Item, ItemView>();

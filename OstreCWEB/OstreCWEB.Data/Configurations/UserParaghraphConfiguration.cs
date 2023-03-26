@@ -14,9 +14,9 @@ namespace OstreCWEB.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<UserParagraph> builder)
         {
-            builder.Navigation(e => e.Paragraph).AutoInclude();
-            builder.Navigation(e => e.ActiveCharacter).AutoInclude();
-            builder.Navigation(e => e.User).AutoInclude();
+            //builder.Navigation(e => e.Paragraph).AutoInclude();
+            //builder.Navigation(e => e.ActiveCharacter).AutoInclude();
+            //builder.Navigation(e => e.User).AutoInclude();
 
             builder
                  .HasOne(x => x.ActiveCharacter)

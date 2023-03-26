@@ -12,8 +12,7 @@ namespace OstreCWEB.Mapping
     {
         public GameProfile()
         {
-            CreateMap<UserParagraph, UserParagraphView>()
-                .ForMember(dest => dest.Story, options => options.Ignore());
+            CreateMap<UserParagraph, UserParagraphView>();
             CreateMap<Paragraph, CurrentParagraphView>();
             CreateMap<Choice, CurrentChoicesView>();
             CreateMap<PlayableCharacter, CurrentCharacterView>().

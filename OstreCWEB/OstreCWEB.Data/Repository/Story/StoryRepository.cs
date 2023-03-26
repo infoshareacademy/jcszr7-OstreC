@@ -20,10 +20,14 @@ namespace OstreCWEB.Repository.Repository.StoryModels
         {
             return _ostreCWebContext.Stories.Any(story => story.Id == storyId);
         }
-        public async Task<IReadOnlyCollection<Story>> GetAllStories()
+        public async Task<IReadOnlyCollection<Story>> GetAllStoriesAsyncNoTrackingAsync()
+        {
+            return _ostreCWebContext.Stories.AsNoTracking().ToList();
+        }
+        public async Task<IReadOnlyCollection<Story>> GetAllStoriesAsync()
         {
             return _ostreCWebContext.Stories
-                .Include(s => s.Paragraphs)
+                .Include(s => s.Paragraphs) 
                 .ToList();
         }
 

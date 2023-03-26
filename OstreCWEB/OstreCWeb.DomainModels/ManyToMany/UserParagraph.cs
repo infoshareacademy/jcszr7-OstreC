@@ -16,6 +16,10 @@ namespace OstreCWEB.DomainModels.ManyToMany
         public PlayableCharacter? ActiveCharacter { get; set; }
         public int? ActiveCharacterId { get; set; }
         public bool ActiveGame { get; set; }
+        public string RelatedCharacterName { get; set; }
+        public string RelatedCharacterRace { get; set; }
+        public string RelatedCharacterClass { get; set; }
+        public string RelatedStoryName { get; set; }
         public bool Rest { get; set; }
     }
 }

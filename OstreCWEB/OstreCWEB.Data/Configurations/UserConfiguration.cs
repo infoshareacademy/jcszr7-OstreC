@@ -13,10 +13,10 @@ namespace OstreCWEB.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Navigation(e => e.UserParagraphs).AutoInclude();
-            builder.Navigation(e => e.StoriesCreated).AutoInclude();
-            builder.Navigation(e => e.CharactersCreated).AutoInclude();
-            builder.Navigation(e => e.UserParagraphs).AutoInclude();
+            //builder.Navigation(e => e.UserParagraphs).AutoInclude();
+            //builder.Navigation(e => e.StoriesCreated).AutoInclude();
+            //builder.Navigation(e => e.CharactersCreated).AutoInclude();
+            //builder.Navigation(e => e.UserParagraphs).AutoInclude();
         }
     }
 }

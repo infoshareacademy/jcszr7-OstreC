@@ -49,14 +49,14 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingOne">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    <label asp-for="@Model.User.UserParagraphs"></label>
+                                    <label asp-for="@Model.UserParagraphs"></label>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                    @if (Model.User.UserParagraphs != null && Model.User.UserParagraphs.Any())
+                                    @if (@Model.UserParagraphs != null && @Model.UserParagraphs.Any())
                                     {
-                                        <partial name="_UserParagraphRow" model="@Model.User.UserParagraphs" />
+                                        <partial name="_UserParagraphRow" model="@Model.UserParagraphs" />
                                     }
                                 </div>
                             </div>
@@ -64,14 +64,14 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                    <label asp-for="@Model.User.CharactersCreated"></label>
+                                    <label asp-for="@Model.UserCharacters"></label>
                                 </button>
                             </h2>
                             <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                    @if (Model.User.CharactersCreated != null && Model.User.CharactersCreated.Any())
+                                    @if (@Model.UserCharacters != null && @Model.UserCharacters.Any())
                                     {
-                                        <partial name="_PlayableCharacterRow" model="@Model.User.CharactersCreated" />
+                                        <partial name="_PlayableCharacterRow" model="@Model.UserCharacters" />
                                     }
                                     else
                                     {
@@ -84,14 +84,14 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                    <label asp-for="@Model.User.StoriesCreated"></label>
+                                    <label asp-for="@Model.UserStories"></label>
                                 </button>
                             </h2>
                             <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body"> 
-                                    @if (Model.User.StoriesCreated != null && Model.User.StoriesCreated.Any())
+                                    @if (@Model.UserStories != null && @Model.UserStories.Any())
                                     {
-                                        <partial name="_StoryRow" model="@Model.User.StoriesCreated" />
+                                        <partial name="_StoryRow" model="@Model.UserStories" />
                                     }
                                     else
                                     {

@@ -13,8 +13,8 @@ namespace OstreCWEB.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<Item> builder)
         { 
-            builder.HasKey(x => x.Id);  
-            builder.Navigation(e => e.Ability).AutoInclude();
+            //builder.HasKey(x => x.Id);  
+            //builder.Navigation(e => e.Ability).AutoInclude();
             builder
                 .HasOne(x => x.Ability)
                 .WithMany(x => x.LinkedItems)

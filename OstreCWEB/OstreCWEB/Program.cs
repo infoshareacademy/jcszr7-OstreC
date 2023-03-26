@@ -30,8 +30,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options => { options.Store
 .AddRoles<IdentityRole<int>>()
 .AddDefaultTokenProviders(); 
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer(); 
 
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Login/Login");
 
@@ -73,8 +72,7 @@ app.Services.GetRequiredService<IMapper>().ConfigurationProvider.AssertConfigura
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(); 
+
 }
 else
 {

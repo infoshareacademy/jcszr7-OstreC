@@ -13,7 +13,7 @@ namespace OstreCWEB.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<Ability> builder)
         {
-            builder.Navigation(e => e.Status).AutoInclude();
+            //builder.Navigation(e => e.Status).AutoInclude();
 
             builder
                 .HasMany(x => x.LinkedItems)

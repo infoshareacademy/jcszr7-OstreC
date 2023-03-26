@@ -20,6 +20,12 @@ namespace OstreCWEB.Repository.Repository.Identity
             _context = context;
         }
 
+        public async Task<User> GetUserByIdForLobbyAsync(int id)
+        {
+            return await _context.Users
+               .Include(x => x.UserParagraphs) 
+               .SingleOrDefaultAsync(x=>x.Id ==id);
+        }
         public async Task<User> GetUserGameStart(int id)
         {
             var user = await _context.Users

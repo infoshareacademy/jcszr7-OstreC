@@ -7,5 +7,6 @@ namespace OstreCWEB.Repository.Repository.Characters.Interfaces
         public Task<List<PlayableCharacter>> GetAllTemplatesAsync();
         public Task<List<PlayableCharacter>> GetAllTemplatesExceptAsync(int id);
         public  Task<PlayableCharacter> GetByIdNoTrackingAsync(int characterTemplateId);
+        public  Task<List<PlayableCharacter>> GetAllTemplatesForLobby(int id);
     }
 }
