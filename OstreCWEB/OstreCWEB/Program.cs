@@ -27,7 +27,7 @@ builder.Services.AddDbContext<OstreCWebContext>(options =>
 builder.Services.AddIdentity<User, IdentityRole<int>>(options => { options.Stores.MaxLengthForKeys = 128; })
 .AddEntityFrameworkStores<OstreCWebContext>()
 .AddRoles<IdentityRole<int>>()
-.AddDefaultTokenProviders(); 
+.AddDefaultTokenProviders();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -72,7 +72,7 @@ app.Services.GetRequiredService<IMapper>().ConfigurationProvider.AssertConfigura
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(); 
+    app.UseSwaggerUI();
 }
 else
 {

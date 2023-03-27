@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Newtonsoft.Json.Linq;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.ManyToMany;
@@ -25,7 +26,7 @@ namespace OstreCWEB.Tests.OstreCWEB.Services.Tests.FightServiceTests
     {
         public FightService _service;
         public Character _character;
-
+        public HttpContextAccessor _httpAccessor;
 
         public SpellCastingModifierTests()
         {
@@ -85,7 +86,7 @@ namespace OstreCWEB.Tests.OstreCWEB.Services.Tests.FightServiceTests
         [InlineData(16, Statistics.Wisdom)]
         [InlineData(12, Statistics.Wisdom)]
         [InlineData(10, Statistics.Wisdom)]
-        public void SpellCastingModifier_ForStrength_ReturnsCalculatedModifier(int value, Statistics statForTest)
+        public void SpellCastingModifier_ForEveryEnum_ReturnsCalculatedModifier(int value, Statistics statForTest)
         {
             //Arrange
             if (statForTest == Statistics.Strenght)
@@ -127,6 +128,21 @@ namespace OstreCWEB.Tests.OstreCWEB.Services.Tests.FightServiceTests
             result.Should().Be(expectedModifier);
 
             //Assert.Equal(result,12);
+        }
+
+        [Theory]
+        [InlineData(-10)]
+        [InlineData(-100)]
+        [InlineData(10000000)]
+        public void SpellCastingModifier_ValueOutOfRange_ThrowsException(int value)
+        {
+            //Arrange
+            _character.Strenght = value;
+            // Act
+            Func<int> result = () => _service.CalculateModifier(_character.Strenght);
+
+            // Assert
+            result.Should().Throw<ArgumentOutOfRangeException>();
         }
     }
 }

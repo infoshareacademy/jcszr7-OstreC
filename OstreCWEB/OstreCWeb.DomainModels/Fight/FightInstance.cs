@@ -3,7 +3,7 @@
 namespace OstreCWEB.DomainModels.Fight
 {
     public class FightInstance
-    {
+    { 
         public List<string> FightHistory { get; set; }
         public List<Enemy> ActiveEnemies { get; set; }
         public PlayableCharacter ActivePlayer { get; set; }
@@ -18,7 +18,6 @@ namespace OstreCWEB.DomainModels.Fight
         public bool ActionGrantedByItem { get; set; }
         public int UserParagraphId { get; set; }
         public bool isPlayerFirst { get; set; }
-
         public int AiFirstTurnCounter { get; set; } = 1;
     }
 }

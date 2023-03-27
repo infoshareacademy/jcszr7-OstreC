@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json.Linq;
-using OstreCWEB.DomainModels.CharacterModels;
+using OstreCWEB.DomainModels.Fight;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.Repository.Factory;
 using OstreCWEB.Repository.Repository.Fight;
@@ -21,11 +20,12 @@ using Xunit;
 
 namespace OstreCWEB.Tests.OstreCWEB.Services.Tests.FightServiceTests
 {
-    public class DiceThrowTests
+    public class ReturnHistoryTests
     {
+
         public FightService _service;
 
-        public DiceThrowTests()
+        public ReturnHistoryTests()
         {
 
             var mockFightRepository = new Mock<IFightRepository>();
@@ -48,40 +48,33 @@ namespace OstreCWEB.Tests.OstreCWEB.Services.Tests.FightServiceTests
                 mockGameService.Object
             );
         }
-
-        [Theory]
-        [InlineData(4)]
-        [InlineData(6)]
-        [InlineData(8)]
-        [InlineData(10)]
-        [InlineData(20)]
-        [InlineData(100)]
-        public void DiceThrow_For1000Throws_ReturnsValuesInRange(int diceValue)
+        [Fact]
+        public void ReturnHistory_ReturnsFightHistory_WhenFightInstanceIsNotNull()
         {
-            int numberOfTests = 1000;
-
-            for (int i = 0; i < numberOfTests; i++)
+            // Arrange
+            var fightInstance = new FightInstance
             {
-                var result = _service.DiceThrow(diceValue);
+                FightHistory = new List<string> { "some text", "another text" }
+            };
 
-                Assert.InRange(result, 1, diceValue);
-            }
+            // Act
+            var result = _service.ReturnHistory(fightInstance);
 
+            // Assert
+            Assert.Equal(fightInstance.FightHistory, result);
         }
 
         [Fact]
-        public void DiceThrow_NegativeDiceValue_ThrowsException()
+        public void ReturnHistory_ReturnsNull_WhenFightInstanceIsNull()
         {
-            //Arrange
+            // Arrange
+            FightInstance fightInstance = null;
 
-            var diceValue = -10;
             // Act
-            Func<int> result = () => _service.DiceThrow(diceValue);
+            Func<List<string>> result = () => _service.ReturnHistory(fightInstance);
 
             // Assert
-
             result.Should().Throw<Exception>();
         }
-
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.Fight;
-using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.Repository.Factory;
 using OstreCWEB.Repository.Repository.Fight;
@@ -92,13 +90,7 @@ namespace OstreCWEB.Services.Fight
             }
         }
 
-        //public FightInstance GetActiveFightInstance(int userId, int characterId)
-        //{
-        //    var httpUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //    _activeFightInstance = _fightRepository.GetById(userId, characterId);
-        //    return _activeFightInstance;
-        //}
-
+        //0 reference?
         public bool ValidateFightInstanceModel(FightInstance model)
         {
             if (model.ActivePlayer != null)
@@ -116,20 +108,11 @@ namespace OstreCWEB.Services.Fight
             var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
             fightInstance.FightHistory.Add("Fight initialized");
 
-            if(IsPlayerFirst(fightInstance))
+            if (IsPlayerFirst(fightInstance))
             {
                 fightInstance.isPlayerFirst = true;
             }
             else fightInstance.isPlayerFirst = false;
-
-
-            //var playerInitiative = InitiativeCheck(fightInstance.ActivePlayer);
-            //var enemiesInitiative = InitiativeCheck(fightInstance.ActiveEnemies.FirstOrDefault());
-            //if (playerInitiative >= enemiesInitiative)
-            //{
-            //    fightInstance.isPlayerFirst = true;
-            //}
-            //else fightInstance.isPlayerFirst = false;
 
             _fightRepository.Add(userId, fightInstance, out string operationResult);
             return fightInstance;
@@ -200,7 +183,7 @@ namespace OstreCWEB.Services.Fight
             }
             else
             {
-           fightInstance.ActiveTarget = fightInstance.ActiveEnemies.First(a => a.CombatId == id);
+                fightInstance.ActiveTarget = fightInstance.ActiveEnemies.First(a => a.CombatId == id);
             }
         }
 
@@ -228,7 +211,7 @@ namespace OstreCWEB.Services.Fight
         public Character GetActiveTarget(FightInstance fightInstance) => fightInstance.ActiveTarget;
         public Ability GetActiveActions(FightInstance fightInstance) => fightInstance.ActiveAction;
 
-        public async Task SetActiveActionFromItem(FightInstance fightInstance,int id)
+        public async Task SetActiveActionFromItem(FightInstance fightInstance, int id)
         {
             var chosenItem = fightInstance.ActivePlayer.LinkedItems.First(i => i.Id == id);
             fightInstance.IsItemToDelete = false;
