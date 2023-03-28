@@ -236,7 +236,7 @@ namespace OstreCWEB.Services.Fight
         private PlayableCharacter GetActivePlayer(FightInstance fightInstance) => fightInstance.ActivePlayer;
         private int UpdateTurnNumber(int turnNumber) => turnNumber += 1;
 
-        private List<string> UpdateFightHistory(List<string> FightHistory, string message)
+        public List<string> UpdateFightHistory(List<string> FightHistory, string message)
         {
             FightHistory.Add(message);
             return FightHistory;
@@ -397,7 +397,7 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        private int CheckArmor(Character target)
+        public int CheckArmor(Character target)
         {
             int? armor = 0;
             foreach (var item in target.LinkedItems)
@@ -424,7 +424,7 @@ namespace OstreCWEB.Services.Fight
                 character.ActiveStatuses.Add(status);
             }
         }
-        private int ApplyDamage(Character target, Ability actions, bool savingThrow)
+        public int ApplyDamage(Character target, Ability actions, bool savingThrow)
         {
             var updateValue = 0;
 
