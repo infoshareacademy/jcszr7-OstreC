@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OstreCWEB.DomainModels.Fight;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.Repository.Repository.Fight;
 using OstreCWEB.Repository.Repository.ManyToMany;
@@ -14,7 +15,7 @@ namespace OstreCWEB.Controllers
     [Authorize]
     public class FightController : Controller
     {
-        private IFightService _fightService; 
+        private IFightService _fightService;
         private IUserService _userService;
         private IGameService _gameService;
         private readonly IMapper _mapper;
@@ -30,7 +31,7 @@ namespace OstreCWEB.Controllers
             ILogger<FightController> logger,
             IGameService gameService
             )
-        { 
+        {
             _fightService = fightService;
             _mapper = mapper;
             _userService = userService;
@@ -38,119 +39,114 @@ namespace OstreCWEB.Controllers
             _logger = logger;
             _gameService = gameService;
         }
-        [HttpGet]
-        public async Task<ActionResult> InitializeFight()
-        {
-            try
-            {
-                var gameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
 
-                if (gameInstance != null && gameInstance.Paragraph.FightProp != null)
-                {
-                    await _fightService.InitializeFightAsync(_userService.GetUserId(User), gameInstance);
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Game");
-                }
-            }
-            catch (Exception ex)
-            { 
-                _logger.LogDebug($"{ex.Message} // Initialize fight was called but a fight instance already exists for this user.");
-            }
-            return RedirectToAction(nameof(FightView));
-        }
         public async Task<ActionResult> FightView()
         {
-            var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
-            var model = new FightViewModel();
-            //Each game instance character id is unique. We make sure each figh instance is unique too.Players can have multiple saves per story.
-            if (activeFightInstance != null && activeFightInstance.ActivePlayer.Id == activeGameInstance.ActiveCharacter.Id)
-            {
-                model = _mapper.Map<FightViewModel>(activeFightInstance);
-                return View(model);
+            //try
+            //{
+                var fightInstance = await _fightService.GetFightInstanceAsync();
+                if (fightInstance != null)
+                {
+                    var model = _mapper.Map<FightViewModel>(fightInstance);
+                return View("FightView", model);
             }
-            else
-            {
-                return RedirectToAction(nameof(InitializeFight));
-            }
+                return RedirectToAction("Game", "Index");
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex.Message);
+            //}
+            return RedirectToAction("Game", "Index");
         }
         [HttpGet]
         public async Task<ActionResult> SetActiveAction(int id)
         {
-            var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
-            activeFightInstance.ActionGrantedByItem = false;
-            _fightService.UpdateActiveAction(_fightService.ChooseAction(id));
-            //We reset active target since each action can target different types of targets.
-            _fightService.ResetActiveTarget();
-            return RedirectToAction(nameof(FightView));
+            try
+            {
+                var fightInstance = await _fightService.GetFightInstanceAsync();
+                await _fightService.UpdateActiveActionAsync(id, fightInstance);
+                if (fightInstance != null)
+                {
+                    var model = _mapper.Map<FightViewModel>(fightInstance);
+                    return View("FightView", model);
+                }
+
+                return RedirectToAction("Game", "Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return RedirectToAction("Game", "Index");
         }
         [HttpGet]
         public async Task<ActionResult> SetActiveTarget(int id)
         {
-            var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
-            var target = _fightService.ChooseTarget(id);
-            _fightService.UpdateActiveTarget(target);
-            return RedirectToAction(nameof(FightView));
+            try
+            {
+                var fightInstance = await _fightService.GetFightInstanceAsync();
+                await _fightService.UpdateActiveTargetAsync(id, fightInstance);
+                if (fightInstance != null)
+                {
+                    var model = _mapper.Map<FightViewModel>(fightInstance);
+                    return View("FightView", model);
+                }
+
+                return RedirectToAction("Game", "Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return RedirectToAction("Game", "Index");
+
         }
+
         [HttpGet]
         public async Task<ActionResult> CommitPlayerAction()
         {
-            var userId = _userService.GetUserId(User);
-            var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(userId, activeGameInstance.ActiveCharacter.Id);
-            await _fightService.CommitAction(userId);
-            var fightState = _fightService.GetFightState(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
-            activeFightInstance.ActionGrantedByItem = false;
-            _fightService.ResetActiveTarget();
-            _fightService.ResetActiveAction();
-            
-            if (fightState.CombatFinished)
+
+            try
             {
-                //We apply changes from player from static list to player in db. They get saved during game session update in gameservice.  
-                activeGameInstance.ActiveCharacter.CurrentHealthPoints = activeFightInstance.ActivePlayer.CurrentHealthPoints;
-                activeGameInstance.ActiveCharacter.LinkedAbilities.ForEach(x => x.UsesLeftBeforeRest = activeFightInstance.ActivePlayer.LinkedAbilities.FirstOrDefault(y => y.CharacterActionId == x.CharacterActionId).UsesLeftBeforeRest);
-                for (var i = activeGameInstance.ActiveCharacter.LinkedItems.Count - 1; i >= 0; i--)
+                var userId = _userService.GetUserId(User);
+                var fightInstance = await _fightService.GetFightInstanceAsync();
+                bool isCombatFinished = await _fightService.CommitActionAsync(userId);
+                if (fightInstance != null)
                 {
-                    var contains = false;
-                    var item = activeGameInstance.ActiveCharacter.LinkedItems[i];
-                    activeFightInstance.ActivePlayer.LinkedItems.ForEach(x => { if (x.Id == item.Id) { contains = true; } });
-                    if (!contains) { activeGameInstance.ActiveCharacter.LinkedItems.RemoveAt(i); }
+                    if (!isCombatFinished)
+                    {
+                        var model = _mapper.Map<FightViewModel>(fightInstance);
+                        return View("FightView", model);
+                    }
+                    return RedirectToAction("Index", "StoryReader");
                 }
-                if (fightState.PlayerWon)
-                {
-
-                    await _fightService.DeleteFightInstanceAsync(userId);
-                    await _gameService.NextParagraphAfterFightAsync(activeGameInstance, 1);
-                }
-                else
-                {
-                    await _fightService.DeleteFightInstanceAsync(userId);
-                    await _gameService.NextParagraphAfterFightAsync(activeGameInstance, 0);
-                }
-                return RedirectToAction("Index", "StoryReader");
             }
-
-            return RedirectToAction(nameof(FightView));
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return RedirectToAction("Game", "Index");
         }
         public async Task<ActionResult> SetActiveActionFromItem(int id)
         {
-            var activeGameInstance = await _userParagraphRepository.GetActiveByUserIdNoTrackingAsync(_userService.GetUserId(User));
-            var activeFightInstance = _fightService.GetActiveFightInstance(_userService.GetUserId(User), activeGameInstance.ActiveCharacter.Id);
-            var chosenItem = activeFightInstance.ActivePlayer.LinkedItems.First(i => i.Id == id);
-            activeFightInstance.IsItemToDelete = false;
-            activeFightInstance.ActionGrantedByItem = true;
-            if (chosenItem.Item.DeleteOnUse)
+
+            try
             {
-                _fightService.UpdateItemToRemove(id);
-                activeFightInstance.IsItemToDelete = true;
+                var fightInstance = await _fightService.GetFightInstanceAsync();
+                await _fightService.SetActiveActionFromItem(fightInstance,id);
+                if (fightInstance != null)
+                {
+                    var model = _mapper.Map<FightViewModel>(fightInstance);
+                    return View("FightView",model);
+                }
+                return RedirectToAction("Game", "Index");
             }
-            _fightService.UpdateActiveAction(_fightService.ChooseAction(chosenItem.Item.Ability.Id));
-            _fightService.ResetActiveTarget();
-            return RedirectToAction("FightView");
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return RedirectToAction("Game", "Index");
+
         }
     }
 }

@@ -6,20 +6,18 @@ namespace OstreCWEB.Services.Fight
 {
     public interface IFightService
     {
-        public Character ChooseTarget(int id);
-        public Ability ChooseAction(int id);
-        public Task InitializeFightAsync(int userId, UserParagraph gameInstance);
-        public void UpdateActiveAction(Ability action);
-        public void UpdateActiveTarget(Character character);
-        public List<string> ReturnHistory();
-        public Ability GetActiveActions();
-        public Character GetActiveTarget();
-        public Character ResetActiveTarget();
-        public Task CommitAction(int userId);
-        public FightInstance GetFightState(int userId, int characterId);
-        public FightInstance GetActiveFightInstance(int userId, int characterId);
-        public Task UpdateItemToRemove(int id);
-        public Ability ResetActiveAction();
-        public Task DeleteFightInstanceAsync(int userId);
+        public Task<FightInstance> InitializeFightAsync(int userId, UserParagraph gameInstance);
+        public Task UpdateActiveActionAsync(int id, FightInstance fightInstance);
+        public Task UpdateActiveTargetAsync(int id, FightInstance fightInstance);
+        public Task SetActiveActionFromItem(FightInstance fightInstance, int id);
+        public List<string> ReturnHistory(FightInstance model);
+        public Ability GetActiveActions(FightInstance model);
+        public Character GetActiveTarget(FightInstance model);
+        public Character ResetActiveTarget(FightInstance model);
+        public Task<bool> CommitActionAsync(int userId);
+        //public FightInstance GetActiveFightInstance(int userId, int characterId);
+        public Ability ResetActiveAction(FightInstance model);
+        public Task DeleteFightInstanceAsync(int userId, FightInstance fightInstance);
+        public Task<FightInstance> GetFightInstanceAsync();
     }
 }

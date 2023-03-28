@@ -1,45 +1,96 @@
 ﻿using Microsoft.AspNetCore.Http;
-using OstreCWEB.Repository.Factory;
-using OstreCWEB.Repository.Repository.Characters.Interfaces;
-using OstreCWEB.Repository.Repository.Fight;
-using OstreCWEB.Repository.Repository.ManyToMany;
+using Microsoft.Extensions.Logging;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.Fight;
 using OstreCWEB.DomainModels.ManyToMany;
+using OstreCWEB.Repository.Factory;
+using OstreCWEB.Repository.Repository.Fight;
+using OstreCWEB.Repository.Repository.ManyToMany;
 using OstreCWEB.Services.Factory;
+using OstreCWEB.Services.Game;
+using OstreCWEB.Services.Identity;
 using System.Security.Claims;
-using System;
 
 namespace OstreCWEB.Services.Fight
 {
-    internal class FightService : IFightService
+    public class FightService : IFightService
     {
         private IFightRepository _fightRepository;
-        private FightInstance _activeFightInstance;
-        private IFightFactory _fightFactory; 
-        private ICharacterFactory _characterFactory; 
+        //private FightInstance _activeFightInstance;
+        private IFightFactory _fightFactory;
+        private ICharacterFactory _characterFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private IUserParagraphRepository<UserParagraph> _userParagraphRepository;
+        private IUserService _userService;
+        private readonly ILogger<FightService> _logger;
+        private IGameService _gameService;
 
-        public FightService(
+        public FightService
+            (
             IFightRepository fightRepository,
-            IFightFactory fightFactory, 
-            ICharacterFactory characterFactory, 
-            IHttpContextAccessor httpContextAccessor
+            IFightFactory fightFactory,
+            ICharacterFactory characterFactory,
+            IHttpContextAccessor httpContextAccessor,
+            IUserParagraphRepository<UserParagraph> userParagraphRepository,
+            IUserService userService,
+            ILogger<FightService> logger,
+            IGameService gameService
+
             )
         {
             _fightRepository = fightRepository;
-            _fightFactory = fightFactory; 
-            _characterFactory = characterFactory; 
+            _fightFactory = fightFactory;
+            _characterFactory = characterFactory;
             _httpContextAccessor = httpContextAccessor;
-        }
-        public FightInstance GetActiveFightInstance(int userId, int characterId)
-        {
-            var httpUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _activeFightInstance = _fightRepository.GetById(userId, characterId);
-            return _activeFightInstance;
+            _userParagraphRepository = userParagraphRepository;
+            _userService = userService;
+            _logger = logger;
+            _gameService = gameService;
         }
 
+        public async Task<FightInstance> GetFightInstanceAsync()
+        {
+            var httpUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+
+            var result = int.TryParse(httpUserId, out var httpUserIdInt);
+
+            if (!result)
+            {
+                throw new Exception("Failed to parse id");
+            }
+
+            var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(httpUserIdInt);
+            var fightInstance = _fightRepository.GetById(httpUserIdInt, userParagraph.ActiveCharacter.Id);
+
+            if (fightInstance != null && fightInstance.ActivePlayer.Id == userParagraph.ActiveCharacter.Id)
+            {
+                return fightInstance;
+            }
+            else
+            {
+                try
+                {
+                    if (userParagraph != null && userParagraph.Paragraph.FightProp != null)
+                    {
+                        fightInstance = await InitializeFightAsync(httpUserIdInt, userParagraph);
+                        return fightInstance;
+                    }
+                    else
+                    {
+                        throw new Exception("failed to initialize fight, userParagraph doesnt exist");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogDebug($"{ex.Message} // Initialize fight was called but a fight instance already exists for this user.");
+                }
+                return null;
+            }
+        }
+
+        //0 reference?
         public bool ValidateFightInstanceModel(FightInstance model)
         {
             if (model.ActivePlayer != null)
@@ -51,137 +102,149 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        public async Task InitializeFightAsync(int userId, UserParagraph gameInstance)
+        public async Task<FightInstance> InitializeFightAsync(int userId, UserParagraph gameInstance)
         {
-            if (_activeFightInstance != null) { throw new Exception("Fight already initialized"); }
 
-            if (gameInstance != null && gameInstance.Paragraph.FightProp != null)
+            var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
+            fightInstance.FightHistory.Add("Fight initialized");
+
+            if (IsPlayerFirst(fightInstance))
             {
-                var fightInstance = _fightFactory.BuildNewFightInstance(gameInstance, _characterFactory.CreateEnemiesInstances(gameInstance.Paragraph.FightProp.ParagraphEnemies).Result);
-                fightInstance.FightHistory.Add("Fight initialized");
+                fightInstance.isPlayerFirst = true;
+            }
+            else fightInstance.isPlayerFirst = false;
 
-                var playerInitiative = InitiativeCheck(fightInstance.ActivePlayer);
-                var enemiesInitiative = InitiativeCheck(fightInstance.ActiveEnemies.FirstOrDefault());
-                if (playerInitiative >= enemiesInitiative)
+            _fightRepository.Add(userId, fightInstance, out string operationResult);
+            return fightInstance;
+        }
+
+
+
+        public async Task<bool> CommitActionAsync(int userId)
+        {
+            var activeFightInstance = await GetFightInstanceAsync();
+            var userParagraph = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
+
+            var isplayerFirst = activeFightInstance.isPlayerFirst;
+
+            if (!isplayerFirst && activeFightInstance.AiFirstTurnCounter == 1)
+            {
+                activeFightInstance.FightHistory = UpdateFightHistory(activeFightInstance.FightHistory,
+                "Player has lost an initiaive roll, The monsters will attack now!");
+                StartAiTurn(activeFightInstance);
+                activeFightInstance.AiFirstTurnCounter--;
+            }
+
+            activeFightInstance.PlayerActionCounter--;
+            ApplyAction(activeFightInstance.ActiveTarget, activeFightInstance.ActivePlayer, activeFightInstance.ActiveAction, activeFightInstance);
+
+            if (activeFightInstance.ActiveTarget.CombatId != 1)
+            {
+                if (activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
                 {
-                    fightInstance.isPlayerFirst = true;
+                    activeFightInstance.ActiveEnemies.Remove((Enemy)GetActiveTarget(activeFightInstance));
+                    activeFightInstance.ActiveTarget = null;
                 }
-                else fightInstance.isPlayerFirst = false;
+            }
+            if (activeFightInstance.ActionGrantedByItem && activeFightInstance.IsItemToDelete)
+            {
+                _fightRepository.DeleteLinkedItem(activeFightInstance, activeFightInstance.ItemToDeleteId);
+            }
+            if (!activeFightInstance.ActionGrantedByItem && activeFightInstance.ActiveAction.ActionType != AbilityType.Cantrip)
+            {
+                activeFightInstance.ActivePlayer.LinkedAbilities.First(a => a.CharacterAction.Id == activeFightInstance.ActiveAction.Id).UsesLeftBeforeRest--;
+            }
 
+            if (activeFightInstance.PlayerActionCounter <= 0)
+            {
+                activeFightInstance.PlayerActionCounter = 2;
+                StartAiTurn(activeFightInstance);
+                activeFightInstance.ActivePlayer.ActiveStatuses.Clear();
+                activeFightInstance.ActiveEnemies.ForEach(e => e.ActiveStatuses.Clear());
+                activeFightInstance.TurnNumber = UpdateTurnNumber(activeFightInstance.TurnNumber);
+            }
+            var combatEnded = IsFightFinished(activeFightInstance.ActiveEnemies, GetActivePlayer(activeFightInstance));
+            if (combatEnded)
+            {
+                var fightWon = IsFightWon(activeFightInstance.ActivePlayer);
+                FinishFight(fightWon, activeFightInstance);
+            }
 
+            await EndTurnAsync(activeFightInstance, userParagraph, userId);
+            return activeFightInstance.CombatFinished;
 
-                _fightRepository.Add(userId, fightInstance, out string operationResult);
-
+        }
+        public List<string> ReturnHistory(FightInstance fightInstance) => fightInstance.FightHistory;
+        public async Task UpdateActiveTargetAsync(int id, FightInstance fightInstance)
+        {
+            if (id == fightInstance.ActivePlayer.CombatId)
+            {
+                fightInstance.ActiveTarget = fightInstance.ActivePlayer;
             }
             else
             {
-                throw new Exception("Fight initialization failed. Game instance doesn't exist or active paragraph is not a fight");
+                fightInstance.ActiveTarget = fightInstance.ActiveEnemies.First(a => a.CombatId == id);
             }
         }
 
-        public async Task CommitAction(int userId)
+        public Character ResetActiveTarget(FightInstance fightInstance)
         {
-            var isplayerFirst = _activeFightInstance.isPlayerFirst;
-
-            if (!isplayerFirst && _activeFightInstance.AiFirstTurnCounter == 1)
-            {
-                _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
-                "Player has lost an initiaive roll, The monsters will attack now!");
-                StartAiTurn();
-                _activeFightInstance.AiFirstTurnCounter--;
-            }
-
-            _activeFightInstance.PlayerActionCounter--;
-            ApplyAction(_activeFightInstance.ActiveTarget, _activeFightInstance.ActivePlayer, _activeFightInstance.ActiveAction);
-
-            if (_activeFightInstance.ActiveTarget.CombatId != 1)
-            {
-                if (_activeFightInstance.ActiveTarget.CurrentHealthPoints <= 0)
-                {
-                    _activeFightInstance.ActiveEnemies.Remove((Enemy)GetActiveTarget());
-                    _activeFightInstance.ActiveTarget = null;
-                }
-            }
-            if (_activeFightInstance.ActionGrantedByItem && _activeFightInstance.IsItemToDelete)
-            {
-                _fightRepository.DeleteLinkedItem(_activeFightInstance, _activeFightInstance.ItemToDeleteId);
-            }
-            if (!_activeFightInstance.ActionGrantedByItem && _activeFightInstance.ActiveAction.ActionType != AbilityType.Cantrip)
-            {
-                _activeFightInstance.ActivePlayer.LinkedAbilities.First(a => a.CharacterAction.Id == _activeFightInstance.ActiveAction.Id).UsesLeftBeforeRest--;
-            }
-
-            if (_activeFightInstance.PlayerActionCounter <= 0)
-            {
-                _activeFightInstance.PlayerActionCounter = 2;
-                StartAiTurn();
-                _activeFightInstance.ActivePlayer.ActiveStatuses.Clear();
-                _activeFightInstance.ActiveEnemies.ForEach(e => e.ActiveStatuses.Clear());
-                _activeFightInstance.TurnNumber = UpdateTurnNumber(_activeFightInstance.TurnNumber);
-            }
-            var combatEnded = IsFightFinished(_activeFightInstance.ActiveEnemies, GetActivePlayer());
-            if (combatEnded)
-            {
-                var fightWon = IsFightWon(_activeFightInstance.ActivePlayer);
-                FinishFight(fightWon);
-            }
-
+            fightInstance.ActiveTarget = new PlayableCharacter();
+            return fightInstance.ActiveTarget;
         }
-        public List<string> ReturnHistory() => _activeFightInstance.FightHistory;
-        public void UpdateActiveTarget(Character character)
+        public Ability ResetActiveAction(FightInstance fightInstance)
         {
-            _activeFightInstance.ActiveTarget = character;
+            fightInstance.ActiveAction = new Ability();
+            return fightInstance.ActiveAction;
         }
-        public Ability ChooseAction(int id) => _activeFightInstance.ActivePlayer.AllAbilities.First(a => a.Id == id);
-        public Character ChooseTarget(int id)
-        {
-            if (id == _activeFightInstance.ActivePlayer.CombatId)
-            {
-                return _activeFightInstance.ActivePlayer;
-            }
-            return _activeFightInstance.ActiveEnemies.First(a => a.CombatId == id);
-        }
-        public Character ResetActiveTarget()
-        {
-            //We  create playable character instance and replace the active target with null values. Character class is abstract.   
-            _activeFightInstance.ActiveTarget = new PlayableCharacter();
-            return _activeFightInstance.ActiveTarget;
-        }
-        public Ability ResetActiveAction()
-        {
-            //We  create playable character instance and replace the active target with null values. Character class is abstract.   
-            _activeFightInstance.ActiveAction = new Ability();
-            return _activeFightInstance.ActiveAction;
-        }
-        private void StartAiTurn()
+        private void StartAiTurn(FightInstance fightInstance)
         {
             var random = new Random();
 
-            foreach (var enemy in _activeFightInstance.ActiveEnemies)
+            foreach (var enemy in fightInstance.ActiveEnemies)
             {
                 var result = random.Next(0, enemy.AllAbilities.Count());
                 var enemyAction = enemy.AllAbilities[result];
-                ApplyAction(_activeFightInstance.ActivePlayer, enemy, enemyAction);
+                ApplyAction(fightInstance.ActivePlayer, enemy, enemyAction, fightInstance);
             }
         }
-        public FightInstance GetFightState(int userId, int characterId) => _fightRepository.GetById(userId, characterId);
-        public Character GetActiveTarget() => _activeFightInstance.ActiveTarget;
-        public Ability GetActiveActions() => _activeFightInstance.ActiveAction;
-        public void UpdateActiveAction(Ability action)
+        public Character GetActiveTarget(FightInstance fightInstance) => fightInstance.ActiveTarget;
+        public Ability GetActiveActions(FightInstance fightInstance) => fightInstance.ActiveAction;
+
+        public async Task SetActiveActionFromItem(FightInstance fightInstance, int id)
         {
-            _activeFightInstance.ActiveAction = action;
+            var chosenItem = fightInstance.ActivePlayer.LinkedItems.First(i => i.Id == id);
+            fightInstance.IsItemToDelete = false;
+            fightInstance.ActionGrantedByItem = true;
+            if (chosenItem.Item.DeleteOnUse)
+            {
+                fightInstance.ItemToDeleteId = id;
+                fightInstance.IsItemToDelete = true;
+            }
+            var chosenAction = fightInstance.ActivePlayer.AllAbilities.First(a => a.Id == chosenItem.Item.Ability.Id);
+            fightInstance.ActiveAction = chosenAction;
+            ResetActiveTarget(fightInstance);
         }
-        private PlayableCharacter GetActivePlayer() => _activeFightInstance.ActivePlayer;
+        public async Task UpdateActiveActionAsync(int id, FightInstance fightInstance)
+        {
+
+            var chosenAction = fightInstance.ActivePlayer.AllAbilities.First(a => a.Id == id);
+            fightInstance.ActionGrantedByItem = false;
+            fightInstance.ActiveAction = chosenAction;
+            ResetActiveTarget(fightInstance);
+        }
+        private PlayableCharacter GetActivePlayer(FightInstance fightInstance) => fightInstance.ActivePlayer;
         private int UpdateTurnNumber(int turnNumber) => turnNumber += 1;
 
-        private List<string> UpdateFightHistory(List<string> FightHistory, string message)
+        public List<string> UpdateFightHistory(List<string> FightHistory, string message)
         {
             FightHistory.Add(message);
             return FightHistory;
         }
 
-        private void ApplyAction(Character target, Character caster, Ability action)
+        private void ApplyAction(Character target, Character caster, Ability action, FightInstance fightInstance)
         {
+
             var IsHit = IsTargetHit(target, caster, action);
 
             if (IsHit)
@@ -197,7 +260,7 @@ namespace OstreCWEB.Services.Fight
                         ApplyStatus(target, action.Status);
                     }
 
-                    _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                    fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName} using {action.AbilityName}" +
                            $" saving throw was {(savingThrow ? "successful" : "failed")}, " +
@@ -216,7 +279,7 @@ namespace OstreCWEB.Services.Fight
 
                         if (IsTargetAlive(target))
                         {
-                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName}  using {action.AbilityName}" +
                            GetLogCharacterIsBlind(caster) +
@@ -224,7 +287,7 @@ namespace OstreCWEB.Services.Fight
                         }
                         else
                         {
-                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                            $" {target.CharacterName} lost {damage} healthpoints, current healthpoints {target.CurrentHealthPoints}," +
                            $" due to {caster.CharacterName}  using {action.AbilityName} and died" +
                            GetLogCharacterIsBlind(caster) +
@@ -235,13 +298,13 @@ namespace OstreCWEB.Services.Fight
                     {
                         if (action.AbilityName == "Bless")
                         {
-                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                                                         $" {target.CharacterName} used bless on himself!");
                         }
                         else
                         {
                             var heal = ApplyHeal(target, action, savingThrow);
-                            _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                            fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                                 $" {target.CharacterName} gained {heal} healthpoints, current healthpoints {target.MaxHealthPoints}," +
                                 $" due to {caster.CharacterName}  using {action.AbilityName}");
                         }
@@ -252,7 +315,7 @@ namespace OstreCWEB.Services.Fight
             }
             else
             {
-                _activeFightInstance.FightHistory = UpdateFightHistory(_activeFightInstance.FightHistory,
+                fightInstance.FightHistory = UpdateFightHistory(fightInstance.FightHistory,
                                             $" {caster.CharacterName} tried to use {action.AbilityName} on {target.CharacterName}, but have missed");
             }
 
@@ -272,10 +335,10 @@ namespace OstreCWEB.Services.Fight
 
         }
 
-        private bool IsPlayerFirst()
+        private bool IsPlayerFirst(FightInstance fightInstance)
         {
-            var playerInitiative = InitiativeCheck(_activeFightInstance.ActivePlayer);
-            var enemyInitiaive = InitiativeCheck(_activeFightInstance.ActiveEnemies.FirstOrDefault());
+            var playerInitiative = InitiativeCheck(fightInstance.ActivePlayer);
+            var enemyInitiaive = InitiativeCheck(fightInstance.ActiveEnemies.FirstOrDefault());
             if (playerInitiative >= enemyInitiaive)
             {
                 return true;
@@ -334,7 +397,7 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        private int CheckArmor(Character target)
+        public int CheckArmor(Character target)
         {
             int? armor = 0;
             foreach (var item in target.LinkedItems)
@@ -361,7 +424,7 @@ namespace OstreCWEB.Services.Fight
                 character.ActiveStatuses.Add(status);
             }
         }
-        private int ApplyDamage(Character target, Ability actions, bool savingThrow)
+        public int ApplyDamage(Character target, Ability actions, bool savingThrow)
         {
             var updateValue = 0;
 
@@ -454,7 +517,7 @@ namespace OstreCWEB.Services.Fight
 
             }
         }
-        private int SpellCastingModifier(Character caster, Statistics statsForTest)
+        public int SpellCastingModifier(Character caster, Statistics statsForTest)
         {
             switch (statsForTest)
             {
@@ -476,7 +539,7 @@ namespace OstreCWEB.Services.Fight
         }
 
 
-        private int CalculateModifier(int value)
+        public int CalculateModifier(int value)
         {
             List<int> numbers = new List<int>() {
                    -5,-4,-4,-3,-3,-2,-2,-1,-1, 0,
@@ -490,17 +553,17 @@ namespace OstreCWEB.Services.Fight
         {
             return DiceThrow(20);
         }
-        private int DiceThrow(int maxValue)
+        public int DiceThrow(int maxValue)
         {
             Random rand = new Random();
             var diceThrowResult = rand.Next(1, maxValue + 1);
             return diceThrowResult;
         }
-        private void FinishFight(bool playerWon)
+        private void FinishFight(bool playerWon, FightInstance fightInstance)
         {
-            _activeFightInstance.CombatFinished = true;
-            if (playerWon) { _activeFightInstance.PlayerWon = true; return; }
-            _activeFightInstance.PlayerWon = false;
+            fightInstance.CombatFinished = true;
+            if (playerWon) { fightInstance.PlayerWon = true; return; }
+            fightInstance.PlayerWon = false;
         }
         private bool IsFightFinished(List<Enemy> activeEnemies, PlayableCharacter activePlayer)
         {
@@ -513,19 +576,16 @@ namespace OstreCWEB.Services.Fight
             else { return false; }
         }
 
-        public async Task RemoveItem()
+        public async Task RemoveItem(FightInstance fightInstance)
         {
-            var itemToDelete = _activeFightInstance.ItemToDeleteId;
-            _fightRepository.DeleteLinkedItem(_activeFightInstance, itemToDelete);
+            var itemToDelete = fightInstance.ItemToDeleteId;
+            _fightRepository.DeleteLinkedItem(fightInstance, itemToDelete);
         }
 
-        public async Task UpdateItemToRemove(int id)
+
+        public async Task DeleteFightInstanceAsync(int userId, FightInstance fightInstance)
         {
-            _activeFightInstance.ItemToDeleteId = id;
-        }
-        public async Task DeleteFightInstanceAsync(int userId)
-        {
-            _fightRepository.Delete(userId, _activeFightInstance.ActivePlayer.Id, out string operationResult);
+            _fightRepository.Delete(userId, fightInstance.ActivePlayer.Id, out string operationResult);
         }
 
         public bool IsBlind(Character character)
@@ -537,7 +597,7 @@ namespace OstreCWEB.Services.Fight
         {
             if (IsBlind(character))
             {
-                return "attack was made with disadventage due to blind status";
+                return "attack was made with disadvantage due to blind status";
             }
             return "";
         }
@@ -555,5 +615,39 @@ namespace OstreCWEB.Services.Fight
             }
             return "";
         }
+
+        public async Task EndTurnAsync(FightInstance fightInstance, UserParagraph userParagraph, int userId)
+        {
+            fightInstance.ActionGrantedByItem = false;
+            ResetActiveTarget(fightInstance);
+            ResetActiveAction(fightInstance);
+
+            if (fightInstance.CombatFinished)
+            {
+                //We apply changes from player from static list to player in db. They get saved during game session update in gameservice.
+                userParagraph.ActiveCharacter.CurrentHealthPoints = fightInstance.ActivePlayer.CurrentHealthPoints;
+                userParagraph.ActiveCharacter.LinkedAbilities.ForEach(x => x.UsesLeftBeforeRest = fightInstance.ActivePlayer.LinkedAbilities.FirstOrDefault(y => y.CharacterActionId == x.CharacterActionId).UsesLeftBeforeRest);
+                for (var i = userParagraph.ActiveCharacter.LinkedItems.Count - 1; i >= 0; i--)
+                {
+                    var contains = false;
+                    var item = userParagraph.ActiveCharacter.LinkedItems[i];
+                    fightInstance.ActivePlayer.LinkedItems.ForEach(x => { if (x.Id == item.Id) { contains = true; } });
+                    if (!contains) { userParagraph.ActiveCharacter.LinkedItems.RemoveAt(i); }
+                }
+                if (fightInstance.PlayerWon)
+                {
+
+                    await DeleteFightInstanceAsync(userId, fightInstance);
+                    await _gameService.NextParagraphAfterFightAsync(userParagraph, 1);
+                }
+                else
+                {
+                    await DeleteFightInstanceAsync(userId, fightInstance);
+                    await _gameService.NextParagraphAfterFightAsync(userParagraph, 0);
+                }
+
+            }
+        }
+
     }
 }

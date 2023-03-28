@@ -2,7 +2,7 @@
 
 namespace OstreCWEB.Repository.Repository.Fight
 {
-    internal class FightRepository : IFightRepository
+    public class FightRepository : IFightRepository
     {
         private static List<KeyValuePair<int, FightInstance>> FightInstances { get; set; } = new List<KeyValuePair<int, FightInstance>>();
 
