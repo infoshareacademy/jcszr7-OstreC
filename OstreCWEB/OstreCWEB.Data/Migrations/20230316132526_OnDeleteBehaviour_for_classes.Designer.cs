@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OstreCWEB.Repository.DataBase;
 
@@ -11,9 +12,10 @@ using OstreCWEB.Repository.DataBase;
 namespace OstreCWEB.Repository.Migrations
 {
     [DbContext(typeof(OstreCWebContext))]
-    partial class OstreCWebContextModelSnapshot : ModelSnapshot
+    [Migration("20230316132526_OnDeleteBehaviour_for_classes")]
+    partial class OnDeleteBehaviour_for_classes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -541,24 +543,16 @@ namespace OstreCWEB.Repository.Migrations
 
             modelBuilder.Entity("OstreCWEB.DomainModels.ManyToMany.ParagraphItem", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AmountOfItems")
-                        .HasColumnType("int");
-
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
                     b.Property<int>("ParagraphId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("AmountOfItems")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ItemId");
+                    b.HasKey("ItemId", "ParagraphId");
 
                     b.HasIndex("ParagraphId");
 

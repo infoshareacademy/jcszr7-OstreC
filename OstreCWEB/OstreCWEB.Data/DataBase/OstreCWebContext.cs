@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using OstreCWeb.DomainModels.StoryModels.Properties;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.DomainModels.ManyToMany;

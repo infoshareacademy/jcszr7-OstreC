@@ -2,13 +2,15 @@
 using OstreCWEB.Repository.Repository.Characters.Interfaces;
 using OstreCWEB.Repository.Repository.Identity;
 using OstreCWEB.Repository.Repository.ManyToMany;
-using OstreCWEB.Repository.Repository.StoryModels;
+using OstreCWEB.Repository.Repository.StoryRepo;
 using OstreCWEB.DomainModels.CharacterModels;
 using OstreCWEB.DomainModels.CharacterModels.Enums;
 using OstreCWEB.DomainModels.Identity;
 using OstreCWEB.DomainModels.ManyToMany;
 using OstreCWEB.DomainModels.StoryModels.Properties;
 using OstreCWEB.DomainModels.StoryModels.Enums;
+using OstreCWeb.DomainModels.StoryModels.Properties;
+using OstreCWEB.DomainModels.StoryModels;
 
 namespace OstreCWEB.Services.Game
 {
@@ -16,7 +18,7 @@ namespace OstreCWEB.Services.Game
     {
         private readonly IUserParagraphRepository<UserParagraph> _userParagraphRepository;
         private readonly IIdentityRepository<User> _identityRepository;
-        private readonly IStoryRepository _storyRepository;
+        private readonly IStoryRepository<Story> _storyRepository;
         private readonly IPlayableCharacterRepository<PlayableCharacter> _playableCharacterRepository;
         private readonly ICharacterFactory _characterFactory;
         private readonly IItemCharacterRepository<ItemCharacter> _itemCharacterRepository;
@@ -24,7 +26,7 @@ namespace OstreCWEB.Services.Game
         public GameService(
             IUserParagraphRepository<UserParagraph> userParagraphRepository,
             IIdentityRepository<User> identityRepository,
-            IStoryRepository storyRepository,
+            IStoryRepository<Story> storyRepository,
             IPlayableCharacterRepository<PlayableCharacter> playableCharacter,
             ICharacterFactory characterFactory,
             IItemCharacterRepository<ItemCharacter> itemCharacterRepository)
@@ -36,13 +38,14 @@ namespace OstreCWEB.Services.Game
             _characterFactory = characterFactory;
             _itemCharacterRepository = itemCharacterRepository;
         }
+
         public async Task<UserParagraph> CreateNewGameInstanceAsync(int userId, int characterTemplateId, int storyId)
         {
-            var user = await _identityRepository.GetUserGameStart(userId); 
+            var user = await _identityRepository.GetUserGameStart(userId);
             if (user.UserParagraphs.Count >= 5) { throw new Exception(); }
             var newGameInstance = new UserParagraph();
 
-            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId); 
+            var story = await _storyRepository.GetStoryNoIncludesAsync(storyId);
             newGameInstance.Paragraph = await _storyRepository.GetParagraphById(story.FirstParagraphId);
 
             var notTrackedCharacter = await _playableCharacterRepository.GetByIdNoTrackingAsync(characterTemplateId);
@@ -56,8 +59,6 @@ namespace OstreCWEB.Services.Game
             await _identityRepository.UpdateAsync(user);
             return newGameInstance;
         }
-
-
 
         public Task<List<Enemy>> GenerateEnemies(List<EnemyInParagraph> enemiesToGenerate)
         {
@@ -77,6 +78,7 @@ namespace OstreCWEB.Services.Game
 
             await _userParagraphRepository.UpdateAsync(userParagraph);
         }
+
         public async Task NextParagraphAfterFightAsync(UserParagraph gameInstance, int choiceId)
         {
             gameInstance.Paragraph = await _storyRepository.GetParagraphById(gameInstance.Paragraph.Choices[choiceId].NextParagraphId);
@@ -89,6 +91,7 @@ namespace OstreCWEB.Services.Game
 
             await _userParagraphRepository.UpdateAsync(gameInstance);
         }
+
         public async Task DeleteGameInstanceAsync(int userParagrahId)
         {
             var userParagraph = await _userParagraphRepository.GetByUserParagraphIdAsync(userParagrahId);
@@ -105,7 +108,6 @@ namespace OstreCWEB.Services.Game
             });
             _identityRepository.UpdateAsync(user);
         }
-
 
         public async Task HealCharacterAsync(int userId)
         {
@@ -142,21 +144,27 @@ namespace OstreCWEB.Services.Game
                 case AbilityScores.Wisdom:
                     modifire = GetModifire(userParagraph.ActiveCharacter.Wisdom);
                     break;
+
                 case AbilityScores.Strength:
                     modifire = GetModifire(userParagraph.ActiveCharacter.Strenght);
                     break;
+
                 case AbilityScores.Charisma:
                     modifire = GetModifire(userParagraph.ActiveCharacter.Charisma);
                     break;
+
                 case AbilityScores.Constitution:
                     modifire = GetModifire(userParagraph.ActiveCharacter.Constitution);
                     break;
+
                 case AbilityScores.Dexterity:
                     modifire = GetModifire(userParagraph.ActiveCharacter.Dexterity);
                     break;
+
                 case AbilityScores.Intelligence:
                     modifire = GetModifire(userParagraph.ActiveCharacter.Intelligence);
                     break;
+
                 default:
                     modifire = 0;
                     break;
@@ -202,7 +210,6 @@ namespace OstreCWEB.Services.Game
             {
                 for (int i = 0; i < item.AmountOfItems; i++)
                 {
-
                     items.Add(
                         new ItemCharacter
                         {
@@ -214,18 +221,20 @@ namespace OstreCWEB.Services.Game
             }
             await _itemCharacterRepository.AddRange(items);
         }
+
         public async Task UnequipItemAsync(int itemRelationId, int userId)
         {
             var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId).IsEquipped = false;
             await _userParagraphRepository.SaveChangesAsync();
         }
+
         public async Task EquipItemAsync(int itemRelationId, int userId)
         {
             var gameInstance = await _userParagraphRepository.GetActiveByUserIdAsync(userId);
             var itemToEquip = gameInstance.ActiveCharacter.LinkedItems.SingleOrDefault(x => x.Id == itemRelationId);
 
-            //Every item has specific condition, a two handed sword can't be used with a shield etc. 
+            //Every item has specific condition, a two handed sword can't be used with a shield etc.
             await DesequipAlreadyEquipped(gameInstance.ActiveCharacter, itemToEquip);
             if (itemToEquip.Item.ItemType != ItemType.SpecialItem)
             {
@@ -238,6 +247,7 @@ namespace OstreCWEB.Services.Game
 
             await _userParagraphRepository.SaveChangesAsync();
         }
+
         private async Task DesequipAlreadyEquipped(PlayableCharacter character, ItemCharacter itemToEquip)
         {
             switch (itemToEquip.Item.ItemType)
@@ -252,6 +262,7 @@ namespace OstreCWEB.Services.Game
                         }
                     }
                     return;
+
                 case ItemType.SingleHandedWeapon:
                     //desequip two handed weapon
                     foreach (var item in character.LinkedItems)
@@ -262,6 +273,7 @@ namespace OstreCWEB.Services.Game
                         }
                     }
                     return;
+
                 case ItemType.Shield:
                     //Desequip two handed weapon
                     foreach (var item in character.LinkedItems)
@@ -272,8 +284,10 @@ namespace OstreCWEB.Services.Game
                         }
                     }
                     return;
+
                 case ItemType.SpecialItem:
                     return;
+
                 default:
                     foreach (var item in character.LinkedItems)
                     {
@@ -284,7 +298,6 @@ namespace OstreCWEB.Services.Game
                     }
                     return;
             }
-
         }
     }
 }

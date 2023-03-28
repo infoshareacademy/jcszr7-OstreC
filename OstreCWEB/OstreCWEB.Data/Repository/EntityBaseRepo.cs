@@ -7,7 +7,7 @@ namespace OstreCWEB.Repository.Repository
 {
     public class EntityBaseRepo<T> : IEntityBaseRepo<T> where T:class,IEntityBase
     {
-        private OstreCWebContext _context;
+        internal OstreCWebContext _context;
 
         public EntityBaseRepo(OstreCWebContext context)
         {

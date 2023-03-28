@@ -1,7 +1,9 @@
 ﻿@using OstreCWEB.DomainModels.CharacterModels
 @using OstreCWEB.DomainModels.CharacterModels.Enums 
+@using OstreCWEB.ViewModel.Api
 @using OstreCWEB.ViewModel.Characters
 @model OstreCWEB.ViewModel.Api.FithEditionApiResponseView
+
 @{
 }
 <div class="card">
@@ -9,17 +11,44 @@
 
         <h5 class="card-title">Library</h5> 
         This library is based on the <a href="https://api.open5e.com">Dungeon and Dragons API</a>
-        <br />
-        <label asp-for="@Model.Count">@Model.Count </label> 
+        <br /> 
+       
+         
+   
+       <partial name="_Filters" model="@Model.Filters"/>
+       
+        <label asp-for="@Model.ActivePage">
+            @if (Model.ActivePage == 0)
+            {
+                <div> page 1</div>
+            }
+            else
+            {
+                @Model.ActivePage
+            } 
+        </label>
+        out of
         <label asp-for="@Model.TotalPagesNumber">@Model.TotalPagesNumber </label>
-        
+        <label asp-for="@Model.Count"> || Total Results : @Model.Count </label>
         @if (@Model.PreviousPage != 0)
         {
-            <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.PreviousPage"> PreviousPage Page </a>
-        }
+            <form method="post" asp-action="Index" asp-route-chosenPage="@Model.PreviousPage">
+                <input type="hidden" asp-for="Filters.Limit"/>
+                <input type="hidden" asp-for="Filters.ParamToOrder"/>
+                <input type="hidden" asp-for="Filters.SearchByName"/>
+                <input type="hidden" asp-for="Filters.SearchByInt"/> 
+                <input type="submit" value="Previous page" class="btn btn-primary"/>
+            </form> 
+        } 
         @if(@Model.NextPage != 0)
         {
-            <a asp-controller="Library" asp-action="Index" asp-route-chosenPage="@Model.NextPage"> NextPage page </a>
+            <form method="post" asp-action="Index" asp-route-chosenPage="@Model.NextPage">
+                <input type="hidden" asp-for="Filters.Limit"/>
+                <input type="hidden" asp-for="Filters.ParamToOrder"/>
+                <input type="hidden" asp-for="Filters.SearchByName"/>
+                <input type="hidden" asp-for="Filters.SearchByInt"/> 
+                <input type="submit" value="Next Page" class="btn btn-primary"/>
+            </form>    
         }
            
         

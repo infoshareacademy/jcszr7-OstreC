@@ -12,6 +12,7 @@ namespace OstreCWeb.DomainModels.ApiContracts
         public int NextPage { get; set; }
         public int PreviousPage { get; set; } 
         public int? ActivePage { get; set; }
-        public List<SpellResponseItem> Results { get; set; }
+        public List<SpellResponseItem> Results { get; set; } 
+        public Filter Filters { get; set; }
     }
 }

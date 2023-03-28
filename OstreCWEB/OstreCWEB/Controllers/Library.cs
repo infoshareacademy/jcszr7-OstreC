@@ -19,14 +19,29 @@ namespace OstreCWEB.Controllers
             _fithEditionApiClient = fithEditionApiClient;
             _mapper = mapper;
         }
-        [HttpGet] 
-        public async Task<ActionResult>  Index([Bind("SearchByInt,SearchByName,SortByParam,Limit")] FilterView? filters , int chosenPage)
-        {
-            var x = filters;
-            var model = _mapper.Map<FithEditionApiResponseView>(await _fithEditionApiClient.GetSpells(_mapper.Map<Filter>(filters), chosenPage)); 
-            
+        [HttpGet]
+        public async Task<ActionResult>  Index(int chosenPage)
+        { 
+            var model = _mapper.Map<FithEditionApiResponseView>(await _fithEditionApiClient.GetSpells(chosenPage)); 
             return View(model); 
-        }  
-        
+        }
+        [HttpPost] 
+        [ActionName("Index")]
+        public async Task<ActionResult> IndexPost([Bind("SearchByInt,ParamToOrder,SearchByName,Limit")] FilterView? filters, int chosenPage)
+        { 
+            var model = _mapper.Map<FithEditionApiResponseView>(await _fithEditionApiClient.GetSpells(_mapper.Map<Filter>(filters), chosenPage));
+
+            return View(model);
+        }
+        [HttpGet]
+        [ActionName("ChangePage")]
+        public async Task<ActionResult> ChangePage(int chosenPage, [Bind("SearchByInt,ParamToOrder,SearchByName,Limit")] FilterView? filters)
+        { 
+            var model = _mapper.Map<FithEditionApiResponseView>(await _fithEditionApiClient.GetSpells( _mapper.Map<Filter>(filters), chosenPage));
+
+            return View("Index",model);
+        }
+
+
     }
 }

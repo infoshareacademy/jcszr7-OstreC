@@ -2,6 +2,7 @@
 using OstreCWEB.DomainModels.ManyToMany;
 using System.ComponentModel.DataAnnotations;
 using OstreCWeb.DomainModels;
+using OstreCWeb.DomainModels.StoryModels.Properties;
 
 namespace OstreCWEB.DomainModels.CharacterModels
 {
