@@ -58,18 +58,17 @@ namespace OstreCWEB.Controllers
             var model = new PlayableCharacterCreateView();
             model.CharacterRaces = racesDictionary;
 
-            string humanDescription = _playableCharacterService.GetRaceDescription(0);
-            ViewBag.HumanDescription = humanDescription;
+            ViewBag.HumanDescription = _playableCharacterService.GetRaceDescription(0);
+            ViewBag.ElfDescription = _playableCharacterService.GetRaceDescription(1);
+            ViewBag.DwarfDescription = _playableCharacterService.GetRaceDescription(2);
 
-            string elfDescription = _playableCharacterService.GetRaceDescription(1);
-            ViewBag.ElfDescription = elfDescription;
+            //@ViewBag.RaceInfoHuman = "Strength: 1, Charisma: 1";
+            //@ViewBag.RaceInfoDwarf = "Strength: 1, Constitution: 1";
+            //@ViewBag.RaceInfoElf = "Intelligence: 1, Wisdom: 1";
 
-            string dwarfDescription = _playableCharacterService.GetRaceDescription(2);
-            ViewBag.DwarfDescription = dwarfDescription;
-
-            @ViewBag.RaceInfoHuman = "Strength: 1, Charisma: 1";
-            @ViewBag.RaceInfoDwarf = "Strength: 1, Constitution: 1";
-            @ViewBag.RaceInfoElf = "Intelligence: 1, Wisdom: 1";
+            ViewBag.RaceInfoHuman = _playableCharacterService.GetRaceBonus(0);
+            ViewBag.RaceInfoDwarf = _playableCharacterService.GetRaceBonus(1);
+            ViewBag.RaceInfoElf = _playableCharacterService.GetRaceBonus(2);
             return View(model);
         }
 
@@ -85,19 +84,17 @@ namespace OstreCWEB.Controllers
 
             model.CharacterClasses = classesDictionary;
 
-            string fighterDescription = _playableCharacterService.GetClassDescription(0);
-            ViewBag.FighterDescription = fighterDescription;
+            ViewBag.FighterDescription = _playableCharacterService.GetClassDescription(0);
+            ViewBag.WizardDescription = _playableCharacterService.GetClassDescription(1);
+            ViewBag.ClericDescription = _playableCharacterService.GetClassDescription(2);
 
-            string wizardDescription = _playableCharacterService.GetClassDescription(1);
-            ViewBag.WizardDescription = wizardDescription;
+            //@ViewBag.ClassInfoFighter = "Strength: 1, Constitution: 1";
+            //@ViewBag.ClassInfoWizard = "Intelligence: 1";
+            //@ViewBag.ClassInfoCleric = "Wisdom: 1";
 
-            string clericDescription = _playableCharacterService.GetClassDescription(2);
-            ViewBag.ClericDescription = clericDescription;
-
-            @ViewBag.ClassInfoFighter = "Strength: 1, Constitution: 1";
-            @ViewBag.ClassInfoWizard = "Intelligence: 1";
-            @ViewBag.ClassInfoCleric = "Wisdom: 1";
-
+            ViewBag.ClassInfoFighter = _playableCharacterService.GetClassBonus(0);
+            ViewBag.ClassInfoWizard = _playableCharacterService.GetClassBonus(1);
+            ViewBag.ClassInfoCleric = _playableCharacterService.GetClassBonus(2);
             return View(model);
         }
 
