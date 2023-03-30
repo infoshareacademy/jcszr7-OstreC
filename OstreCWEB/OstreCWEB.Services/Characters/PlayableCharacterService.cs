@@ -155,6 +155,16 @@ namespace OstreCWEB.Services.Characters
 
             return bonusMessage;
         }
+        public List<PlayableClass> CalcAttrBonus(List<PlayableClass> list,int id)
+        {
+            list.Where(c => c.Id == id).Select(c => c.StrengthBonus).FirstOrDefault();
+            list.Where(c => c.Id == id).Select(c => c.DexterityBonus).FirstOrDefault();
+            list.Where(c => c.Id == id).Select(c => c.ConstitutionBonus).FirstOrDefault();
+            list.Where(c => c.Id == id).Select(c => c.IntelligenceBonus).FirstOrDefault();
+            list.Where(c => c.Id == id).Select(c => c.WisdomBonus).FirstOrDefault();
+            list.Where(c => c.Id == id).Select(c => c.CharismaBonus).FirstOrDefault();
+            return list;
+        }
         #endregion
     }
 }

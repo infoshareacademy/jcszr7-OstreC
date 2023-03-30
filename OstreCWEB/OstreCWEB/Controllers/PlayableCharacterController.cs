@@ -23,7 +23,6 @@ namespace OstreCWEB.Controllers
         }
         public IActionResult Index()
         {
-            //var model = _playableCharacterService.GetAll();
             return View();
         }
 
@@ -153,11 +152,7 @@ namespace OstreCWEB.Controllers
             ViewBag.BonusWis = bonusClassWis + bonusRaceWis;
             ViewBag.BonusCha = bonusClassCha + bonusRaceCha;
 
-
-
-
             ViewBag.ClassName = className;
-            //
             return View(model);
         }
 
