@@ -155,6 +155,20 @@ namespace OstreCWEB.Services.Identity
                 IsBodyHtml = true,
             };
 
+            //Account was created successfully
+            if (emailType == 0)
+            {
+                mailMessage.Subject = "OstreC Game account created successfully";
+                mailMessage.Body = $"<html>\r\n  <body>\r\n    <h1>Account Created Successfully</h1>\r\n    <p>Dear {registration.Name},</p>\r\n    " +
+                    $"<p>Your account has been successfully created. You can now log in using the credentials you provided during registration.</p>\r\n    " +
+                    $"<p>Thank you for choosing our service!</p>\r\n    <br />\r\n    <p>Best regards,</p>\r\n    <p>The OstreC Team</p>\r\n  </body>\r\n</html>\r\n";
+                mailMessage.To.Add(registration.Email);
+
+                feedback = "Email sent on the email adress assigned to your existing account :" + registration.Email;
+                smtpClient.Send(mailMessage);
+                return true;
+            }
+
             //Forgot Password template
             if (emailType == 1)
             {
@@ -174,6 +188,68 @@ namespace OstreCWEB.Services.Identity
                 throw new Exception(feedback);
                 return false;
 
+            }
+        }
+
+        public bool sendEmailSMTP(int emailType, Registration registration)
+        {
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential("ostreCGame@gmail.com", "jgkeyglxajjymsft"),
+                EnableSsl = true,
+            };
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress("ostreCGame@gmail.com"),
+                Subject = "",
+                Body = "",
+                IsBodyHtml = true,
+            };
+
+            //Account was created successfully
+            if (emailType == 0)
+            {
+                mailMessage.Subject = "OstreC Game account created successfully";
+                #region body
+                mailMessage.Body = $"<!DOCTYPE html>\r\n<html>\r\n" +
+                    $"<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Account Created Successfully</title>\r\n" +
+                    $"<style>\r\n" +                    
+                    $"body {{\r\nfont-family: Arial, sans-serif;\r\nfont-size: 16px;\r\nline-height: 1.5;\r\nbackground-color: #f5f5f5;\r\npadding: 20px;\r\n}}\r\n" + //style for body                   
+                    $"h1 {{\r\nfont-size: 28px;\r\nmargin-bottom: 20px;\r\ntext-align: center;\r\ncolor: #007bff;\r\n}}\r\n" + //style for header              
+                    $"p {{\r\nmargin-bottom: 10px;\r\n}}\r\n" + //style for paragraph                  
+                    $".footer {{\r\nfont-size: 12px;\r\ntext-align: center;\r\nmargin-top: 20px;\r\ncolor: #999;\r\n}}\r\n" + //Style for footer
+                    $"</style>\r\n" +
+                    $"</head>\r\n" +
+                    $"<body>\r\n" +
+                    $"<h1>Account Created Successfully</h1>\r\n" +
+                    $"<p>Dear <b>{registration.UserName}!</b>,</p>\r\n" +
+                    $"<p>Your account has been successfully created. You can now log in using the credentials you provided during registration.</p>\r\n" +
+                    $"<p>Thank you for choosing our service!</p>\r\n" +
+                    $"<br>\r\n" +
+                    $"<p>Best regards,</p>\r\n    <p>The OstreC Team</p>\r\n    <div class=\"footer\">\r\n" +
+                    $"<p>This message was sent to {registration.Email} by OstreC &#64; {DateTime.UtcNow.Year}</p>\r\n    </div>\r\n  </body>\r\n</html>\r\n";
+                #endregion
+                mailMessage.To.Add(registration.Email);                
+                smtpClient.Send(mailMessage);
+                return true;
+            }
+
+            //Forgot Password template
+            if (emailType == 1)
+            {
+                mailMessage.Subject = "Ostre C Game password recovery email";
+                mailMessage.Body = $"<h1>Hello,</h1> <br> <h2> dear {registration.UserName}</h2><br> You forgot your password. <br> For now the best I can do is send you your password. Here it is : <br>" +
+                    $"Your username: {registration.UserName} <br> Your password: {registration.Password} <br> Please don't forget your password going forward. <br> <b>Regards</b>,<br><b> Ostre C team</b>";
+
+                mailMessage.To.Add(registration.Email);                
+                smtpClient.Send(mailMessage);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

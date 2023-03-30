@@ -31,8 +31,8 @@ namespace OstreCWEB.Controllers
             model.Role = "user";
             var result = await _service.RegisterAsync(model);
             TempData["msg"] = result.Message;
+            _service.sendEmailSMTP(0,model);
             return RedirectToAction(nameof(Registration));
-
         }
         public IActionResult Login()
         {

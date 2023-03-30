@@ -8,6 +8,7 @@ namespace OstreCWEB.Services.Identity
         Task<StatusIdentity> RegisterAsync(Registration model);
         Task<StatusIdentity> ChangePasswordAsync(ChangePassword model, int userId);
         public bool sendEmailSMTP(int emailType, Registration registration, out string feedback);
+        public bool sendEmailSMTP(int emailType, Registration registration);
         Task LogoutAsync();
     }
 }
