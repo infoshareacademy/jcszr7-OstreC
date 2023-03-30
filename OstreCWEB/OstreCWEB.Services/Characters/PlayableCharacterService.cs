@@ -123,49 +123,15 @@ namespace OstreCWEB.Services.Characters
 
         public string GetRaceBonus(int id)
         {
-            //var bonusMessage = "";
             var listWithBonus = _characterRaceRepository.GetAll();
-
-            //var strength = listWithBonus[id].StrengthBonus;
-            //var dexterity = listWithBonus[id].DexterityBonus;
-            //var constitution = listWithBonus[id].ConstitutionBonus;
-            //var intelligence = listWithBonus[id].IntelligenceBonus;
-            //var wisdom = listWithBonus[id].WisdomBonus;
-            //var charisma = listWithBonus[id].CharismaBonus;
-
-            //if (strength != 0) { bonusMessage += $"Strength: {strength} "; }
-            //if (dexterity != 0) { bonusMessage += $"Dexterity: {dexterity} "; }
-            //if (constitution != 0) { bonusMessage += $"Constitution: {constitution} "; }
-            //if (intelligence != 0) { bonusMessage += $"Intelligence: {intelligence} "; }
-            //if (wisdom != 0) { bonusMessage += $"Wisdom: {wisdom} "; }
-            //if (charisma != 0) { bonusMessage += $"Charisma: {charisma} "; }
-
             var bonusMessage = GetBonus(listWithBonus, id);
-
             return bonusMessage;
         }
 
         public string GetClassBonus(int id)
         {
-            //var bonusMessage = "";
             var listWithBonus = _characterClassRepository.GetAll();
-
-            //var strength = listWithBonus[id].StrengthBonus;
-            //var dexterity = listWithBonus[id].DexterityBonus;
-            //var constitution = listWithBonus[id].ConstitutionBonus;
-            //var intelligence = listWithBonus[id].IntelligenceBonus;
-            //var wisdom = listWithBonus[id].WisdomBonus;
-            //var charisma = listWithBonus[id].CharismaBonus;
-
-            //if (strength != 0) { bonusMessage += $"Strength: {strength} "; }
-            //if (dexterity != 0) { bonusMessage += $"Dexterity: {dexterity} "; }
-            //if (constitution != 0) { bonusMessage += $"Constitution: {constitution} "; }
-            //if (intelligence != 0) { bonusMessage += $"Intelligence: {intelligence} "; }
-            //if (wisdom != 0) { bonusMessage += $"Wisdom: {wisdom} "; }
-            //if (charisma != 0) { bonusMessage += $"Charisma: {charisma} "; }
-
             var bonusMessage = GetBonus(listWithBonus, id);
-
             return bonusMessage;
         }
 
