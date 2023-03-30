@@ -69,8 +69,7 @@ namespace OstreCWEB.Controllers
 
             ViewBag.RaceInfoHuman = _playableCharacterService.GetRaceBonus(humanId);
             ViewBag.RaceInfoElf = _playableCharacterService.GetRaceBonus(elfId);
-            ViewBag.RaceInfoDwarf = _playableCharacterService.GetRaceBonus(dwarfId);
-            
+            ViewBag.RaceInfoDwarf = _playableCharacterService.GetRaceBonus(dwarfId);            
             return View(model);
         }
 
@@ -164,19 +163,6 @@ namespace OstreCWEB.Controllers
 
         public ActionResult SetName(PlayableCharacterCreateView model)
         {
-            var listName = _playableCharacterService.GetAllNames();
-
-            ViewBag.RaceId = model.RaceId;
-            ViewBag.ClassId = model.PlayableClassId;
-            ViewBag.Str = model.Strenght;
-            ViewBag.Dex = model.Dexterity;
-            ViewBag.Con = model.Constitution;
-            ViewBag.Int = model.Intelligence;
-            ViewBag.Wis = model.Wisdom;
-            ViewBag.Cha = model.Charisma;
-
-            ViewBag.MaleNames = listName;
-
             return View(model);
         }
 
