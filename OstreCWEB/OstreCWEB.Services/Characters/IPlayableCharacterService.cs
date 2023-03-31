@@ -14,6 +14,8 @@ namespace OstreCWEB.Services.Characters
         public List<string> GetAllNames();
         public string GetRaceDescription(int id);
         public string GetClassDescription(int id);
+        public string GetRaceBonus(int id);
+        public string GetClassBonus(int id);
         public int CalculateModifier(int value); 
         public int RollDice(int maxValue = 7);
         public bool Exists(int id);

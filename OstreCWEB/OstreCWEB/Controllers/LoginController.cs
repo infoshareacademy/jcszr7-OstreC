@@ -18,7 +18,6 @@ namespace OstreCWEB.Controllers
             _service = service;
             _userService = userService;
         }
-
         public IActionResult Registration()
         {
             return View();
@@ -31,8 +30,19 @@ namespace OstreCWEB.Controllers
             model.Role = "user";
             var result = await _service.RegisterAsync(model);
             TempData["msg"] = result.Message;
+            if (ModelState.IsValid)
+                _service.sendEmailSMTP(0, model);
             return RedirectToAction(nameof(Registration));
+        }
+        public async Task<IActionResult> RegisterAccount()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> RegisterAccount(Registration model)
+        {
 
+            return RedirectToAction(nameof(RegisterAccount));
         }
         public IActionResult Login()
         {

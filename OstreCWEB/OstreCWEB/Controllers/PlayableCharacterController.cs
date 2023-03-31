@@ -23,7 +23,6 @@ namespace OstreCWEB.Controllers
         }
         public IActionResult Index()
         {
-            //var model = _playableCharacterService.GetAll();
             return View();
         }
 
@@ -58,18 +57,18 @@ namespace OstreCWEB.Controllers
             var model = new PlayableCharacterCreateView();
             model.CharacterRaces = racesDictionary;
 
-            string humanDescription = _playableCharacterService.GetRaceDescription(0);
-            ViewBag.HumanDescription = humanDescription;
+            int humanId = racesDictionary.FirstOrDefault(x => x.Value == "Human").Key -1;
+            int elfId = racesDictionary.FirstOrDefault(x => x.Value == "Elf").Key -1;
+            int dwarfId = racesDictionary.FirstOrDefault(x => x.Value == "Dwarf").Key -1;
 
-            string elfDescription = _playableCharacterService.GetRaceDescription(1);
-            ViewBag.ElfDescription = elfDescription;
 
-            string dwarfDescription = _playableCharacterService.GetRaceDescription(2);
-            ViewBag.DwarfDescription = dwarfDescription;
+            ViewBag.HumanDescription = _playableCharacterService.GetRaceDescription(humanId);
+            ViewBag.ElfDescription = _playableCharacterService.GetRaceDescription(elfId);
+            ViewBag.DwarfDescription = _playableCharacterService.GetRaceDescription(dwarfId);
 
-            @ViewBag.RaceInfoHuman = "Strength: 1, Charisma: 1";
-            @ViewBag.RaceInfoDwarf = "Strength: 1, Constitution: 1";
-            @ViewBag.RaceInfoElf = "Intelligence: 1, Wisdom: 1";
+            ViewBag.RaceInfoHuman = _playableCharacterService.GetRaceBonus(humanId);
+            ViewBag.RaceInfoElf = _playableCharacterService.GetRaceBonus(elfId);
+            ViewBag.RaceInfoDwarf = _playableCharacterService.GetRaceBonus(dwarfId);            
             return View(model);
         }
 
@@ -85,19 +84,17 @@ namespace OstreCWEB.Controllers
 
             model.CharacterClasses = classesDictionary;
 
-            string fighterDescription = _playableCharacterService.GetClassDescription(0);
-            ViewBag.FighterDescription = fighterDescription;
+            int fighterId = classesDictionary.FirstOrDefault(x => x.Value == "Fighter").Key - 1;
+            int wizardId = classesDictionary.FirstOrDefault(x => x.Value == "Wizard").Key - 1;
+            int clericId = classesDictionary.FirstOrDefault(x => x.Value == "Cleric").Key - 1;
 
-            string wizardDescription = _playableCharacterService.GetClassDescription(1);
-            ViewBag.WizardDescription = wizardDescription;
+            ViewBag.FighterDescription = _playableCharacterService.GetClassDescription(fighterId);
+            ViewBag.WizardDescription = _playableCharacterService.GetClassDescription(wizardId);
+            ViewBag.ClericDescription = _playableCharacterService.GetClassDescription(clericId);
 
-            string clericDescription = _playableCharacterService.GetClassDescription(2);
-            ViewBag.ClericDescription = clericDescription;
-
-            @ViewBag.ClassInfoFighter = "Strength: 1, Constitution: 1";
-            @ViewBag.ClassInfoWizard = "Intelligence: 1";
-            @ViewBag.ClassInfoCleric = "Wisdom: 1";
-
+            ViewBag.ClassInfoFighter = _playableCharacterService.GetClassBonus(fighterId);
+            ViewBag.ClassInfoWizard = _playableCharacterService.GetClassBonus(wizardId);
+            ViewBag.ClassInfoCleric = _playableCharacterService.GetClassBonus(clericId);
             return View(model);
         }
 
@@ -155,29 +152,12 @@ namespace OstreCWEB.Controllers
             ViewBag.BonusWis = bonusClassWis + bonusRaceWis;
             ViewBag.BonusCha = bonusClassCha + bonusRaceCha;
 
-
-
-
             ViewBag.ClassName = className;
-            //
             return View(model);
         }
 
         public ActionResult SetName(PlayableCharacterCreateView model)
         {
-            var listName = _playableCharacterService.GetAllNames();
-
-            ViewBag.RaceId = model.RaceId;
-            ViewBag.ClassId = model.PlayableClassId;
-            ViewBag.Str = model.Strenght;
-            ViewBag.Dex = model.Dexterity;
-            ViewBag.Con = model.Constitution;
-            ViewBag.Int = model.Intelligence;
-            ViewBag.Wis = model.Wisdom;
-            ViewBag.Cha = model.Charisma;
-
-            ViewBag.MaleNames = listName;
-
             return View(model);
         }
 
