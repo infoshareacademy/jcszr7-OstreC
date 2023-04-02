@@ -71,6 +71,13 @@ namespace OstreCWEB.Services.StoryService
 
             var result = _mapper.Map<StoryParagraphsView>(paragraphs);
 
+            result.ParagraphsSimple = new List<ParagraphElementView>();
+
+            foreach (var paragraph in paragraphs.Paragraphs)
+            {
+                result.ParagraphsSimple.Add(_mapper.Map<ParagraphElementView>(paragraph));
+            }
+
             return result;
         }
 

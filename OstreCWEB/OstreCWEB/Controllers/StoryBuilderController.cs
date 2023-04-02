@@ -417,24 +417,6 @@ namespace OstreCWEB.Controllers
             }
         }
 
-        // GET: StoryBuilderController/AddItemInParagraph/
-        //public async Task<ActionResult> AddItemInParagraph(int paragraphId)
-        //{
-        //    var model = new EnemyInParagraphView();
-
-        //    model.ParagraphId = paragraphId;
-
-        //    model.Items = new Dictionary<int, string>();
-        //    var itemsList = await _storyService.GetAllItems();
-
-        //    foreach (var item in itemsList)
-        //    {
-        //        model.Items.Add(item.Id, item.Name);
-        //    }
-
-        //    return View(model);
-        //}
-
         // POST: StoryBuilderController/AddItemInParagraph/
         [HttpPost]
         [ValidateAntiForgeryToken]
