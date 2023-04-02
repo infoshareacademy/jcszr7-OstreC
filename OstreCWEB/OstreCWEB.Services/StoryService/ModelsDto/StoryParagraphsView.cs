@@ -14,6 +14,8 @@ namespace OstreCWEB.Services.StoryService.ModelsDto
 
         public PaginatedList<ParagraphElementView> Paragraphs { get; set; }
 
+        public List<ParagraphElementView> ParagraphsSimple { get; set; }
+
         public int FirstParagraphId { get; set; }
     }
 }
